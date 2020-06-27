@@ -1,0 +1,1 @@
+add_library(core STATIC window.cpp window.h)
