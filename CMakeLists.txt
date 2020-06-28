@@ -5,24 +5,17 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_INSTALL_PREFIX bin)
 
+option(BUILD_TESTS "Build test programs" ON)
+
 find_package(Boost COMPONENTS system filesystem REQUIRED)
 find_package(OpenGL REQUIRED)
-
-add_subdirectory(test)
-add_subdirectory(src)
 
 add_subdirectory(lib/glfw-3.3.2)
 add_subdirectory(lib/assimp-3.3.1)
 add_subdirectory(lib/freetype-2.10.0)
 add_subdirectory(lib/soil)
+add_subdirectory(src)
 
-include_directories(${Boost_INCLUDE_DIRS} ${OPENGL_INCLUDE_DIRS} glfw)
-include_directories(lib/glfw-3.3.2 lib/assimp-3.3.1/include lib/freetype-2.10.0/include lib/soil/src)
-#include_directories(src/math src/core)
-
-add_executable(GraphicEngine main.cpp)
-
-target_link_libraries(GraphicEngine ${Boost_LIBRARIES} ${OPENGL_LIBRARIES})
-target_link_libraries(GraphicEngine glfw assimp freetype SOIL)
-
-install(TARGETS GraphicEngine DESTINATION lib)
+if(BUILD_TESTS)
+    add_subdirectory(test)
+endif(BUILD_TESTS)
