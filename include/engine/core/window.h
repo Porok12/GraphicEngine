@@ -1,5 +1,0 @@
-namespace core {
-    class Window {
-        //...
-    };
-}
