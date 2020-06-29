@@ -14,6 +14,7 @@ add_subdirectory(lib/glfw-3.3.2)
 add_subdirectory(lib/assimp-3.3.1)
 add_subdirectory(lib/freetype-2.10.0)
 add_subdirectory(lib/soil)
+#add_subdirectory(lib/glew)
 add_subdirectory(src)
 
 if(BUILD_TESTS)
