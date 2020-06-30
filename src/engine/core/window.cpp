@@ -3,6 +3,7 @@
 Window::Window(int width, int height, const char* title) {
 
     if (!glfwInit()) {
+        BOOST_LOG_TRIVIAL(error) << "Failed to initialize GLFW";
         throw InitException();
     }
 
@@ -13,6 +14,7 @@ Window::Window(int width, int height, const char* title) {
     window = glfwCreateWindow(width, height, title, NULL, NULL);
 
     if (!window) {
+        BOOST_LOG_TRIVIAL(error) << "Failed to create GLFW window";
         glfwTerminate();
         throw InitException();
     }
@@ -20,12 +22,16 @@ Window::Window(int width, int height, const char* title) {
     glfwMakeContextCurrent(window);
 
     glewExperimental = GL_TRUE;
-    glewInit();
-    glGetError();
+    GLenum status = glewInit();
+    if (status != GLEW_OK) {
+        BOOST_LOG_TRIVIAL(error) << "Failed to initialize GLEW";
+        throw InitException();
+    }
 
     glViewport(0, 0, width, height);
 
 //    glEnable(GL_DEPTH_TEST);
+    BOOST_LOG_TRIVIAL(debug) << "GLFW Windows was created";
 }
 
 Window::~Window() {
@@ -33,7 +39,7 @@ Window::~Window() {
 }
 
 int Window::shouldClose() {
-    return glfwWindowShouldClose(window);
+    return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(window);
 }
 
 void Window::swapBuffers() {
@@ -43,10 +49,6 @@ void Window::swapBuffers() {
 void Window::update() {
     glfwSwapBuffers(window);
     glfwPollEvents();
-
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(window)){
-
-    }
 }
 
 void Window::clear(float r, float g, float b) {

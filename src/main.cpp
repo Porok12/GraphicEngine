@@ -6,29 +6,14 @@
 #include <boost/log/trivial.hpp>
 
 int main(int argc, char *argv[]) {
-    BOOST_LOG_TRIVIAL(info) << "MAIN";
-
     Window window(800, 600, "Demo");
     Shader shader = ShaderLoader::get().loadShader("Blblah");
-
-    const char *vertexShaderSource = "#version 330 core\n"
-                                     "layout (location = 0) in vec3 aPos;\n"
-                                     "void main()\n"
-                                     "{\n"
-                                     "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                     "}\0";
-    const char *fragmentShaderSource = "#version 330 core\n"
-                                       "out vec4 FragColor;\n"
-                                       "void main()\n"
-                                       "{\n"
-                                       "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-                                       "}\n\0";
 
     const char* vsource = shader.getVertexShader();
     const char* fsource = shader.getFragmentShader();
 
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    glShaderSource(vertexShader, 1, &vsource, NULL);
     glCompileShader(vertexShader);
     int success;
     char infoLog[512];
@@ -37,7 +22,7 @@ int main(int argc, char *argv[]) {
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
     }
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &fsource, NULL);
     glCompileShader(fragmentShader);
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success) {
@@ -81,20 +66,14 @@ int main(int argc, char *argv[]) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-//    glCullFace(GL_CCW);
-    glCullFace(GL_FRONT_AND_BACK);
-
     while (!window.shouldClose()) {
-//        glViewport(0, 0, 800, 600);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        window.clear(0.2f, 0.3f, 0.3f);
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        window.swapBuffers();
-        glfwPollEvents();
+        window.update();
     }
 
     glDeleteVertexArrays(1, &VAO);
