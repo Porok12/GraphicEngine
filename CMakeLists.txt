@@ -3,7 +3,7 @@ project(GraphicEngine VERSION 0.0.1)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_THREAD_PREFER_PTHREAD true)
+#set(CMAKE_THREAD_PREFER_PTHREAD True)
 set(CMAKE_INSTALL_PREFIX bin)
 
 option(BUILD_TESTS "Build test programs" ON)
