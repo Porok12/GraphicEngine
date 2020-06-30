@@ -14,7 +14,7 @@ include("GeneratePkgConfig.cmake")
 option(glew-cmake_BUILD_SHARED "Build the shared glew library" ON)
 option(glew-cmake_BUILD_STATIC "Build the static glew library" ON)
 option(USE_GLU "Use GLU" OFF)
-option(PKG_CONFIG_REPRESENTATIVE_TARGET "Generate pc file for specified target as glew. libglew_static|libglewmx_static|libglew_shared|libglewmx_shared" ON)
+option(PKG_CONFIG_REPRESENTATIVE_TARGET "Generate pc file for specified target as glew. libglew_static|libglewmx_static|libglew_shared|libglewmx_shared" OFF)
 option(ONLY_LIBS "Do not build executables" OFF)
 
 file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/config/version  _VERSION_MAJOR_STRING REGEX "GLEW_MAJOR[ ]*=[ ]*[0-9]+.*")
@@ -60,7 +60,6 @@ else()
 endif()
 
 if(glew-cmake_BUILD_STATIC)
-	message(">>${LIBGLEW_SRCS}")
 	add_library(libglew_static STATIC ${LIBGLEW_SRCS})
 
 	set_target_properties(libglew_static PROPERTIES
@@ -75,7 +74,6 @@ if(glew-cmake_BUILD_STATIC)
 endif()
 
 if(glew-cmake_BUILD_SHARED)
-	message(">>${LIBGLEW_SRCS}")
 	add_library(libglew_shared SHARED ${LIBGLEW_SRCS})
 
 	set_target_properties(libglew_shared PROPERTIES
