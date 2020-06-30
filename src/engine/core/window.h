@@ -15,6 +15,10 @@ public:
 
     int shouldClose();
     void swapBuffers();
+
+    void update();
+
+    void clear(float r, float g, float b);
 };
 
 #endif // WINDOW_H
