@@ -7,7 +7,7 @@ include_directories(../../../lib/glew/include)
 add_library(core STATIC
         window.cpp window.h
         exception/InitException.h
-        shaders/Shader.cpp shaders/Shader.h shaders/ShaderLoader.cpp shaders/ShaderLoader.h)
+        shaders/Shader.cpp shaders/Shader.h shaders/ShaderLoader.cpp shaders/ShaderLoader.h shaders/ShaderProgram.cpp shaders/ShaderProgram.h utils/ResourceLoader.cpp utils/ResourceLoader.h)
 
 set_target_properties(core PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(core ${Boost_LIBRARIES})

@@ -10,7 +10,7 @@ private:
     ShaderLoader();
 public:
     static ShaderLoader get();
-    Shader loadShader(const char* name);
+//    Shader loadShader(const char* name);
 };
 
 #endif // SHADER_LOADER
