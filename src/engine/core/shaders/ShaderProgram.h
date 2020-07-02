@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include <boost/log/trivial.hpp>
 
+#include <math/Mat4.h>
+
 #include "Shader.h"
 
 class ShaderProgram {
@@ -17,6 +19,9 @@ public:
     ~ShaderProgram();
 
     ShaderProgram& use();
+    ShaderProgram& setMatrix4(std::string name, Mat4<float> mat4);
+
+    GLuint getId();
 };
 
 #endif // SHADERPROGRAM_H
