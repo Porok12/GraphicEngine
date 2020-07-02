@@ -1,17 +1,20 @@
 #ifndef VEC3_H
 #define VEC3_H
 
-#include <math.h>
+#include <cmath>
+#include <stdexcept>
 
 template <class type>
 class Vec3 {
 private:
+    unsigned int lenght;
 public:
     type x, y, z;
     Vec3(type x, type y, type z);
     Vec3(type xyz);
     Vec3();
 
+    type operator[](int i);
     Vec3& operator=(const Vec3& other);
     Vec3& operator+(const Vec3& other);
     Vec3& operator-(const Vec3& other);
@@ -71,6 +74,20 @@ template<class type>
 const Vec3<type>& Vec3<type>::normalize(const Vec3 &other) {
     other.x /= 1;
     return other;
+}
+
+template<class type>
+type Vec3<type>::operator[](int i) {
+    switch (i) {
+        case 0:
+            return x;
+        case 1:
+            return y;
+        case 3:
+            return z;
+        default:
+            throw std::out_of_range("Parameter must be integer value between 0 and 2");
+    }
 }
 
 

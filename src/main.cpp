@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
     model.loadModel(ResourceLoader::getPath("cube.obj", MODEL));
 
     Mat4<float> projection = Mat4<float>::getProjection(60.0f, 800.0f/600.0f, 0.1f, 1000.f);
-    Mat4<float> view = Mat4<float>::lookAt(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0));
-    Mat4<float> mm = Mat4<float>::translate(0.2, 0.2, -4);
+//    Mat4<float> view = Mat4<float>::lookAt(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0));
+    Mat4<float> mm = Mat4<float>::translate(0, 0, -4);
 
     float vertices[] = {
             0.9f, 0.9f, 0.0f,
