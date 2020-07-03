@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <cmath>
 #include <vector>
+#include <iostream>
 //#include <boost/array.hpp>
 //#include <array>
 
@@ -90,7 +91,7 @@ template<class type, int size>
 Vector<type, size>& Vector<type, size>::operator=(const Vector &other) {
     if (this != &other) {
         for(int i = 0; i < size; i++) {
-            this->array[i] += other.array[i];
+            this->array[i] = other.array[i];
         }
     }
     return *this;
