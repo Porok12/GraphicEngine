@@ -63,15 +63,30 @@ BOOST_AUTO_TEST_CASE(addition) {
         BOOST_CHECK_EQUAL(vec.y, 1);
     }
 
-BOOST_AUTO_TEST_CASE(test) {
+    BOOST_AUTO_TEST_CASE(test) {
+            iVec2 vec1(1, 2);
+            iVec2 vec2(2, 1);
+            iVec2 vec = vec1 - vec2;
+            vec.x += 1;
+            vec[1] -= 1;
+            BOOST_CHECK_EQUAL(vec[0], 0);
+            BOOST_CHECK_EQUAL(vec.y, 0);
+    }
+
+    BOOST_AUTO_TEST_CASE(multiply1) {
         iVec2 vec1(1, 2);
         iVec2 vec2(2, 1);
-        iVec2 vec = vec1 - vec2;
-        vec.x += 1;
-        vec[1] -= 1;
-        BOOST_CHECK_EQUAL(vec[0], 0);
-        BOOST_CHECK_EQUAL(vec.y, 0);
-}
+        iVec2 vec = vec1 * vec2;
+        BOOST_CHECK_EQUAL(vec[0], 2);
+        BOOST_CHECK_EQUAL(vec.y, 2);
+    }
+
+    BOOST_AUTO_TEST_CASE(multiply2) {
+        iVec2 vec1(1, 2);
+        iVec2 vec = vec1 * 2;
+        BOOST_CHECK_EQUAL(vec[0], 2);
+        BOOST_CHECK_EQUAL(vec.y, 4);
+    }
 
 BOOST_AUTO_TEST_SUITE_END()
 

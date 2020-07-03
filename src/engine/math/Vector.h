@@ -4,7 +4,6 @@
 #include <stdexcept>
 #include <cmath>
 #include <vector>
-#include <iostream>
 //#include <boost/array.hpp>
 //#include <array>
 
@@ -18,66 +17,36 @@ protected:
 public:
     Vector();
     Vector(std::vector<type> v);
-
-//    Vector(type... v) {
-////        std::vector<type> vec = {v...};
-////        for (int i = 0; i < vec.size(); ++i) {
-////            array[i] = v[i];
-////        }
-//    }
-
-
-
-//    template<typename... Args>
-//    auto adder(Args... args) {
-//        auto res = 0;
-//        for(auto a: args) {
-//            res += a;
-//        }
-//        return res;
-//    }
-
-    Vector& operator=(const Vector& other);
-    Vector& operator+=(const Vector& other);
-    Vector& operator+=(type t);
-//    friend Vector& operator+(const Vector &left, const Vector &right) {
-//        Vector<type, size> result;
-//        for(int i = 0; i < size; i++) {
-//            result.array[i] = left.array[i] + right.array[i];
-//        }
-//        return result;
-//    }
-    Vector operator-(const Vector& other) const;
-
     type& operator[](int i);
     Vector& normalize();
     type dot(const Vector &other);
+    Vector& operator=(const Vector& other);
+    Vector& operator+=(const Vector& other);
+    Vector& operator+=(type t);
+    Vector operator+(const Vector& other) const;
+    Vector operator+(type t) const;
+    Vector& operator-=(const Vector& other);
+    Vector& operator-=(type t);
+    Vector operator-(const Vector& other) const;
+    Vector operator-(type t) const;
+    Vector& operator*=(const Vector& other);
+    Vector& operator*=(type t);
+    Vector operator*(const Vector& other) const;
+    Vector operator*(type t) const;
 };
 
 template<class type, int size>
-Vector<type, size>& Vector<type, size>::operator=(const Vector &other) {
-    if (this != &other) {
-        for(int i = 0; i < size; i++) {
-            this->array[i] += other.array[i];
-        }
+Vector<type, size>::Vector(std::vector<type> v) {
+    for (int i = 0; i < v.size(); ++i) {
+        this->array[i] = v[i];
     }
-    return *this;
 }
 
 template<class type, int size>
-Vector<type, size>& Vector<type, size>::operator+=(const Vector &other) {
-    for(int i = 0; i < size; i++) {
-        this->array[i] += other.array[i];
+Vector<type, size>::Vector() {
+    for (int i = 0; i < size; ++i) {
+        this->array[i] = 0;
     }
-    return *this;
-}
-
-template<class type, int size>
-Vector<type, size>& Vector<type, size>::operator+=(type t) {
-    for(int i = 0; i < size; i++) {
-        this->array[i] += t;
-    }
-    return *this;
 }
 
 template<class type, int size>
@@ -118,37 +87,118 @@ type Vector<type, size>::dot(const Vector &other) {
 }
 
 template<class type, int size>
-Vector<type, size> Vector<type, size>::operator-(const Vector &other) const {
-//    for (int i = 0; i < size; ++i) {
-//        std::cout << "Vector<type, size> " << this->array[i] << " " << other.array[i] << std::endl;
-//    }
-//    return Vector<type, size>();
+Vector<type, size>& Vector<type, size>::operator=(const Vector &other) {
+    if (this != &other) {
+        for(int i = 0; i < size; i++) {
+            this->array[i] += other.array[i];
+        }
+    }
+    return *this;
+}
 
+template<class type, int size>
+Vector<type, size>& Vector<type, size>::operator+=(const Vector &other) {
+    for(int i = 0; i < size; i++) {
+        this->array[i] += other.array[i];
+    }
+    return *this;
+}
+
+template<class type, int size>
+Vector<type, size>& Vector<type, size>::operator+=(type t) {
+    for(int i = 0; i < size; i++) {
+        this->array[i] += t;
+    }
+    return *this;
+}
+
+template<class type, int size>
+Vector<type, size> Vector<type, size>::operator+(const Vector &other) const {
     Vector<type, size> result;
+    for (int i = 0; i < size; ++i) {
+        result.array[i] = this->array[i] + other.array[i];
+    }
+    return result;
+};
 
+template<class type, int size>
+Vector<type, size> Vector<type, size>::operator+(type t) const {
+    Vector<type, size> result;
+    for (int i = 0; i < size; ++i) {
+        result.array[i] = this->array[i] + t;
+    }
+    return result;
+};
+
+template<class type, int size>
+Vector<type, size>& Vector<type, size>::operator-=(const Vector &other) {
+    for(int i = 0; i < size; i++) {
+        this->array[i] -= other.array[i];
+    }
+    return *this;
+}
+
+template<class type, int size>
+Vector<type, size>& Vector<type, size>::operator-=(type t) {
+    for(int i = 0; i < size; i++) {
+        this->array[i] -= t;
+    }
+    return *this;
+}
+
+template<class type, int size>
+Vector<type, size> Vector<type, size>::operator-(const Vector &other) const {
+    Vector<type, size> result;
     for (int i = 0; i < size; ++i) {
         result.array[i] = this->array[i] - other.array[i];
     }
-
     return result;
 }
 
 template<class type, int size>
-Vector<type, size>::Vector(std::vector<type> v) {
-    for (int i = 0; i < v.size(); ++i) {
-        this->array[i] = v[i];
+Vector<type, size> Vector<type, size>::operator-(type t) const {
+    Vector<type, size> result;
+    for (int i = 0; i < size; ++i) {
+        result.array[i] = this->array[i] - t;
     }
+    return result;
 }
 
 template<class type, int size>
-Vector<type, size>::Vector() {
-    for (int i = 0; i < size; ++i) {
-        this->array[i] = 0;
+Vector<type, size>& Vector<type, size>::operator*=(const Vector &other) {
+    for(int i = 0; i < size; i++) {
+        this->array[i] *= other.array[i];
     }
-};
+    return *this;
+}
 
+template<class type, int size>
+Vector<type, size>& Vector<type, size>::operator*=(type t) {
+    for(int i = 0; i < size; i++) {
+        this->array[i] *= t;
+    }
+    return *this;
+}
 
-//---------------------------------------
+template<class type, int size>
+Vector<type, size> Vector<type, size>::operator*(const Vector &other) const {
+    Vector<type, size> result;
+    for (int i = 0; i < size; ++i) {
+        result.array[i] = this->array[i] * other.array[i];
+    }
+    return result;
+}
+
+template<class type, int size>
+Vector<type, size> Vector<type, size>::operator*(type t) const {
+    Vector<type, size> result;
+    for (int i = 0; i < size; ++i) {
+        result.array[i] = this->array[i] * t;
+    }
+    return result;
+}
+
+// ------------------ Utils ---------------------
 
 template <class type>
 class Property {
@@ -161,7 +211,6 @@ public:
     operator type() const { return *ptr; }
 
     Property(type* ptr) { this->ptr = ptr; }
-//    Property() { }
 };
 
 
