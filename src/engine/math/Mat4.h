@@ -17,13 +17,12 @@ public:
 
     Mat4 operator*(const Mat4 &other);
 
-//    const type* getPtr();
+    const float* ptr();
 };
 
-//template<class type>
-//const type* Mat4<type>::getPtr() {
-//    return &this->array[0];
-//}
+const float* Mat4::ptr() {
+    return &this->array[0];
+}
 
 Mat4::Mat4(Matrix<float, 4, 4> mat)
         : Matrix<float, 4, 4>() {
