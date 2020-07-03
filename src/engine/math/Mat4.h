@@ -3,82 +3,71 @@
 
 #include <cmath>
 #include "Vec3.h"
+#include "Matrix.h"
 
-template <class type>
-class Mat4 {
-private:
-    type M[4*4];
+//template <class type>
+class Mat4 : public Matrix<float, 4, 4> {
 public:
     static Mat4 getProjection(const float &fov, const float &aspect, const float &near, const float &far);
     static Mat4 translate(const float &x, const float &y, const float &z);
-    static Mat4 lookAt(const Vec3<type> &pos, const Vec3<type> &tar);
-
-    const type* getPtr();
+    static Mat4 lookAt(const fVec3 &pos, const fVec3 &tar);
+//
+//    const type* getPtr();
 };
 
-template<class type>
-Mat4<type> Mat4<type>::getProjection(const float &fov, const float &aspect, const float &near, const float &far) {
-//    Mat4<type> mat4;
-//    auto scale = static_cast<float>(1 / tan(angle * 0.5 * M_PI / 180));
-//
-//    mat4.M[0][0] = scale; // scale the x coordinates of the projected point
-//    mat4.M[1][1] = scale; // scale the y coordinates of the projected point
-//    mat4.M[2][2] = -far / (far - near); // used to remap z to [0,1]
-//    mat4.M[3][2] = -far * near / (far - near); // used to remap z [0,1]
-//    mat4.M[2][3] = -1; // set w = -z
-//    mat4.M[3][3] = 0;
-//    return mat4;
+//template<class type>
+//const type* Mat4<type>::getPtr() {
+//    return &this->array[0];
+//}
 
-    Mat4<type> mat4;
-    type D2R = M_PI / 180.0;
-    type yScale = 1.0 / tan(D2R * fov / 2);
-    type xScale = yScale / aspect;
-    type nearmfar = near - far;
-    //    mat4.M[0][0] = scale; // scale the x coordinates of the projected point
-//    mat4.M[1][1] = scale; // scale the y coordinates of the projected point
-//    mat4.M[2][2] = -far / (far - near); // used to remap z to [0,1]
-//    mat4.M[3][2] = -far * near / (far - near); // used to remap z [0,1]
-//    mat4.M[2][3] = -1; // set w = -z
-//    mat4.M[3][3] = 0;
+//template<class type>
+Mat4 Mat4::getProjection(const float &fov, const float &aspect, const float &near, const float &far) {
+    Mat4 mat;
+    float D2R = M_PI / 180.0;
+    float yScale = 1.0 / tan(D2R * fov / 2);
+    float xScale = yScale / aspect;
+    float nearmfar = near - far;
 
-    type m[] = {
-            xScale, 0, 0, 0,
-            0, yScale, 0, 0,
-            0, 0, (far + near) / nearmfar, -1,
-            0, 0, 2*far*near / nearmfar, 0
-    };
+    mat[loc(0, 0)] = xScale;
+    mat[loc(1, 1)] = yScale;
+    mat[loc(2, 2)] = (far + near) / nearmfar;
+    mat[loc(3, 2)] = 2*far*near / nearmfar;
+    mat[loc(2, 3)] = -1;
 
-    for (int i = 0; i < 4 * 4; ++i) {
-        mat4.M[i] = m[i];
-    }
-
-    return mat4;
+    return mat;
 }
 
-template<class type>
-const type* Mat4<type>::getPtr() {
-    return &M[0];
+//template<class type>
+Mat4 Mat4::translate(const float &x, const float &y, const float &z) {
+    Mat4 mat;
+
+    mat[0][0] = 1;
+    mat[1][1] = 1;
+    mat[2][2] = 1;
+    mat[3][3] = 1;
+    mat[3][0] = x;
+    mat[3][1] = y;
+    mat[3][2] = z;
+
+    return mat;
 }
 
-template<class type>
-Mat4<type> Mat4<type>::translate(const float &x, const float &y, const float &z) {
-    Mat4<type> mat4;
-    type m[] = {
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            x, y, z, 1
-    };
+//template<class type>
+Mat4 Mat4::lookAt(const fVec3 &pos, const fVec3 &tar) {
+    fVec3 up(0, 1, 0);
+    fVec3 forward = (pos - tar).normalize();
+    fVec3 right = up.cross(forward).normalize();
+    up = forward.cross(right);
 
-    for (int i = 0; i < 4 * 4; ++i) {
-        mat4.M[i] = m[i];
-    }
-    return mat4;
+    Mat4 mat;
+    mat[0][0] = right[0]; mat[0][1] = right[1]; mat[0][2] = right[2]; mat[0][3] = right.dot(pos);
+    mat[1][0] = up[0]; mat[1][1] = up[1]; mat[1][2] = up[2]; mat[1][3] = up.dot(pos);
+    mat[2][0] = forward[0]; mat[2][1] = forward[1]; mat[2][2] = forward[2]; mat[2][3] = forward.dot(pos);
+    mat[3][0] = 0; mat[3][1] = 0; mat[3][2] = 0; mat[3][3] = 1;
+
+    return mat;
 }
 
-template<class type>
-Mat4<type> Mat4<type>::lookAt(const Vec3<type> &pos, const Vec3<type> &tar) {
-    return Mat4();
-}
+
 
 #endif // MAT4_H

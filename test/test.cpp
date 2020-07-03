@@ -128,15 +128,15 @@ BOOST_AUTO_TEST_SUITE_END()
 
 //-------------------------------------------------------
 
-//BOOST_AUTO_TEST_SUITE(math_mat4_suitex)
-//
-//BOOST_AUTO_TEST_CASE(xxxxx) {
-//        Mat4 mat;
-//        mat[0][0] = 1;
-//        float x1 = mat[0][0];
-//        mat[loc(0, 0)] = 2;
-//        float x2 = mat[loc(0, 0)];
-//        std::cerr << x1 << " " << x2 << std::endl;
-//}
-//
-//BOOST_AUTO_TEST_SUITE_END()
+BOOST_AUTO_TEST_SUITE(math_mat4_suitex)
+
+BOOST_AUTO_TEST_CASE(xxxxx) {
+        Mat4 mat;
+        mat[0][0] = 1;
+        float x1 = mat[0][0];
+        mat[loc(0, 0)] = 2;
+        float x2 = mat[loc(0, 0)];
+        std::cerr << x1 << " " << x2 << std::endl;
+}
+
+BOOST_AUTO_TEST_SUITE_END()
