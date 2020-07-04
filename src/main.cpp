@@ -6,6 +6,9 @@
 #include <core/shaders/ShaderLoader.h>
 #include <core/shaders/ShaderProgram.h>
 #include <core/utils/ResourceLoader.h>
+#include <core/models/Model.h>
+
+#include <math/Mat4.h>
 
 int main(int argc, char *argv[]) {
     Window window(800, 600, "Demo");
@@ -13,6 +16,14 @@ int main(int argc, char *argv[]) {
     ResourceLoader resourceLoader(boost::filesystem::current_path().parent_path());
 
     ShaderProgram shaderProgram("basic");
+    ShaderProgram modelProgram("model");
+
+    Model model;
+    model.loadModel(ResourceLoader::getPath("cube.obj", MODEL));
+
+    Mat4 projection = Mat4::getProjection(60.0f, 800.0f/600.0f, 0.1f, 10.f);
+    Mat4 view = Mat4::lookAt(fVec3(0, 0, 2), fVec3(0, 0, -1));
+    Mat4 mm = Mat4::translate(0, 0, -5);
 
     float vertices[] = {
             0.9f, 0.9f, 0.0f,
@@ -43,14 +54,21 @@ int main(int argc, char *argv[]) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CW);
+
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while (!window.shouldClose()) {
         window.clear(0.3f, 0.3f, 0.3f);
 
-        shaderProgram.use();
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+//        shaderProgram.use();
+//        glBindVertexArray(VAO);
+//        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+        modelProgram.use().setMatrix4("projection", projection).setMatrix4("model", mm);
+        model.draw(modelProgram);
 
         window.update();
     }
