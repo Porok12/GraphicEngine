@@ -1,7 +1,6 @@
 #ifndef VEC3_H
 #define VEC3_H
 
-#include <iostream>
 #include "Vector.h"
 
 template <class type>
@@ -9,6 +8,7 @@ class Vec3 : public Vector<type, 3> {
 public:
     Property<type> x, y, z;
 
+//    Vec3(const Vec3 &v);
     Vec3(Vector<type, 3> v);
     Vec3(type x, type y, type z);
     Vec3(type xyz);
@@ -58,46 +58,6 @@ public:
         return Vector<type, 3>::operator*(t);
     }
 };
-
-template<class type>
-Vec3<type>::Vec3(Vector<type, 3> v)
-        : Vector<type, 3>({v[0], v[1], v[2]}),
-          x(Property<type>(&v[0])),
-          y(Property<type>(&v[1])),
-          z(Property<type>(&v[2])) {
-
-}
-
-template<class type>
-Vec3<type>::Vec3(type x, type y, type z)
-        : x(Property<type>(this->array+0)),
-          y(Property<type>(this->array+1)),
-          z(Property<type>(this->array+2)){
-    this->array[0] = x;
-    this->array[1] = y;
-    this->array[2] = z;
-}
-
-template<class type>
-Vec3<type>::Vec3(type xyz) : Vec3(xyz, xyz, xyz) {
-
-}
-
-template<class type>
-Vec3<type>::Vec3() : Vec3(0) {
-
-}
-
-template<class type>
-Vec3<type> Vec3<type>::cross(const Vec3 &other) {
-    const type* a = &this->array[0];
-    const type* b = &other.array[0];
-    return Vec3<type>(
-            a[1]*b[2] - a[2]*b[1],
-            a[2]*b[0] - a[0]*b[2],
-            a[0]*b[1] - a[1]*b[0]
-    );
-}
 
 // -------------------------------------------------
 
@@ -153,21 +113,13 @@ public:
     }
 };
 
-iVec3::iVec3(Vec3<int> v)
-        : Vec3<int>(v.x, v.y, v.z) {
-
-}
-
-iVec3 iVec3::cross(const iVec3 &other) {
-    return Vec3<int>::cross(other);
-}
-
 // float vector
 
 class fVec3 : public Vec3<float> {
 public:
     using Vec3<float>::Vec3;
 
+    fVec3(const fVec3 &v);
     fVec3(Vec3<float> v);
     fVec3 cross(const fVec3 &other);
     fVec3& operator+=(const fVec3 &other) {
@@ -213,12 +165,5 @@ public:
         return Vec3<float>::operator*(t);
     }
 };
-
-fVec3::fVec3(Vec3<float> v)
-        : Vec3<float>(v.x, v.y, v.z) { }
-
-fVec3 fVec3::cross(const fVec3 &other) {
-    return Vec3<float>::cross(other);
-}
 
 #endif // VEC3_H

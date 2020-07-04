@@ -60,29 +60,6 @@ public:
     };
 };
 
-template<class type>
-Vec2<type>::Vec2(Vector<type, 2> v)
-        : Vector<type, 2>({v[0], v[1]}),
-          x(Property<type>(&v[0])),
-          y(Property<type>(&v[1])){
-    this->array[0] = v[0];
-    this->array[1] = v[1];
-}
-
-template<class type>
-Vec2<type>::Vec2(type x, type y)
-        : x(Property<type>(this->array+0)),
-          y(Property<type>(this->array+1)){
-    this->array[0] = x;
-    this->array[1] = y;
-}
-
-template<class type>
-Vec2<type>::Vec2(type xy) : Vec2(xy, xy) { }
-
-template<class type>
-Vec2<type>::Vec2() : Vec2(0) { }
-
 // -----------------------------
 
 // integer vector
@@ -140,9 +117,6 @@ public:
     };
 };
 
-iVec2::iVec2(Vec2<int> v)
-        : Vec2<int>(v.x, v.y) { }
-
 // float vector
 
 class fVec2 : public Vec2<float> {
@@ -194,9 +168,6 @@ public:
         return Vec2<float>::operator*(t);
     };
 };
-
-fVec2::fVec2(Vec2<float> v)
-        : Vec2<float>(v.x, v.y) { }
 
 
 #endif // VEC2_H

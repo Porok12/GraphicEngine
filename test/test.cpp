@@ -38,7 +38,6 @@ BOOST_AUTO_TEST_SUITE(math_ivec2_suite)
     BOOST_AUTO_TEST_CASE(addition) {
         iVec2 vec1(1, 2);
         iVec2 vec2(2, 1);
-//        iVec2 vec = vec1 + vec2;
         vec1 += vec2;
         BOOST_CHECK_EQUAL(vec1.x, 3);
         BOOST_CHECK_EQUAL(vec1.y, 3);
@@ -101,6 +100,22 @@ BOOST_AUTO_TEST_SUITE(math_fvec2_suite)
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(math_fvec3_suite)
+
+    BOOST_AUTO_TEST_CASE(xxx) {
+        fVec3 vec1(2, 2, 2);
+        fVec3 vec2 = vec1;
+        vec2.x = 1;
+        vec2.y = 1;
+        vec2.z = 1;
+
+        BOOST_CHECK_CLOSE((float)vec1.x, 2, 0.01);
+        BOOST_CHECK_CLOSE((float)vec1.y, 2, 0.01);
+        BOOST_CHECK_CLOSE((float)vec1.z, 2, 0.01);
+
+        BOOST_CHECK_CLOSE(vec1[0], 2, 0.01);
+        BOOST_CHECK_CLOSE(vec1[1], 2, 0.01);
+        BOOST_CHECK_CLOSE(vec1[2], 2, 0.01);
+    }
 
     BOOST_AUTO_TEST_CASE(dot_product) {
         fVec3 vec1(1, 3, -5);
