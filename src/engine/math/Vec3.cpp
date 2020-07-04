@@ -1,13 +1,5 @@
 #include "Vec3.h"
 
-//template<class type>
-//Vec3<type>::Vec3(const Vec3 &v)
-//        : x(Property<type>(&v[0])),
-//          y(Property<type>(&v[1])),
-//          z(Property<type>(&v[2])) {
-//    std::cerr << "COPY" << std::endl;
-//}
-
 template<class type>
 Vec3<type>::Vec3(Vector<type, 3> v)
         : Vector<type, 3>({v[0], v[1], v[2]}),
@@ -51,6 +43,12 @@ Vec3<type> Vec3<type>::cross(const Vec3 &other) {
 template class Vec3<int>;
 template class Vec3<float>;
 
+iVec3::iVec3(const iVec3 &v) {
+    array[0] = v.array[0];
+    array[1] = v.array[1];
+    array[2] = v.array[2];
+}
+
 iVec3::iVec3(Vec3<int> v)
         : Vec3<int>(v.x, v.y, v.z) {
 
@@ -62,14 +60,6 @@ iVec3 iVec3::cross(const iVec3 &other) {
 
 
 fVec3::fVec3(const fVec3 &v) {
-//    std::cerr << "| == " << (x == array[0]) << "\n";
-//    std::cerr << "| == " << (y == array[1]) << "\n";
-//    std::cerr << "| == " << (z == array[2]) << "\n";
-//    std::cerr << "| == " << (&v.array[0] == &array[0]) << "\n";
-//    std::cerr << "| == " << (&v.array[1] == &array[1]) << "\n";
-//    std::cerr << "| == " << (&v.array[2] == &array[2]) << "\n";
-//    std::cerr << "| == " << (&array[0] == &v.array[0]) << "\n";
-//    std::cerr << "|" << (&array[0]) << " " << (&v.array[0]) << "\n";
     array[0] = v.array[0];
     array[1] = v.array[1];
     array[2] = v.array[2];

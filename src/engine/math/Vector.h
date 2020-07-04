@@ -4,21 +4,14 @@
 #include <stdexcept>
 #include <cmath>
 #include <vector>
-#include <iostream>
-//#include <boost/array.hpp>
-//#include <array>
 
 template <class type, int size>
 class Vector {
 protected:
-//    const int length = size;
     type array[size];
-//    const boost::array<type, size> array{0};
-//    const std::array<type, size> arr;
 public:
     Vector();
     Vector(std::vector<type> v);
-//    Vector(const Vector &vector);
 
     type& operator[](int i);
     Vector& normalize();

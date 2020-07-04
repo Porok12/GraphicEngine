@@ -68,11 +68,9 @@ class iVec2 : public Vec2<int> {
 public:
     using Vec2<int>::Vec2;
 
+    iVec2(const iVec2 &other);
     iVec2(Vec2<int> v);
 
-//    iVec2& operator=(const iVec2 &other) {
-//        return Vec2<int>::operator=(other);
-//    };
     iVec2& operator+=(const iVec2 &other) {
         Vec2<int>::operator+=(other);
         return *this;
@@ -123,6 +121,7 @@ class fVec2 : public Vec2<float> {
 public:
     using Vec2<float>::Vec2;
 
+    fVec2(const fVec2 &other);
     fVec2(Vec2<float> v);
 
     fVec2& operator+=(const fVec2 &other) {

@@ -1,16 +1,5 @@
 #include "Vector.h"
 
-//template<class type, int size>
-//Vector<type, size>::Vector(const Vector<type, size> &v) {
-////    for (int i = 0; i < size; ++i) {
-////        this->array[i] = v.array[i];
-////    }
-////    std::cerr << "copy assignment of A\n";
-////    std::copy(&v.array[0], &v.array[0] + size, &array[0]);
-////    std::cerr << " == " << (&array[0] == &v.array[0]) << "\n";
-////    std::cerr << (&array[0]) << " " << (&v.array[0]) << "\n";
-//}
-
 template<class type, int size>
 Vector<type, size>::Vector(std::vector<type> v) {
     for (int i = 0; i < v.size(); ++i) {

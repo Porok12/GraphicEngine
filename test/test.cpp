@@ -41,15 +41,6 @@ BOOST_AUTO_TEST_SUITE(math_ivec2_suite)
         vec1 += vec2;
         BOOST_CHECK_EQUAL(vec1.x, 3);
         BOOST_CHECK_EQUAL(vec1.y, 3);
-
-
-        [] { ;
-        }();
-
-        auto lmda = [] { ;
-        };
-
-        lmda();
     }
 
     BOOST_AUTO_TEST_CASE(subtraction) {
@@ -60,7 +51,7 @@ BOOST_AUTO_TEST_SUITE(math_ivec2_suite)
         BOOST_CHECK_EQUAL(vec.y, 1);
     }
 
-    BOOST_AUTO_TEST_CASE(test) {
+    BOOST_AUTO_TEST_CASE(subtraction2) {
         iVec2 vec1(1, 2);
         iVec2 vec2(2, 1);
         iVec2 vec = vec1 - vec2;
@@ -90,7 +81,7 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(math_fvec2_suite)
 
-    BOOST_AUTO_TEST_CASE(test) {
+    BOOST_AUTO_TEST_CASE(normalize) {
         fVec2 vec(1.0f, 1.0f);
         vec.normalize();
         BOOST_CHECK_CLOSE((float) vec.x, 0.707106781186548f, 0.01);
@@ -101,11 +92,11 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(math_fvec3_suite)
 
-    BOOST_AUTO_TEST_CASE(xxx) {
+    BOOST_AUTO_TEST_CASE(assigment) {
         fVec3 vec1(2, 2, 2);
         fVec3 vec2 = vec1;
         vec2.x = 1;
-        vec2.y = 1;
+        vec2[1] = 1;
         vec2.z = 1;
 
         BOOST_CHECK_CLOSE((float)vec1.x, 2, 0.01);
@@ -115,6 +106,14 @@ BOOST_AUTO_TEST_SUITE(math_fvec3_suite)
         BOOST_CHECK_CLOSE(vec1[0], 2, 0.01);
         BOOST_CHECK_CLOSE(vec1[1], 2, 0.01);
         BOOST_CHECK_CLOSE(vec1[2], 2, 0.01);
+
+        BOOST_CHECK_CLOSE((float)vec2.x, 1, 0.01);
+        BOOST_CHECK_CLOSE((float)vec2.y, 1, 0.01);
+        BOOST_CHECK_CLOSE((float)vec2.z, 1, 0.01);
+
+        BOOST_CHECK_CLOSE(vec2[0], 1, 0.01);
+        BOOST_CHECK_CLOSE(vec2[1], 1, 0.01);
+        BOOST_CHECK_CLOSE(vec2[2], 1, 0.01);
     }
 
     BOOST_AUTO_TEST_CASE(dot_product) {
@@ -156,12 +155,14 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE(math_mat4_suitex)
 
-    BOOST_AUTO_TEST_CASE(xxxxx) {
+    BOOST_AUTO_TEST_CASE(get) {
         Mat4 mat;
         mat[0][0] = 1;
         float x1 = mat[0][0];
         mat[loc(0, 0)] = 2;
         float x2 = mat[loc(0, 0)];
+        BOOST_CHECK_CLOSE(x1, 1, 0.1);
+        BOOST_CHECK_CLOSE(x2, 2, 0.1);
     }
 
     BOOST_AUTO_TEST_CASE(projection) {

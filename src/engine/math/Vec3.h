@@ -8,7 +8,6 @@ class Vec3 : public Vector<type, 3> {
 public:
     Property<type> x, y, z;
 
-//    Vec3(const Vec3 &v);
     Vec3(Vector<type, 3> v);
     Vec3(type x, type y, type z);
     Vec3(type xyz);
@@ -67,6 +66,7 @@ class iVec3 : public Vec3<int> {
 public:
     using Vec3<int>::Vec3;
 
+    iVec3(const iVec3 &other);
     iVec3(Vec3<int> v);
     iVec3 cross(const iVec3 &other);
     iVec3& operator+=(const iVec3 &other) {
