@@ -1,77 +1,169 @@
 #ifndef VEC3_H
 #define VEC3_H
 
-#include <math.h>
+#include "Vector.h"
 
 template <class type>
-class Vec3 {
-private:
+class Vec3 : public Vector<type, 3> {
 public:
-    type x, y, z;
+    Property<type> x, y, z;
+
+    Vec3(Vector<type, 3> v);
     Vec3(type x, type y, type z);
     Vec3(type xyz);
     Vec3();
 
-    Vec3& operator=(const Vec3& other);
-    Vec3& operator+(const Vec3& other);
-    Vec3& operator-(const Vec3& other);
-    Vec3& normalize();
-    static const Vec3<type>& normalize(const Vec3& other);
+    Vec3 cross(const Vec3& other);
+    Vec3& operator+=(const Vec3 &other) {
+        Vector<type, 3>::operator+=(other);
+        return *this;
+    }
+    Vec3& operator+=(type t) {
+        Vector<type, 3>::operator+=(t);
+        return *this;
+    }
+    Vec3 operator+(const Vec3& other) const {
+        return Vector<type, 3>::operator+(other);
+    }
+    Vec3 operator+(type t) const {
+        return Vector<type, 3>::operator+(t);
+    }
+    Vec3& operator-=(const Vec3 &other) {
+        Vector<type, 3>::operator-=(other);
+        return *this;
+    }
+    Vec3& operator-=(type t) {
+        Vector<type, 3>::operator-=(t);
+        return *this;
+    }
+    Vec3 operator-(const Vec3& other) const {
+        return Vector<type, 3>::operator-(other);
+    }
+    Vec3 operator-(type t) const {
+        return Vector<type, 3>::operator-(t);
+    }
+    Vec3& operator*=(const Vec3 &other) {
+        Vector<type, 3>::operator*=(other);
+        return *this;
+    }
+    Vec3& operator*=(type t) {
+        Vector<type, 3>::operator*=(t);
+        return *this;
+    }
+    Vec3 operator*(const Vec3& other) const {
+        return Vector<type, 3>::operator*(other);
+    }
+    Vec3 operator*(type t) const {
+        return Vector<type, 3>::operator*(t);
+    }
 };
 
-template <class type>
-Vec3<type>::Vec3(type x, type y, type z) {
-    this->x = x;
-    this->y = y;
-    this->z = z;
-}
+// -------------------------------------------------
 
-template<class type>
-Vec3<type>::Vec3(type xyz) : Vec3(xyz, xyz, xyz) { }
+// integer vector
 
-template<class type>
-Vec3<type>::Vec3() : Vec3(0) { }
+class iVec3 : public Vec3<int> {
+public:
+    using Vec3<int>::Vec3;
 
-template<class type>
-Vec3<type> &Vec3<type>::operator=(const Vec3 &other) {
-    this->x = other.x;
-    this->y = other.y;
-    this->z = other.z;
-    return *this;
-}
+    iVec3(const iVec3 &other);
+    iVec3(Vec3<int> v);
+    iVec3 cross(const iVec3 &other);
+    iVec3& operator+=(const iVec3 &other) {
+        Vec3<int>::operator+=(other);
+        return *this;
+    }
+    iVec3& operator+=(int t) {
+        Vec3<int>::operator+=(t);
+        return *this;
+    }
+    iVec3 operator+(const iVec3& other) const {
+        return Vec3<int>::operator+(other);
+    }
+    iVec3 operator+(int t) const {
+        return Vec3<int>::operator+(t);
+    }
+    iVec3& operator-=(const iVec3 &other) {
+        Vec3<int>::operator-=(other);
+        return *this;
+    }
+    iVec3& operator-=(int t) {
+        Vec3<int>::operator-=(t);
+        return *this;
+    }
+    iVec3 operator-(const iVec3& other) const {
+        return Vec3<int>::operator-(other);
+    }
+    iVec3 operator-(int t) const {
+        return Vec3<int>::operator-(t);
+    }
+    iVec3& operator*=(const iVec3 &other) {
+        Vec3<int>::operator*=(other);
+        return *this;
+    }
+    iVec3& operator*=(int t) {
+        Vec3<int>::operator*=(t);
+        return *this;
+    }
+    iVec3 operator*(const iVec3& other) const {
+        return Vec3<int>::operator*(other);
+    }
+    iVec3 operator*(int t) const {
+        return Vec3<int>::operator*(t);
+    }
+};
 
-template<class type>
-Vec3<type> &Vec3<type>::operator+(const Vec3 &other) {
-    Vec3 result;
-    result.x = this->x + other.x;
-    result.y = this->y + other.y;
-    result.z = this->z + other.z;
-    return result;
-}
+// float vector
 
-template<class type>
-Vec3<type> &Vec3<type>::operator-(const Vec3 &other) {
-    Vec3 result;
-    result.x = this->x - other.x;
-    result.y = this->y - other.y;
-    result.z = this->z - other.z;
-    return result;
-}
+class fVec3 : public Vec3<float> {
+public:
+    using Vec3<float>::Vec3;
 
-template<class type>
-Vec3<type> &Vec3<type>::normalize() {
-    type d = sqrt(x*x + y*y + z*z);
-    x /= d;
-    y /= d;
-    z /= d;
-    return *this;
-}
-
-template<class type>
-const Vec3<type>& Vec3<type>::normalize(const Vec3 &other) {
-    other.x /= 1;
-    return other;
-}
-
+    fVec3(const fVec3 &v);
+    fVec3(Vec3<float> v);
+    fVec3 cross(const fVec3 &other);
+    fVec3& operator+=(const fVec3 &other) {
+        Vec3<float>::operator+=(other);
+        return *this;
+    }
+    fVec3& operator+=(float t) {
+        Vec3<float>::operator+=(t);
+        return *this;
+    }
+    fVec3 operator+(const fVec3& other) const {
+        return Vec3<float>::operator+(other);
+    }
+    fVec3 operator+(float t) const {
+        return Vec3<float>::operator+(t);
+    }
+    fVec3& operator-=(const fVec3 &other) {
+        Vec3<float>::operator-=(other);
+        return *this;
+    }
+    fVec3& operator-=(float t) {
+        Vec3<float>::operator-=(t);
+        return *this;
+    }
+    fVec3 operator-(const fVec3& other) const {
+        return Vec3<float>::operator-(other);
+    }
+    fVec3 operator-(float t) const {
+        return Vec3<float>::operator-(t);
+    }
+    fVec3& operator*=(const fVec3 &other) {
+        Vec3<float>::operator*=(other);
+        return *this;
+    }
+    fVec3& operator*=(float t) {
+        Vec3<float>::operator*=(t);
+        return *this;
+    }
+    fVec3 operator*(const fVec3& other) const {
+        return Vec3<float>::operator*(other);
+    }
+    fVec3 operator*(float t) const {
+        return Vec3<float>::operator*(t);
+    }
+};
 
 #endif // VEC3_H
