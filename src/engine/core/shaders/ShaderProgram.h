@@ -19,7 +19,7 @@ public:
     ~ShaderProgram();
 
     ShaderProgram& use();
-    ShaderProgram& setMatrix4(std::string name, Mat4<float> mat4);
+    ShaderProgram& setMatrix4(std::string name, Mat4 mat4);
 
     GLuint getId();
 };

@@ -8,7 +8,6 @@
 #include <core/utils/ResourceLoader.h>
 #include <core/models/Model.h>
 
-#include <math/Vec2.h>
 #include <math/Mat4.h>
 
 int main(int argc, char *argv[]) {
@@ -22,9 +21,9 @@ int main(int argc, char *argv[]) {
     Model model;
     model.loadModel(ResourceLoader::getPath("cube.obj", MODEL));
 
-    Mat4<float> projection = Mat4<float>::getProjection(60.0f, 800.0f/600.0f, 0.1f, 1000.f);
-//    Mat4<float> view = Mat4<float>::lookAt(Vec3<float>(0, 0, 0), Vec3<float>(0, 0, 0));
-    Mat4<float> mm = Mat4<float>::translate(0, 0, -4);
+    Mat4 projection = Mat4::getProjection(60.0f, 800.0f/600.0f, 0.1f, 10.f);
+    Mat4 view = Mat4::lookAt(fVec3(0, 0, 2), fVec3(0, 0, -1));
+    Mat4 mm = Mat4::translate(0, 0, -5);
 
     float vertices[] = {
             0.9f, 0.9f, 0.0f,
@@ -59,10 +58,11 @@ int main(int argc, char *argv[]) {
     glCullFace(GL_FRONT);
     glFrontFace(GL_CW);
 
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
     while (!window.shouldClose()) {
         window.clear(0.3f, 0.3f, 0.3f);
 
-//        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 //        shaderProgram.use();
 //        glBindVertexArray(VAO);
 //        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

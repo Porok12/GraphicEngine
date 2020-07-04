@@ -38,7 +38,7 @@ GLuint ShaderProgram::getId() {
     return program;
 }
 
-ShaderProgram &ShaderProgram::setMatrix4(std::string name, Mat4<float> mat4) {
-    glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, mat4.getPtr());
+ShaderProgram &ShaderProgram::setMatrix4(std::string name, Mat4 mat4) {
+    glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, mat4.ptr());
     return *this;
 }

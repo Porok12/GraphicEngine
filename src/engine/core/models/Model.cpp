@@ -37,7 +37,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 
     for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
         Vertex vertex;
-        Vec3<float> vec;
+        fVec3 vec;
         vec.x = mesh->mVertices[i].x;
         vec.y = mesh->mVertices[i].y;
         vec.z = mesh->mVertices[i].z;
@@ -46,14 +46,14 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
         vec.y = mesh->mNormals[i].y;
         vec.z = mesh->mNormals[i].z;
         vertex.Normal = vec;
-        
+
         if(mesh->mTextureCoords[0]) {
-            Vec2<float> v;
+            fVec2 v;
             v.x = mesh->mTextureCoords[0][i].x;
             v.y = mesh->mTextureCoords[0][i].y;
             vertex.TexCoords = v;
         } else {
-            vertex.TexCoords = Vec2<float>(0.0f);
+            vertex.TexCoords = fVec2(0.0f);
         }
 
         vertices.push_back(vertex);
@@ -128,7 +128,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 void Model::setFakeNormals() {
     for(unsigned int i = 0; i < meshes.size(); i++) {
         for(unsigned int j = 0; j < meshes[i].vertices.size(); j++) {
-            meshes[i].vertices[j].Normal = Vec3<float>(0.0f, 1.0f, 0.0f);
+            meshes[i].vertices[j].Normal = fVec3(0.0f, 1.0f, 0.0f);
         }
 
         meshes[i] = Mesh(meshes[i].vertices, meshes[i].indices, meshes[i].textures);

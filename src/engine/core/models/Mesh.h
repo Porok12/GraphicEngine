@@ -8,7 +8,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <iostream>
 #include <vector>
 
 #include "../utils/ResourceLoader.h"
@@ -20,14 +19,14 @@ using std::vector;
 using uint = unsigned int;
 
 struct Vertex {
-    Vec3<float> Position;
-    Vec2<float> TexCoords;
-    Vec3<float> Normal;
+    fVec3 Position;
+    fVec2 TexCoords;
+    fVec3 Normal;
 };
 
 struct VertexTangent {
-    Vec3<float> Tangent;
-    Vec3<float> Bitangent;
+    fVec3 Tangent;
+    fVec3 Bitangent;
 };
 
 struct Texture {
@@ -55,13 +54,7 @@ public:
 
     Mesh(vector <Vertex> vertices, vector<unsigned int> indices, vector <Texture> textures);
 
-    Mesh(vector <Vertex> vertices, vector<unsigned int> indices, vector <Texture> textures,
-         vector <VertexTangent> tangents);
-
-
     void draw(ShaderProgram shaderProgram);
-
-//    MeshType meshType;
 };
 
 #endif // MESH_H
