@@ -11,6 +11,8 @@
 #include <math/Mat4.h>
 #include <core/text/FontLoader.h>
 #include <iostream>
+#include <core/text/Font.h>
+#include <core/text/FontRenderer.h>
 
 int main(int argc, char *argv[]) {
     Window window(800, 600, "Demo");
@@ -19,7 +21,9 @@ int main(int argc, char *argv[]) {
 
     ShaderProgram shaderProgram("basic");
     ShaderProgram modelProgram("model");
-    ShaderProgram fontProgram("font");
+    auto fontProgram = std::make_shared<ShaderProgram>("font");
+    std::shared_ptr<Font> ubuntu(FontLoader::loadFont("Ubuntu.ttf"));
+    FontLoader::destroy();
 
     Model model;
     model.loadModel(ResourceLoader::getPath("cube.obj", MODEL));
@@ -48,8 +52,17 @@ int main(int argc, char *argv[]) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    char buffer[20];
+
     float a = 0;
-    FontLoader fl;
+    FontRenderer fontRenderer;
+    fontRenderer.setProgram(fontProgram)
+            .setFont(ubuntu)
+            .setProjection(ortho)
+            .setPosition(0.9, 0.9)
+            .setColor(200, 255, 55)
+            .setScale(1.0f);
+
     while (!window.shouldClose()) {
         window.clear(0.3f, 0.3f, 0.3f);
 
@@ -59,14 +72,8 @@ int main(int argc, char *argv[]) {
                 .setMatrix4("model", Mat4::rotation(a++, fVec3(0.9, 0.6, 0.3)) * mm);
         model.draw(modelProgram);
 
-        double time = glfwGetTime();
-        char buffer[10];
-        sprintf(buffer, "%.2f", time);
-        fontProgram.use().setMatrix4("ortho", ortho);
-        fl.RenderText(fontProgram, buffer);
-//        fl.RenderText(fontProgram, "______  Agatka");
-
-//        std::cerr << modelProgram.getId() << " " << fontProgram.getId() << std::endl;
+        sprintf(buffer, "Demo %.2f", glfwGetTime());
+        fontRenderer.render(buffer);
 
         window.update();
     }
