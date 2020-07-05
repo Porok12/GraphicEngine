@@ -6,10 +6,16 @@
 
 #include <boost/log/trivial.hpp>
 #include "exception/InitException.h"
+#include <iostream>
 
 class Window {
 private:
     GLFWwindow* window;
+    static void keyCallback(GLFWwindow* window,
+                     int key,
+                     int scancode,
+                     int action,
+                     int mods);
 public:
     Window(int width, int height, const char* title);
     ~Window();
