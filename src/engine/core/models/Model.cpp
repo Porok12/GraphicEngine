@@ -135,7 +135,7 @@ void Model::setFakeNormals() {
     }
 }
 
-void Model::draw(ShaderProgram shaderProgram) {
+void Model::draw(ShaderProgram &shaderProgram) {
     for(unsigned int i = 0; i < meshes.size(); i++) {
         meshes[i].draw(shaderProgram);
     }
