@@ -1,6 +1,7 @@
 #ifndef MAT4_H
 #define MAT4_H
 
+#include <iostream>
 #include <cmath>
 #include "Vec3.h"
 #include "Matrix.h"
