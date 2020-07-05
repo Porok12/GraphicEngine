@@ -10,10 +10,10 @@ ShaderProgram::ShaderProgram(const char *name) {
     glLinkProgram(program);
     BOOST_LOG_TRIVIAL(debug) << "Shader program has been linked: " << name;
 
-    checkForErrors();
+    checkForErrors(name);
 }
 
-void ShaderProgram::checkForErrors() {
+void ShaderProgram::checkForErrors(const char* name) {
     int success;
     char infoLog[512];
 
@@ -22,10 +22,13 @@ void ShaderProgram::checkForErrors() {
     if(!success) {
         glGetProgramInfoLog(program, 512, NULL, infoLog);
         BOOST_LOG_TRIVIAL(error) << "Program linking error: " << infoLog;
+    } else {
+        BOOST_LOG_TRIVIAL(debug) << "Program " << name << " linked successfully";
     }
 }
 
 ShaderProgram::~ShaderProgram() {
+    BOOST_LOG_TRIVIAL(debug) << "Program destructor";
     glDeleteProgram(program);
 }
 
@@ -34,11 +37,16 @@ ShaderProgram &ShaderProgram::use() {
     return *this;
 }
 
-GLuint ShaderProgram::getId() {
+GLuint ShaderProgram::getId() const {
     return program;
 }
 
 ShaderProgram &ShaderProgram::setMatrix4(std::string name, Mat4 mat4) {
     glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, mat4.ptr());
+    return *this;
+}
+
+ShaderProgram &ShaderProgram::set3f(std::string name, float x, float y, float z) {
+    glUniform3f(glGetUniformLocation(program, name.c_str()), x, y, z);
     return *this;
 }

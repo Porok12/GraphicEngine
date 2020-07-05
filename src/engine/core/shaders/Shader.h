@@ -17,6 +17,8 @@ private:
 public:
     Shader(const char * name, GLuint shader);
 
+    virtual ~Shader();
+
     GLuint getId();
 };
 
