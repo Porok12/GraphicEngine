@@ -13,6 +13,9 @@ ResourceLoader::ResourceLoader(path root_path) {
 
     path model_path(root_path);
     ResourceLoader::paths.insert(std::make_pair(MODEL, std::move(model_path.append("models"))));
+
+    path font_path(root_path);
+    ResourceLoader::paths.insert(std::make_pair(FONT, std::move(font_path.append("fonts"))));
 }
 
 std::string ResourceLoader::getPath(std::string name, ResourceType type) {

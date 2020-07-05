@@ -29,9 +29,11 @@ Window::Window(int width, int height, const char* title) {
     }
 
     glViewport(0, 0, width, height);
-
 //    glEnable(GL_DEPTH_TEST);
+
     BOOST_LOG_TRIVIAL(debug) << "GLFW Windows was created";
+
+    glfwSetKeyCallback(window, keyCallback);
 }
 
 Window::~Window() {
@@ -53,5 +55,10 @@ void Window::update() {
 
 void Window::clear(float r, float g, float b) {
     glClearColor(r, g, b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_W && action == GLFW_PRESS)
+        std::cout << key << std::endl;
 }

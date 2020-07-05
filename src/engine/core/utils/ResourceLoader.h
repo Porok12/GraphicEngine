@@ -12,7 +12,8 @@ using namespace boost::filesystem;
 enum ResourceType {
     SHADER,
     TEXTURE,
-    MODEL
+    MODEL,
+    FONT
 };
 
 class ResourceLoader {

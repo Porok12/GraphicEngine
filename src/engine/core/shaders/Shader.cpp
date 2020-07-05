@@ -56,3 +56,7 @@ std::string Shader::loadFromFile(const char *filePath) {
 GLuint Shader::getId() {
     return this->shader;
 }
+
+Shader::~Shader() {
+    glDeleteShader(this->shader);
+}

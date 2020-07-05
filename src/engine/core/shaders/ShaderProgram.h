@@ -12,16 +12,16 @@ class ShaderProgram {
 private:
     GLuint program;
 
-    void checkForErrors();
-    void compile();
+    void checkForErrors(const char* name);
 public:
     ShaderProgram(const char * name);
     ~ShaderProgram();
 
     ShaderProgram& use();
     ShaderProgram& setMatrix4(std::string name, Mat4 mat4);
+    ShaderProgram& set3f(std::string name, float x, float y, float z);
 
-    GLuint getId();
+    GLuint getId() const;
 };
 
 #endif // SHADERPROGRAM_H
