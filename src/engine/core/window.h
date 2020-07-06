@@ -1,27 +1,35 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <boost/log/trivial.hpp>
+#include <iostream>
+#include <memory>
+#include "exception/InitException.h"
+#include "InputHandler.h"
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <boost/log/trivial.hpp>
-#include "exception/InitException.h"
-#include <iostream>
+struct DestroyGLFW {
+    void operator()(GLFWwindow* ptr) {
+        glfwDestroyWindow(ptr);
+    }
+};
+
+typedef std::unique_ptr<GLFWwindow, DestroyGLFW> SmartWindow;
 
 class Window {
 private:
-    GLFWwindow* window;
-    static void keyCallback(GLFWwindow* window,
-                     int key,
-                     int scancode,
-                     int action,
-                     int mods);
+    SmartWindow window;
 public:
     Window(int width, int height, const char* title);
     ~Window();
 
     int shouldClose();
     void swapBuffers();
+    void getCursor(double &x, double &y);
+
+    bool mouseButtonLeft();
 
     void update();
 
