@@ -2,6 +2,8 @@
 #define FONTRENDERER_H
 
 #include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <string>
 #include <math/Vec3.h>
 #include <math/Vec2.h>
@@ -17,10 +19,12 @@ private:
     float x, y;
     float scale;
     Mat4 projection;
-    std::weak_ptr<ShaderProgram> ptr;
+    std::weak_ptr<ShaderProgram> program;
     std::weak_ptr<Font> font;
-public:
+    static std::shared_ptr<FontRenderer> instance;
+
     FontRenderer();
+public:
 
     FontRenderer& setProgram(std::shared_ptr<ShaderProgram> &program);
     FontRenderer& setFont(std::shared_ptr<Font>& font);
@@ -31,6 +35,7 @@ public:
     FontRenderer& setPosition(const float& x, const float& y);
     FontRenderer& setProjection(const Mat4& projection);
 
+    static std::shared_ptr<FontRenderer> getInstance();
 
     void render(std::string text);
 };

@@ -1,5 +1,7 @@
 #include "FontRenderer.h"
 
+std::shared_ptr<FontRenderer> FontRenderer::instance;
+
 FontRenderer::FontRenderer() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -15,7 +17,7 @@ FontRenderer::FontRenderer() {
 void FontRenderer::render(std::string text) {
     float x = this->x;
     float y = this->y;
-    ptr.lock()->use().set3f("color", r, g, b).setMatrix4("ortho", projection);
+    program.lock()->use().set3f("color", r, g, b).setMatrix4("ortho", projection);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
@@ -39,10 +41,10 @@ void FontRenderer::render(std::string text) {
                 { xpos + w, ypos + h,   1.0f, 0.0f }
         };
 
-        for (auto &vertice : vertices) {
-            vertice[0] /= 800.0f;
-            vertice[1] /= 600.0f;
-        }
+//        for (auto &vertice : vertices) {
+//            vertice[0] /= 800.0f;
+//            vertice[1] /= 600.0f;
+//        }
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -53,6 +55,8 @@ void FontRenderer::render(std::string text) {
 
         x += (ch.Advance >> 6) * scale;
     }
+
+//    std::cout << "Width: " << x - this->x << std::endl;
 
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -80,7 +84,7 @@ FontRenderer &FontRenderer::setPosition(const iVec2 &pos) {
 }
 
 FontRenderer &FontRenderer::setProgram(std::shared_ptr<ShaderProgram> &program) {
-    this->ptr = program;
+    this->program = program;
     return *this;
 }
 
@@ -97,6 +101,14 @@ FontRenderer &FontRenderer::setFont(std::shared_ptr<Font>& font) {
 FontRenderer &FontRenderer::setProjection(const Mat4 &projection) {
     this->projection = projection;
     return *this;
+}
+
+std::shared_ptr<FontRenderer> FontRenderer::getInstance() {
+    if (!instance) {
+        instance = std::shared_ptr<FontRenderer>(new FontRenderer());
+    }
+
+    return instance;
 }
 
 
