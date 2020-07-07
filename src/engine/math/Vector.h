@@ -36,14 +36,15 @@ public:
 template <class type>
 class Property {
 private:
-    type* ptr;
+    type* const ptr;
 public:
+    Property(type* const ptr) : ptr(ptr) { }
+
     type& operator+=(const type &i) { return *ptr += i; }
     type& operator-=(const type &i) { return *ptr -= i; }
     type& operator= (const type &i) { return *ptr = i; }
+    type& operator= (const Property &p) { return *ptr = *p.ptr; }
     operator type() const { return *ptr; }
-
-    Property(type* ptr) { this->ptr = ptr; }
 };
 
 

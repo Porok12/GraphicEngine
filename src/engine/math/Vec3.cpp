@@ -3,10 +3,12 @@
 template<class type>
 Vec3<type>::Vec3(Vector<type, 3> v)
         : Vector<type, 3>({v[0], v[1], v[2]}),
-          x(Property<type>(&v[0])),
-          y(Property<type>(&v[1])),
-          z(Property<type>(&v[2])) {
-
+          x(Property<type>(&this->array[0])),
+          y(Property<type>(&this->array[1])),
+          z(Property<type>(&this->array[2])) {
+    this->array[0] = v[0];
+    this->array[1] = v[1];
+    this->array[2] = v[2];
 }
 
 template<class type>
@@ -63,10 +65,17 @@ fVec3::fVec3(const fVec3 &v) {
     array[0] = v.array[0];
     array[1] = v.array[1];
     array[2] = v.array[2];
+    this->x = this->array[0];
+    this->y = this->array[1];
+    this->z = this->array[2];
 }
 
 fVec3::fVec3(Vec3<float> v)
-        : Vec3<float>(v.x, v.y, v.z) { }
+        : Vec3<float>(v.x, v.y, v.z) {
+    this->x = this->array[0];
+    this->y = this->array[1];
+    this->z = this->array[2];
+}
 
 fVec3 fVec3::cross(const fVec3 &other) {
     return Vec3<float>::cross(other);
