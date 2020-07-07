@@ -5,11 +5,21 @@
 
 class Rectangle : public Shape {
 public:
-    int x, y;
+//    int x, y;
     int w, h;
 
-    Rectangle(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {
+    Rectangle(int x, int y, int w, int h)
+            : Shape(x, y), w(w), h(h) {
 
+    }
+
+    bool contains(const double &x, const double &y) override {
+        if (x >= this->x && x <= this->x + this->w) {
+            if (y >= this->y && y <= this->y + this->h) {
+                return true;
+            }
+        }
+        return false;
     }
 };
 

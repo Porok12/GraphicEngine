@@ -13,29 +13,27 @@
 class PrimitiveRenderer {
 private:
     GLuint VAO, VBO;
-    float r, g, b;
+    fVec3 color;
     float x, y;
-    float scale;
-    Mat4 projection;
-    std::weak_ptr<ShaderProgram> ptr;
+    float transparency = 0.5f;
+    std::weak_ptr<ShaderProgram> program;
 
-    bool isIn(double d, double d1);
-public:
+    static std::unique_ptr<PrimitiveRenderer> renderer;
     PrimitiveRenderer();
+public:
 
     virtual ~PrimitiveRenderer();
+    static PrimitiveRenderer* getInstance();
 
-    PrimitiveRenderer& setProgram(std::shared_ptr<ShaderProgram> &program);
-//    PrimitiveRenderer& setFont(std::shared_ptr<Font>& font);
-    PrimitiveRenderer& setScale(const float& scale);
-    PrimitiveRenderer& setColor(const iVec3& color);
-    PrimitiveRenderer& setColor(const float& r, const float& g, const float& b);
-    PrimitiveRenderer& setPosition(const iVec2& pos);
-    PrimitiveRenderer& setPosition(const float& x, const float& y);
-    PrimitiveRenderer& setProjection(const Mat4& projection);
+    PrimitiveRenderer* setProgram(std::shared_ptr<ShaderProgram> &program);
+    PrimitiveRenderer* setTransparency(const float &transparency);
+    PrimitiveRenderer* setColor(const fVec3& color);
+    PrimitiveRenderer* setColor(const float r, const float g, const float b);
+    PrimitiveRenderer* setPosition(const iVec2& pos);
+    PrimitiveRenderer* setPosition(const float& x, const float& y);
 
-    void render(std::string text, double xx, double yy);
     void render(Rectangle shape);
+    void render(const Rectangle* rectangle);
 };
 
 #endif // PRIMITIVERENDERER_H
