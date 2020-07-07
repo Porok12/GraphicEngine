@@ -1,9 +1,5 @@
 #include "UIRenderer.h"
 
-void GUIRenderer::render(UIElement *elem) {
-    elem->draw();
-}
-
 GUIRenderer & GUIRenderer::setProgram(std::shared_ptr<ShaderProgram> &program) {
     this->program = program;
     return *this;
