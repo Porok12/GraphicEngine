@@ -14,7 +14,7 @@ enum MouseButton {
     RIGHT_BUTTON
 };
 
-typedef std::function<void ()> MousePressed;
+typedef std::function<void (const double &x, const double &y)> MousePressed;
 typedef std::function<void (const double &x, const double &y)> CursorPosition;
 typedef std::function<void (const int& key)> KeyPressed;
 typedef std::function<void (const double &x, const double &y)> ScrollOffset;
@@ -22,7 +22,8 @@ typedef std::function<void (const unsigned int&)> CharacterCode;
 
 class InputHandler {
 private:
-    static bool leftButton;
+    static double x, y;
+    static bool buttons[];
     static bool keys[];
     static std::vector<MousePressed> mousePressedListeners;
     static std::vector<CursorPosition> cursorPositionListeners;

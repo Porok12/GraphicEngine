@@ -5,8 +5,9 @@ std::vector<CursorPosition> InputHandler::cursorPositionListeners;
 std::vector<KeyPressed> InputHandler::keyPressedListeners;
 std::vector<ScrollOffset> InputHandler::scrollOffsetListeners;
 std::vector<CharacterCode> InputHandler::charactersListeners;
-bool InputHandler::leftButton = false;
+bool InputHandler::buttons[8];
 bool InputHandler::keys[128];
+double InputHandler::x, InputHandler::y;
 
 void InputHandler::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
     if (action == GLFW_RELEASE && keys[key]) {
@@ -28,16 +29,18 @@ void InputHandler::cursorPositionCallback(GLFWwindow* window, double xpos, doubl
     for (const auto &listener: cursorPositionListeners) {
         listener(xpos, ypos);
     }
+    InputHandler::x = xpos;
+    InputHandler::y = ypos;
 }
 
 void InputHandler::mouseButtonCallback(GLFWwindow *window, int btn, int action, int mods) {
-    if (action == GLFW_RELEASE && leftButton) {
+    if (action == GLFW_RELEASE && buttons[btn]) {
         for(const auto &listener: mousePressedListeners) {
-            listener();
+            listener(InputHandler::x, InputHandler::y);
         }
     }
 
-    leftButton = action != GLFW_RELEASE;
+    buttons[btn] = action != GLFW_RELEASE;
 }
 
 void InputHandler::scrollCallback(GLFWwindow* window, double xoffset, double yoffset) {
