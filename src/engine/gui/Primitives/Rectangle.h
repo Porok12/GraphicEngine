@@ -5,10 +5,9 @@
 
 class Rectangle : public Shape {
 public:
-//    int x, y;
-    int w, h;
+    float w, h;
 
-    Rectangle(int x, int y, int w, int h)
+    Rectangle(float x, float y, float w, float h)
             : Shape(x, y), w(w), h(h) {
 
     }

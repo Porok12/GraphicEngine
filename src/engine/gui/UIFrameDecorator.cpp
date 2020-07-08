@@ -11,5 +11,6 @@ UIFrameDecorator::UIFrameDecorator(UIFrame *frame) : UIFrame(frame) {
 
 void UIFrameDecorator::draw(float offsetX, float offsetY) {
     UIFrame::draw(offsetX, offsetY);
-    PrimitiveRenderer::getInstance()->render(new Rectangle(frame->getShape()->x,frame->getShape()->y,20,20));
+//    PrimitiveRenderer::getInstance()->render(new Rectangle(frame->getShape()->x,frame->getShape()->y,20,20));
+    PrimitiveRenderer::getInstance()->render(new Circle(frame->getShape()->x,frame->getShape()->y, 20), 4);
 }

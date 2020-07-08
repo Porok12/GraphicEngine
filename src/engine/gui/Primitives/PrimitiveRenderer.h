@@ -2,6 +2,7 @@
 #define PRIMITIVERENDERER_H
 
 #include <GL/glew.h>
+#include <array>
 
 #include <math/Mat4.h>
 #include <core/shaders/ShaderProgram.h>
@@ -9,6 +10,7 @@
 
 #include "Shape.h"
 #include "Rectangle.h"
+#include "Circle.h"
 
 class PrimitiveRenderer {
 private:
@@ -34,6 +36,7 @@ public:
 
     void render(Rectangle shape);
     void render(const Rectangle* rectangle);
+    void render(const Circle* circle, int fact);
 };
 
 #endif // PRIMITIVERENDERER_H
