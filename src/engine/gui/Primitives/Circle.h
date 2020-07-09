@@ -17,8 +17,8 @@ public:
         return (x - this->x) * (x - this->x) + (y - this->y) * (y - this->y) <= radius * radius;
     }
 
-    fVec3 endPoint() override {
-        return fVec3(x+radius, y+radius, 0.0f);
+    fVec4 getTextBox() override {
+        return fVec4(x-radius, y-radius, x+radius, y+radius);
     }
 };
 

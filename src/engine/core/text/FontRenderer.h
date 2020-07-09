@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <math/Vec4.h>
 #include <math/Vec3.h>
 #include <math/Vec2.h>
 #include <memory>
@@ -24,7 +25,7 @@ private:
     static std::shared_ptr<FontRenderer> instance;
 
     float textWidth(std::string text);
-    float maxX, maxY;
+    fVec4 textBox;
 
     FontRenderer();
 public:
@@ -37,7 +38,7 @@ public:
     FontRenderer& setPosition(const iVec2& pos);
     FontRenderer& setPosition(const float& x, const float& y);
     FontRenderer& setProjection(const Mat4& projection);
-    FontRenderer& setMax(float x, float y);
+    FontRenderer& setTextBox(const fVec4& box);
 
     static std::shared_ptr<FontRenderer> getInstance();
 

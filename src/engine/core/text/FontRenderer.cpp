@@ -44,8 +44,8 @@ void FontRenderer::render(std::string text) {
         };
 
         for (auto &v : vertices) {
-            v[0] += (maxX - width)/2;
-            v[1] += (maxY - height)/2;
+            v[0] += (textBox.z - textBox.x - width)/2;
+            v[1] += (textBox.w - textBox.y - height)/2;
         }
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
@@ -57,8 +57,6 @@ void FontRenderer::render(std::string text) {
 
         x += (ch.Advance >> 6) * scale;
     }
-
-//    std::cout << "Width: " << x - this->x << std::endl;
 
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -114,18 +112,17 @@ std::shared_ptr<FontRenderer> FontRenderer::getInstance() {
 }
 
 float FontRenderer::textWidth(std::string text) {
-    float width;
-    for (auto c = text.begin(); c != text.end(); c++) {
+    float width = 0.0f;
+    for (char &c : text) {
         if (auto f = font.lock()) {
-            width += (f->getCharacters().at(*c).Advance >> 6) * scale;
+            width += (f->getCharacters().at(c).Advance >> 6) * scale;
         }
     }
     return width;
 }
 
-FontRenderer &FontRenderer::setMax(float x, float y) {
-    this->maxX = x;
-    this->maxY = y;
+FontRenderer &FontRenderer::setTextBox(const fVec4& box) {
+    this->textBox = box;
     return *this;
 }
 

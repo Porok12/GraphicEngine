@@ -21,8 +21,8 @@ public:
         return false;
     }
 
-    fVec3 endPoint() override {
-        return fVec3(x+w, y+h, 0.0f);
+    fVec4 getTextBox() override {
+        return fVec4(x, y, x+w, y+h);
     }
 };
 

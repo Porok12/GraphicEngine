@@ -29,17 +29,15 @@ void UIComposite::draw() {
 void UIComposite::click(const double &x, const double &y) {
     if (shape->contains(x, y)) {
         for(const auto& ch: children) {
-            ch->click(x, y);
+            ch->click(x-shape->x, y-shape->y);
         }
     }
 }
 
 void UIComposite::cursor(const double &x, const double &y) {
-//    std::cout << shape->x << std::endl;
     if (shape->contains(x, y)) {
         for(const auto& ch: children) {
             ch->cursor(x-shape->x, y-shape->y);
-//            ch->cursor(x, y);
         }
     }
 }

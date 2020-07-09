@@ -11,7 +11,8 @@ UIFrameDecorator::UIFrameDecorator(UIFrame *frame) : UIFrame(frame) {
 
 void UIFrameDecorator::draw() {
     UIFrame::draw();
-//    PrimitiveRenderer::getInstance()->render(new Rectangle(frame->getShape()->x,frame->getShape()->y,20,20));
-    auto ptr = std::shared_ptr<Shape>(new Circle(frame->getShape()->x,frame->getShape()->y, 20));
-    PrimitiveRenderer::getInstance()->render(ptr);
+    if (auto rect = std::dynamic_pointer_cast<Rectangle>(shape)) {
+        auto ptr = std::make_shared<Rectangle>(rect->x+rect->w-20, rect->y, 20, rect->h);
+        PrimitiveRenderer::getInstance()->setOffset(fVec3(0, 0, 0))->setColor(0, 1, 0)->render(ptr);
+    }
 }

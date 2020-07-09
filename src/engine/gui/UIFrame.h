@@ -10,8 +10,6 @@ class UIFrame : public UIComposite {
 public:
     UIFrame(const std::shared_ptr<Shape> &shape);
     UIFrame(const std::shared_ptr<UIFrame> &frame);
-//    UIFrame(const std::shared_ptr<Circle> &shared_ptr);
-
     UIFrame(UIFrame *frame);
 
     void draw() override;

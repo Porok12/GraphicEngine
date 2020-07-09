@@ -6,9 +6,6 @@
 #include <math/Vec2.h>
 
 class UIComponent {
-private:
-//    fVec2 offset;
-
 protected:
     std::shared_ptr<Shape> shape;
     std::weak_ptr<UIComponent> parent;

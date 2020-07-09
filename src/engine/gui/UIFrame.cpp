@@ -8,10 +8,6 @@ UIFrame::UIFrame(const std::shared_ptr<UIFrame> &frame) : UIFrame(frame->shape) 
 
 }
 
-//UIFrame::UIFrame(const std::shared_ptr<Circle> &shape) : UIFrame(shape) {
-//
-//}
-
 UIFrame::UIFrame(UIFrame *frame) : UIFrame(frame->shape) {
 
 }

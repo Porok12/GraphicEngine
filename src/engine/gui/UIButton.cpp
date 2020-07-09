@@ -9,19 +9,10 @@ void UIButton::addCursorCallback(std::function<void(UIButton*)> onCoursor) {
 }
 
 void UIButton::draw() {
-//    std::cout << parent.use_count() << std::endl;
-
-//    if (auto p = parent.lock()) {
-//        //shape->x += p->getShape()->x;
-//    }
-
-    //TODO: Render text
-
-//    std::cout << shape << std::endl;
     PrimitiveRenderer::getInstance()->setColor(backgroundColor)->setOffset(fVec3(getOffset().x, getOffset().y, 0))->render(shape);
     FontRenderer::getInstance()->setPosition(shape->x+getOffset().x, shape->y+getOffset().y)
             .setScale(0.5f)
-            .setMax(shape->endPoint().x-shape->x, shape->endPoint().y-shape->y)
+            .setTextBox(shape->getTextBox())
             .render(text);
 };
 
