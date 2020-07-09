@@ -68,7 +68,7 @@ Mat4 Mat4::lookAt(const fVec3 &pos, const fVec3 &tar) {
     fVec3 forward = (pos - tar);
     forward.normalize();
     fVec3 right = up.cross(forward);
-    up = forward.cross(right);;
+    up = forward.cross(right);
     up.normalize();
 
     Mat4 mat;

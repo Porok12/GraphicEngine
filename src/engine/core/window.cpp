@@ -11,7 +11,7 @@ Window::Window(int width, int height, const char* title) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(width, height, title, NULL, NULL);
+    window = SmartWindow(glfwCreateWindow(width, height, title, nullptr, nullptr));
 
     if (!window) {
         BOOST_LOG_TRIVIAL(error) << "Failed to create GLFW window";
@@ -19,7 +19,7 @@ Window::Window(int width, int height, const char* title) {
         throw InitException();
     }
 
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window.get());
 
     glewExperimental = GL_TRUE;
     GLenum status = glewInit();
@@ -33,7 +33,18 @@ Window::Window(int width, int height, const char* title) {
 
     BOOST_LOG_TRIVIAL(debug) << "GLFW Windows was created";
 
-    glfwSetKeyCallback(window, keyCallback);
+
+//    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+//    if (glfwRawMouseMotionSupported())
+//        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+
+    glfwSetWindowSizeCallback(window.get(), [](GLFWwindow* window, int w, int h){glViewport(0, 0, w, h);});
+    glfwSetMouseButtonCallback(window.get(), InputHandler::mouseButtonCallback);
+    glfwSetCursorPosCallback(window.get(), InputHandler::cursorPositionCallback);
+    glfwSetKeyCallback(window.get(), InputHandler::keyCallback);
+    glfwSetCharCallback(window.get(), InputHandler::characterCallback);
+    glfwSetScrollCallback(window.get(), InputHandler::scrollCallback);
+    glfwSetDropCallback(window.get(), InputHandler::dropCallback);
 }
 
 Window::~Window() {
@@ -41,15 +52,15 @@ Window::~Window() {
 }
 
 int Window::shouldClose() {
-    return glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(window);
+    return glfwGetKey(window.get(), GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwWindowShouldClose(window.get());
 }
 
 void Window::swapBuffers() {
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(window.get());
 }
 
 void Window::update() {
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(window.get());
     glfwPollEvents();
 }
 
@@ -58,7 +69,10 @@ void Window::clear(float r, float g, float b) {
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
-    if (key == GLFW_KEY_W && action == GLFW_PRESS)
-        std::cout << key << std::endl;
+void Window::getCursor(double &x, double &y) {
+    glfwGetCursorPos(window.get(), &x, &y);
+}
+
+bool Window::mouseButtonLeft() {
+    return glfwGetMouseButton(window.get(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
 }

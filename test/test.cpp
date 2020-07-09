@@ -116,6 +116,39 @@ BOOST_AUTO_TEST_SUITE(math_fvec3_suite)
         BOOST_CHECK_CLOSE(vec2[2], 1, 0.01);
     }
 
+    BOOST_AUTO_TEST_CASE(assigment2) {
+        fVec3 vec(1.0f);
+        BOOST_CHECK_CLOSE((float)vec.x, 1.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec[0], 1.0f, 0.01);
+        vec.x = 2.0f;
+        BOOST_CHECK_CLOSE((float)vec.x, 2.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec[0], 2.0f, 0.01);
+        vec[0] = 3.0f;
+        BOOST_CHECK_CLOSE((float)vec.x, 3.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec[0], 3.0f, 0.01);
+        vec = fVec3(0.0f);
+        BOOST_CHECK_CLOSE((float)vec.x, 0.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec[0], 0.0f, 0.01);
+
+        fVec3 vec2(1.0f);
+        BOOST_CHECK_CLOSE((float)vec2.x, 1.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec2[0], 1.0f, 0.01);
+        vec = vec2;
+        BOOST_CHECK_CLOSE((float)vec.x, 1.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec[0], 1.0f, 0.01);
+        vec[0] = 2.0f;
+        vec.y = 2.0f;
+        BOOST_CHECK_CLOSE((float)vec2.x, 1.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec2[0], 1.0f, 0.01);
+        BOOST_CHECK_CLOSE((float)vec2.y, 1.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec2[1], 1.0f, 0.01);
+
+        BOOST_CHECK_CLOSE((float)vec.x, 2.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec[0], 2.0f, 0.01);
+        BOOST_CHECK_CLOSE((float)vec.y, 2.0f, 0.01);
+        BOOST_CHECK_CLOSE(vec[1], 2.0f, 0.01);
+    }
+
     BOOST_AUTO_TEST_CASE(dot_product) {
         fVec3 vec1(1, 3, -5);
         fVec3 vec2(4, -2, -1);
@@ -199,10 +232,10 @@ BOOST_AUTO_TEST_SUITE(math_mat4_suitex)
         BOOST_CHECK_CLOSE(mat[loc(1, 1)], 0.988, precision);
         BOOST_CHECK_CLOSE(mat[loc(2, 2)], 0.994, precision);
         BOOST_CHECK_CLOSE(mat[loc(3, 3)], 1.000, precision);
-        BOOST_CHECK_CLOSE(mat[loc(2, 1)], -0.109, precision);
-        BOOST_CHECK_CLOSE(mat[loc(1, 2)], 0.108, precision);
-        BOOST_CHECK_CLOSE(mat[loc(1, 3)], 4.446, precision);
-        BOOST_CHECK_CLOSE(mat[loc(2, 3)], -50.793, precision);
+        BOOST_CHECK_CLOSE(mat[loc(1, 2)], -0.109, precision);
+        BOOST_CHECK_CLOSE(mat[loc(2, 1)], 0.108, precision);
+        BOOST_CHECK_CLOSE(mat[loc(3, 1)], 4.446, precision);
+        BOOST_CHECK_CLOSE(mat[loc(3, 2)], -50.793, precision);
     }
 
     BOOST_AUTO_TEST_CASE(multiply) {
@@ -220,7 +253,7 @@ BOOST_AUTO_TEST_SUITE(math_mat4_suitex)
         double precision = 0.1; //%
         for (int m = 0; m < 4; ++m) {
             for (int n = 0; n < 4; ++n) {
-                BOOST_CHECK_CLOSE(mat[loc(m, n)], 0, precision);
+                BOOST_CHECK_CLOSE(mat[loc(m, n)], (m+n)%2 ? 2 : 0, precision);
             }
         }
     }

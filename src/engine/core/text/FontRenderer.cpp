@@ -1,5 +1,7 @@
 #include "FontRenderer.h"
 
+std::shared_ptr<FontRenderer> FontRenderer::instance;
+
 FontRenderer::FontRenderer() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -15,7 +17,9 @@ FontRenderer::FontRenderer() {
 void FontRenderer::render(std::string text) {
     float x = this->x;
     float y = this->y;
-    ptr.lock()->use().set3f("color", r, g, b).setMatrix4("ortho", projection);
+    program.lock()->use().set3f("color", r, g, b).setMatrix4("ortho", projection);
+    float width = this->textWidth(text);
+    float height = font.lock()->getCharacters().at('X').Size.y * scale;
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
@@ -39,9 +43,9 @@ void FontRenderer::render(std::string text) {
                 { xpos + w, ypos + h,   1.0f, 0.0f }
         };
 
-        for (auto &vertice : vertices) {
-            vertice[0] /= 800.0f;
-            vertice[1] /= 600.0f;
+        for (auto &v : vertices) {
+            v[0] += (textBox.z - textBox.x - width)/2;
+            v[1] += (textBox.w - textBox.y - height)/2;
         }
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
@@ -80,7 +84,7 @@ FontRenderer &FontRenderer::setPosition(const iVec2 &pos) {
 }
 
 FontRenderer &FontRenderer::setProgram(std::shared_ptr<ShaderProgram> &program) {
-    this->ptr = program;
+    this->program = program;
     return *this;
 }
 
@@ -96,6 +100,29 @@ FontRenderer &FontRenderer::setFont(std::shared_ptr<Font>& font) {
 
 FontRenderer &FontRenderer::setProjection(const Mat4 &projection) {
     this->projection = projection;
+    return *this;
+}
+
+std::shared_ptr<FontRenderer> FontRenderer::getInstance() {
+    if (!instance) {
+        instance = std::shared_ptr<FontRenderer>(new FontRenderer());
+    }
+
+    return instance;
+}
+
+float FontRenderer::textWidth(std::string text) {
+    float width = 0.0f;
+    for (char &c : text) {
+        if (auto f = font.lock()) {
+            width += (f->getCharacters().at(c).Advance >> 6) * scale;
+        }
+    }
+    return width;
+}
+
+FontRenderer &FontRenderer::setTextBox(const fVec4& box) {
+    this->textBox = box;
     return *this;
 }
 
