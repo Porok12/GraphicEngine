@@ -38,6 +38,7 @@ Window::Window(int width, int height, const char* title) {
 //    if (glfwRawMouseMotionSupported())
 //        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
+    glfwSetWindowSizeCallback(window.get(), [](GLFWwindow* window, int w, int h){glViewport(0, 0, w, h);});
     glfwSetMouseButtonCallback(window.get(), InputHandler::mouseButtonCallback);
     glfwSetCursorPosCallback(window.get(), InputHandler::cursorPositionCallback);
     glfwSetKeyCallback(window.get(), InputHandler::keyCallback);

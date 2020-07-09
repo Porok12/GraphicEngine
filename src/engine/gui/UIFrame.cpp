@@ -8,11 +8,15 @@ UIFrame::UIFrame(const std::shared_ptr<UIFrame> &frame) : UIFrame(frame->shape) 
 
 }
 
+//UIFrame::UIFrame(const std::shared_ptr<Circle> &shape) : UIFrame(shape) {
+//
+//}
+
 UIFrame::UIFrame(UIFrame *frame) : UIFrame(frame->shape) {
 
 }
 
-void UIFrame::draw(float offsetX, float offsetY) {
-    PrimitiveRenderer::getInstance()->setColor(fVec3(0.2f, 0.5f, 0.8f))->render(std::dynamic_pointer_cast<Rectangle>(shape).get());
-    UIComposite::draw(0, 0);
+void UIFrame::draw() {
+    PrimitiveRenderer::getInstance()->setColor(fVec3(0.2f, 0.5f, 0.8f))->setOffset(fVec3(getOffset().x, getOffset().y, 0))->render(shape);
+    UIComposite::draw();
 }

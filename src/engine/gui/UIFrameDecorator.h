@@ -11,7 +11,7 @@ public:
     UIFrameDecorator(const std::shared_ptr<UIFrame> &frame);
     UIFrameDecorator(UIFrame *frame);
 
-    void draw(float offsetX, float offsetY) override;
+    void draw() override;
 };
 
 #endif // UIFRAMEDECORATOR_H

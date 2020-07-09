@@ -47,24 +47,20 @@ PrimitiveRenderer *PrimitiveRenderer::setPosition(const float &x, const float &y
     return this;
 }
 
-void PrimitiveRenderer::render(Rectangle rect) {
-    //TODO:
-    float vertices[6][7] = {
-            { rect.x,          rect.y + rect.h, 0.0f,   color.x, color.y, color.z, transparency },
-            { rect.x,          rect.y,          0.0f,   color.x, color.y, color.z, transparency },
-            { rect.x + rect.w, rect.y,          0.0f,   color.x, color.y, color.z, transparency },
-            { rect.x,          rect.y + rect.h, 0.0f,   color.x, color.y, color.z, transparency },
-            { rect.x + rect.w, rect.y,          0.0f,   color.x, color.y, color.z, transparency },
-            { rect.x + rect.w, rect.y + rect.h, 0.0f,   color.x, color.y, color.z, transparency }
-    };
+void PrimitiveRenderer::render(const std::shared_ptr<Shape> &shape) {
+    auto rectangle = std::dynamic_pointer_cast<Rectangle>(shape);
+    if(rectangle) {
+        render(rectangle.get());
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    } else {
+        auto circle = std::dynamic_pointer_cast<Circle>(shape);
+        if (circle) {
+            render(circle.get(), circle->resolution);
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
+        } else {
+            BOOST_LOG_TRIVIAL(error) << "Not supported type";
+        }
+    }
 }
 
 void PrimitiveRenderer::render(const Rectangle* rect) {
@@ -79,6 +75,11 @@ void PrimitiveRenderer::render(const Rectangle* rect) {
             { rect->x + rect->w, rect->y,           0.0f,   color.x, color.y, color.z, transparency },
             { rect->x + rect->w, rect->y + rect->h, 0.0f,   color.x, color.y, color.z, transparency }
     };
+
+    for (int i = 0; i < 6; i++) {
+        vertices[i][0] += offset.x;
+        vertices[i][1] += offset.y;
+    }
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -107,12 +108,13 @@ PrimitiveRenderer *PrimitiveRenderer::setProgram(std::shared_ptr<ShaderProgram> 
     return this;
 }
 
-void PrimitiveRenderer::render(const Circle *circle, int fact) {
+void PrimitiveRenderer::render(const Circle *circle, float fact) {
     program.lock()->use();
 
-    fact = 16;
-    float f = (360.0f / fact);
-    fact += 2;
+    int it = static_cast<int>(fact * (8 + circle->radius / 10));
+
+    float f = (360.0f / it);
+    it += 2;
 
     auto D2R = static_cast<float>(M_PI / 180.0f);
     float step = f * D2R;
@@ -124,18 +126,28 @@ void PrimitiveRenderer::render(const Circle *circle, int fact) {
     this->y = circle->y;
 
     vertices.at(0) = {this->x, this->y, 0.0f, color.x, color.y, color.z, transparency};
-    for (unsigned int i = 1; i < fact; i++) {
+    for (unsigned int i = 1; i < it; i++) {
         vertices.at(i) = {this->x + circle->radius*std::sin(angle),
                           this->y + circle->radius*std::cos(angle),
                           0.0f, color.x, color.y, color.z, transparency};
         angle -= step;
     }
 
+    for (int i = 0; i < it; i++) {
+        vertices[i][0] += offset.x;
+        vertices[i][1] += offset.y;
+    }
+
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, 7*4*fact, vertices.data());
+    glBufferSubData(GL_ARRAY_BUFFER, 0, 7*4*it, vertices.data());
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, fact);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, it);
     glBindVertexArray(0);
+}
+
+PrimitiveRenderer *PrimitiveRenderer::setOffset(const fVec3 &offset) {
+    this->offset = offset;
+    return this;
 }

@@ -11,5 +11,5 @@ GUIRenderer &GUIRenderer::setProjection(Mat4 &projection) {
 }
 
 void GUIRenderer::render(UIComponent *elem) {
-    elem->draw(0, 0);
+    elem->draw();
 }

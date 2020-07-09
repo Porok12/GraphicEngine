@@ -19,6 +19,7 @@ private:
     float x, y;
     float transparency = 0.5f;
     std::weak_ptr<ShaderProgram> program;
+    fVec3 offset;
 
     static std::unique_ptr<PrimitiveRenderer> renderer;
     PrimitiveRenderer();
@@ -33,10 +34,13 @@ public:
     PrimitiveRenderer* setColor(const float r, const float g, const float b);
     PrimitiveRenderer* setPosition(const iVec2& pos);
     PrimitiveRenderer* setPosition(const float& x, const float& y);
+    PrimitiveRenderer* setOffset(const fVec3& offset);
 
-    void render(Rectangle shape);
+    void render(const std::shared_ptr<Shape> &shape);
+
+private:
     void render(const Rectangle* rectangle);
-    void render(const Circle* circle, int fact);
+    void render(const Circle* circle, float fact);
 };
 
 #endif // PRIMITIVERENDERER_H

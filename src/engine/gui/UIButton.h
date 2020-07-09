@@ -7,6 +7,7 @@
 #include <math/Vec3.h>
 #include <functional>
 #include <memory>
+#include <utility>
 #include "UIComponent.h"
 
 class UIButton : public UIComponent {
@@ -29,7 +30,7 @@ public:
     void addClickCallback(std::function<void()> onClick);
     void addCursorCallback(std::function<void(UIButton*)> onCoursor);
 
-    void draw(float offsetX, float offsetY) override;
+    void draw() override;
     void click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
 

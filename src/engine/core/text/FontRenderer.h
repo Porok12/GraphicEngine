@@ -23,6 +23,9 @@ private:
     std::weak_ptr<Font> font;
     static std::shared_ptr<FontRenderer> instance;
 
+    float textWidth(std::string text);
+    float maxX, maxY;
+
     FontRenderer();
 public:
 
@@ -34,6 +37,7 @@ public:
     FontRenderer& setPosition(const iVec2& pos);
     FontRenderer& setPosition(const float& x, const float& y);
     FontRenderer& setProjection(const Mat4& projection);
+    FontRenderer& setMax(float x, float y);
 
     static std::shared_ptr<FontRenderer> getInstance();
 

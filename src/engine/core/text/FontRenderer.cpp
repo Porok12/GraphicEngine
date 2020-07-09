@@ -18,6 +18,8 @@ void FontRenderer::render(std::string text) {
     float x = this->x;
     float y = this->y;
     program.lock()->use().set3f("color", r, g, b).setMatrix4("ortho", projection);
+    float width = this->textWidth(text);
+    float height = font.lock()->getCharacters().at('X').Size.y * scale;
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
@@ -41,10 +43,10 @@ void FontRenderer::render(std::string text) {
                 { xpos + w, ypos + h,   1.0f, 0.0f }
         };
 
-//        for (auto &vertice : vertices) {
-//            vertice[0] /= 800.0f;
-//            vertice[1] /= 600.0f;
-//        }
+        for (auto &v : vertices) {
+            v[0] += (maxX - width)/2;
+            v[1] += (maxY - height)/2;
+        }
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -109,6 +111,22 @@ std::shared_ptr<FontRenderer> FontRenderer::getInstance() {
     }
 
     return instance;
+}
+
+float FontRenderer::textWidth(std::string text) {
+    float width;
+    for (auto c = text.begin(); c != text.end(); c++) {
+        if (auto f = font.lock()) {
+            width += (f->getCharacters().at(*c).Advance >> 6) * scale;
+        }
+    }
+    return width;
+}
+
+FontRenderer &FontRenderer::setMax(float x, float y) {
+    this->maxX = x;
+    this->maxY = y;
+    return *this;
 }
 
 

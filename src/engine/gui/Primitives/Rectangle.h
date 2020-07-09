@@ -20,6 +20,10 @@ public:
         }
         return false;
     }
+
+    fVec3 endPoint() override {
+        return fVec3(x+w, y+h, 0.0f);
+    }
 };
 
 #endif // RECTANGLE_H

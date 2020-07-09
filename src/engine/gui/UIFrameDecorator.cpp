@@ -9,8 +9,9 @@ UIFrameDecorator::UIFrameDecorator(UIFrame *frame) : UIFrame(frame) {
     this->frame.reset(frame);
 }
 
-void UIFrameDecorator::draw(float offsetX, float offsetY) {
-    UIFrame::draw(offsetX, offsetY);
+void UIFrameDecorator::draw() {
+    UIFrame::draw();
 //    PrimitiveRenderer::getInstance()->render(new Rectangle(frame->getShape()->x,frame->getShape()->y,20,20));
-    PrimitiveRenderer::getInstance()->render(new Circle(frame->getShape()->x,frame->getShape()->y, 20), 4);
+    auto ptr = std::shared_ptr<Shape>(new Circle(frame->getShape()->x,frame->getShape()->y, 20));
+    PrimitiveRenderer::getInstance()->render(ptr);
 }
