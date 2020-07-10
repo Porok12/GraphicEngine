@@ -24,7 +24,11 @@ public:
 
     UIButton(const int &x, const int &y, const int &w, const int &h)
             : UIButton(std::make_shared<Rectangle>(x, y, w, h)) {
+    }
 
+    UIButton(std::string text, const int &x, const int &y, const int &w, const int &h)
+            : UIButton(std::make_shared<Rectangle>(x, y, w, h)) {
+        this->text = std::move(text);
     }
 
     void addClickCallback(std::function<void()> onClick);

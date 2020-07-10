@@ -50,3 +50,18 @@ ShaderProgram &ShaderProgram::set3f(std::string name, float x, float y, float z)
     glUniform3f(glGetUniformLocation(program, name.c_str()), x, y, z);
     return *this;
 }
+
+ShaderProgram &ShaderProgram::set4f(std::string name, float x, float y, float z, float w) {
+    glUniform4f(glGetUniformLocation(program, name.c_str()), x, y, z, w);
+    return *this;
+}
+
+ShaderProgram &ShaderProgram::set1i(std::string name, int i) {
+    glUniform1i(glGetUniformLocation(program, name.c_str()), i);
+    return *this;
+}
+
+ShaderProgram &ShaderProgram::set1f(std::string name, float f) {
+    glUniform1f(glGetUniformLocation(program, name.c_str()), f);
+    return *this;
+}
