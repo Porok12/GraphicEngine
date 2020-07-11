@@ -24,6 +24,8 @@
 #include <gui/UIFrameDecorator.h>
 #include <gui/UIStage.h>
 #include <core/particles/Particle.h>
+#include <core/particles/ParticleGenerator.h>
+#include <core/particles/ParticleRenderer.h>
 
 int main(int argc, char *argv[]) {
     Window window(800, 600, "Demo");
@@ -119,15 +121,22 @@ int main(int argc, char *argv[]) {
 
     rootScene = menuStage;
 
+    auto particleProgram = std::make_shared<ShaderProgram>("particle");
+    auto texture = ResourceLoader::loadTexture("particle.png");
+    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
 
-    particlesTest pt;
-    pt.init();
-    auto v = fVec3(0.0f);
+    ParticleGenerator pg(2.0f);
+
+    double lastTime, currentTime, deltaTime;
 
     while (!window.shouldClose()) {
         window.clear(0.3f, 0.3f, 0.3f);
+        currentTime = glfwGetTime();
 
-        pt.draw(projection, projection, v);
+        pg.update(deltaTime);
+        deltaTime = currentTime - lastTime;
+
+        ParticleRenderer::getInstance()->render(pg.getParticles(), pg.getLifeTime());
 
 //        modelProgram.use()
 //                .setMatrix4("projection", projection)
@@ -140,6 +149,7 @@ int main(int argc, char *argv[]) {
 //        guiProgram->use().setMatrix4("ortho", ortho2);
 //        guiRenderer.render(rootScene.get());
 
+        lastTime = currentTime;
         window.update();
     }
 
