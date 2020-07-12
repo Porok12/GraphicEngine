@@ -8,7 +8,7 @@ include_directories(../)
 add_library(core STATIC
         window.cpp window.h
         exception/InitException.h
-        shaders/Shader.cpp shaders/Shader.h shaders/ShaderLoader.cpp shaders/ShaderLoader.h shaders/ShaderProgram.cpp shaders/ShaderProgram.h utils/ResourceLoader.cpp utils/ResourceLoader.h models/Mesh.cpp models/Mesh.h models/Model.cpp models/Model.h text/FontLoader.cpp text/FontLoader.h text/FontRenderer.cpp text/FontRenderer.h text/Character.h text/Font.cpp text/Font.h InputHandler.cpp InputHandler.h particles/Particle.h particles/ParticleGenerator.cpp particles/ParticleGenerator.h particles/ParticleRenderer.cpp particles/ParticleRenderer.h Camera.cpp Camera.h)
+        shaders/Shader.cpp shaders/Shader.h shaders/ShaderLoader.cpp shaders/ShaderLoader.h shaders/ShaderProgram.cpp shaders/ShaderProgram.h utils/ResourceLoader.cpp utils/ResourceLoader.h models/Mesh.cpp models/Mesh.h models/Model.cpp models/Model.h text/FontLoader.cpp text/FontLoader.h text/FontRenderer.cpp text/FontRenderer.h text/Character.h text/Font.cpp text/Font.h InputHandler.cpp InputHandler.h particles/Particle.h particles/ParticleGenerator.cpp particles/ParticleGenerator.h particles/ParticleRenderer.cpp particles/ParticleRenderer.h Camera.cpp Camera.h models/ModelRenderer.cpp models/ModelRenderer.h)
 
 set_target_properties(core PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(core ${Boost_LIBRARIES})

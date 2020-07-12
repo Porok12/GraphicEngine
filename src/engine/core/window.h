@@ -21,6 +21,7 @@ typedef std::unique_ptr<GLFWwindow, DestroyGLFW> SmartWindow;
 class Window {
 private:
     SmartWindow window;
+    bool cursorEnabled;
 public:
     Window(int width, int height, const char* title);
     ~Window();
@@ -29,6 +30,7 @@ public:
     void swapBuffers();
     void getCursor(double &x, double &y);
     int getKey(int key);
+    void toggleCursor();
 
     bool mouseButtonLeft();
 

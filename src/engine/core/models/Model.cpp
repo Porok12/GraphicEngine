@@ -135,8 +135,14 @@ void Model::setFakeNormals() {
     }
 }
 
-void Model::draw(ShaderProgram &shaderProgram) {
-    for(unsigned int i = 0; i < meshes.size(); i++) {
+void Model::draw(const ShaderProgram &shaderProgram) const {
+    for (unsigned int i = 0; i < meshes.size(); i++) {
         meshes[i].draw(shaderProgram);
     }
 }
+
+//void Model::draw(const ShaderProgram *shaderProgram) {
+//    for (unsigned int i = 0; i < meshes.size(); i++) {
+////        meshes[i].draw(*shaderProgram);
+//    }
+//}

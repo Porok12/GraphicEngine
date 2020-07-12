@@ -4,10 +4,9 @@ void ParticleGenerator::init() {
     particles.emplace_back(std::make_shared<Particle>(fVec3(0,2,-5), lifeTime));
     rate = 0.3f;
     curr = 0.0f;
-    velocity;
 }
 
-ParticleGenerator::ParticleGenerator(float lifeTime)
+ParticleGenerator::ParticleGenerator(const float &lifeTime)
         : lifeTime(lifeTime), velocity(0.0f) {
     init();
 }

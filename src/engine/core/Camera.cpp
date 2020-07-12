@@ -7,6 +7,7 @@ Camera::Camera(const fVec3 &Position) : Position(Position) {
     const float PITCH = 0.0f;
     const float SPEED = 2.5f * 10;
     const float SENSITIVITY = 0.1f;
+    enabled = false;
 
     Yaw = YAW;
     Pitch = PITCH;
@@ -38,32 +39,36 @@ void Camera::updateCameraVectors() {
 }
 
 void Camera::processMouseMovement(const double &x, const double &y) {
-    double xoffset = x * MouseSensitivity;
-    double yoffset = y * MouseSensitivity;
+    if (enabled) {
+        double xoffset = x * MouseSensitivity;
+        double yoffset = y * MouseSensitivity;
 
-    Yaw   += xoffset;
-    Pitch += yoffset;
+        Yaw   += xoffset;
+        Pitch += yoffset;
 
 //    std::cout << Yaw << std::endl;
 
-    if (Pitch > 89.0f)
-        Pitch = 89.0f;
-    if (Pitch < -89.0f)
-        Pitch = -89.0f;
+        if (Pitch > 89.0f)
+            Pitch = 89.0f;
+        if (Pitch < -89.0f)
+            Pitch = -89.0f;
 
-    updateCameraVectors();
+        updateCameraVectors();
+    }
 }
 
 void Camera::processKeyboard(Camera_Movement direction, float deltaTime) {
-    float velocity = MovementSpeed * deltaTime;
-    if (direction == FORWARD)
-        Position += Front * velocity;
-    if (direction == BACKWARD)
-        Position -= Front * velocity;
-    if (direction == LEFT)
-        Position -= Right * velocity;
-    if (direction == RIGHT)
-        Position += Right * velocity;
+    if (enabled) {
+        float velocity = MovementSpeed * deltaTime;
+        if (direction == FORWARD)
+            Position += Front * velocity;
+        if (direction == BACKWARD)
+            Position -= Front * velocity;
+        if (direction == LEFT)
+            Position -= Right * velocity;
+        if (direction == RIGHT)
+            Position += Right * velocity;
+    }
 }
 
 const fVec3 &Camera::getPos() const {
@@ -80,4 +85,12 @@ const fVec3 &Camera::getUp() const {
 
 const fVec3 &Camera::getRight() const {
     return Right;
+}
+
+void Camera::toggle() {
+    enabled = !enabled;
+}
+
+bool Camera::isEnabled() const {
+    return enabled;
 }

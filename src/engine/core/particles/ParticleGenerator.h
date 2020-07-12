@@ -1,5 +1,5 @@
-#ifndef PARTICLEGNERATOR_H
-#define PARTICLEGNERATOR_H
+#ifndef PARTICLEGENERATOR_H
+#define PARTICLEGENERATOR_H
 
 #include "Particle.h"
 
@@ -15,7 +15,7 @@ private:
 
     void init();
 public:
-    ParticleGenerator(float lifeTime);
+    explicit ParticleGenerator(const float &lifeTime);
 
     void update(double dt);
 
@@ -24,4 +24,4 @@ public:
     float getLifeTime() const;
 };
 
-#endif // PARTICLEGNERATOR_H
+#endif // PARTICLEGENERATOR_H

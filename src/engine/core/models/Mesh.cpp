@@ -31,7 +31,7 @@ void Mesh::setupMesh() {
 }
 
 
-void Mesh::draw(ShaderProgram &shaderProgram) {
+void Mesh::draw(const ShaderProgram &shaderProgram) const {
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
     unsigned int normalNr = 1;

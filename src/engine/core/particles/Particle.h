@@ -1,13 +1,13 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
-#include <core/utils/ResourceLoader.h>
+#include <GL/glew.h>
+#include <algorithm>
 #include <math/Vec3.h>
 #include <math/Vec4.h>
 #include <math/Mat4.h>
-#include <GL/glew.h>
-#include <algorithm>
 #include <core/shaders/ShaderProgram.h>
+#include <core/utils/ResourceLoader.h>
 
 struct Particle {
     fVec3 Position;

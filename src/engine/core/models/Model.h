@@ -27,7 +27,8 @@ public:
     bool gammaCorrection;
     const aiScene* loadModel(std::string const &path);
 
-    void draw(ShaderProgram &shaderProgram);
+    void draw(const ShaderProgram &shaderProgram) const;
+//    void draw(const ShaderProgram *shaderProgram);
     void setFakeNormals();
 
     bool bumpMapping;

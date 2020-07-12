@@ -13,6 +13,7 @@ enum Camera_Movement {
 
 class Camera {
 private:
+    bool enabled;
     fVec3 Position;
     fVec3 Front;
     fVec3 Up;
@@ -36,6 +37,10 @@ public:
     const fVec3 &getFront() const;
     const fVec3 &getUp() const;
     const fVec3 &getRight() const;
+
+    void toggle();
+
+    bool isEnabled() const;
 };
 
 #endif // CAMERA_H

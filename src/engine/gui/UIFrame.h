@@ -8,7 +8,7 @@
 
 class UIFrame : public UIComposite {
 public:
-    UIFrame(const std::shared_ptr<Shape> &shape);
+    explicit UIFrame(const std::shared_ptr<Shape> &shape);
     UIFrame(const std::shared_ptr<UIFrame> &frame);
     UIFrame(UIFrame *frame);
 

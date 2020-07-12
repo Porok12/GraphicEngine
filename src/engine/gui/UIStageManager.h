@@ -3,8 +3,10 @@
 
 #include <memory>
 #include <core/Camera.h>
-#include "UIStage.h"
 #include "UIRenderer.h"
+#include "MeshStage.h"
+#include "MenuStage.h"
+#include "ParticlesStage.h"
 
 enum Stages {
     MENU,

@@ -7,7 +7,7 @@ std::vector<KeyPressed> InputHandler::keyPressedListeners;
 std::vector<ScrollOffset> InputHandler::scrollOffsetListeners;
 std::vector<CharacterCode> InputHandler::charactersListeners;
 bool InputHandler::buttons[8];
-bool InputHandler::keys[128];
+bool InputHandler::keys[512];
 double InputHandler::x, InputHandler::y;
 bool InputHandler::updated = false;
 

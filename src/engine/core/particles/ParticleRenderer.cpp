@@ -111,14 +111,14 @@ void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &part
 
     std::sort(data.begin(), data.end(), sortRule);
 
-    std::cout << "------------------\n";
-    std::for_each(data.begin(), data.end(), [&cam](const ParticleData& a) {
-        float aDist =
-                (cam.x-a.x)*(cam.x-a.x)+
-                (cam.y-a.y)*(cam.y-a.y)+
-                (cam.z-a.z)*(cam.z-a.z);
-        std::cout << " " << std::sqrt(aDist) << std::endl;
-    });
+//    std::cout << "------------------\n";
+//    std::for_each(data.begin(), data.end(), [&cam](const ParticleData& a) {
+//        float aDist =
+//                (cam.x-a.x)*(cam.x-a.x)+
+//                (cam.y-a.y)*(cam.y-a.y)+
+//                (cam.z-a.z)*(cam.z-a.z);
+//        std::cout << " " << std::sqrt(aDist) << std::endl;
+//    });
 
 
     glBindVertexArray(VAO);

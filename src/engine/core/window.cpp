@@ -45,6 +45,8 @@ Window::Window(int width, int height, const char* title) {
     glfwSetCharCallback(window.get(), InputHandler::characterCallback);
     glfwSetScrollCallback(window.get(), InputHandler::scrollCallback);
     glfwSetDropCallback(window.get(), InputHandler::dropCallback);
+
+    cursorEnabled = true;
 }
 
 Window::~Window() {
@@ -79,4 +81,17 @@ bool Window::mouseButtonLeft() {
 
 int Window::getKey(int key) {
     return glfwGetKey(window.get(), key);
+}
+
+void Window::toggleCursor() {
+
+    if (cursorEnabled) {
+        glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+//        if (glfwRawMouseMotionSupported())
+//            glfwSetInputMode(window.get(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    } else {
+        glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    cursorEnabled = !cursorEnabled;
 }
