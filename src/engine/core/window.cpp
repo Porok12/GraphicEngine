@@ -34,9 +34,9 @@ Window::Window(int width, int height, const char* title) {
     BOOST_LOG_TRIVIAL(debug) << "GLFW Windows was created";
 
 
-//    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+//    glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 //    if (glfwRawMouseMotionSupported())
-//        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+//        glfwSetInputMode(window.get(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 
     glfwSetWindowSizeCallback(window.get(), [](GLFWwindow* window, int w, int h){glViewport(0, 0, w, h);});
     glfwSetMouseButtonCallback(window.get(), InputHandler::mouseButtonCallback);
@@ -45,6 +45,8 @@ Window::Window(int width, int height, const char* title) {
     glfwSetCharCallback(window.get(), InputHandler::characterCallback);
     glfwSetScrollCallback(window.get(), InputHandler::scrollCallback);
     glfwSetDropCallback(window.get(), InputHandler::dropCallback);
+
+    cursorEnabled = true;
 }
 
 Window::~Window() {
@@ -66,7 +68,7 @@ void Window::update() {
 
 void Window::clear(float r, float g, float b) {
     glClearColor(r, g, b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::getCursor(double &x, double &y) {
@@ -75,4 +77,21 @@ void Window::getCursor(double &x, double &y) {
 
 bool Window::mouseButtonLeft() {
     return glfwGetMouseButton(window.get(), GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+}
+
+int Window::getKey(int key) {
+    return glfwGetKey(window.get(), key);
+}
+
+void Window::toggleCursor() {
+
+    if (cursorEnabled) {
+        glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+//        if (glfwRawMouseMotionSupported())
+//            glfwSetInputMode(window.get(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    } else {
+        glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    cursorEnabled = !cursorEnabled;
 }
