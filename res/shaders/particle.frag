@@ -9,5 +9,8 @@ out vec4 FragColor;
 uniform sampler2D sprite;
 
 void main() {
-    FragColor = mix(texture(sprite, currentTexCoord), texture(sprite, nextTextCoord), factor);
+    vec4 texColor = mix(texture(sprite, currentTexCoord), texture(sprite, nextTextCoord), factor);
+//    if(texColor.a < 0.01)
+//        discard;
+    FragColor = texColor;
 }

@@ -3,6 +3,11 @@
 #include "Camera.h"
 
 Camera::Camera(const fVec3 &Position) : Position(Position) {
+    const float YAW = -90.0f;
+    const float PITCH = 0.0f;
+    const float SPEED = 2.5f * 10;
+    const float SENSITIVITY = 0.1f;
+
     Yaw = YAW;
     Pitch = PITCH;
     MovementSpeed = SPEED;

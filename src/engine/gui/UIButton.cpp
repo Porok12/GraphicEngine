@@ -4,8 +4,12 @@ void UIButton::addClickCallback(std::function<void()> onClick) {
     this->onClick = std::move(onClick);
 }
 
-void UIButton::addCursorCallback(std::function<void(UIButton*)> onCoursor) {
-    this->onCursor = std::move(onCoursor);
+//void UIButton::addCursorCallback(std::function<void(UIButton*)> onCoursor) {
+//    this->onCursor = std::move(onCoursor);
+//}
+
+void UIButton::addCursorCallback(std::function<void(UIButton*)> &onCoursor) {
+    this->onCursor = onCoursor;
 }
 
 void UIButton::draw() {

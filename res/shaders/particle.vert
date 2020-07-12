@@ -8,15 +8,37 @@ out vec2 currentTexCoord;
 out vec2 nextTextCoord;
 out float factor;
 
-uniform vec3 camera;
-uniform mat4 u_proj;
+uniform vec3 camera, right, up;
+uniform mat4 projection, view;
 uniform int rows, columns;
 uniform float lifeTime;
 
-void main() {
-    float scale = 1.0f;
+mat4 lookAt(vec3 pos, vec3 tar) {
+    vec3 up = vec3(0, 1, 0);
+    vec3 forward = normalize(pos - tar);
+    vec3 right = cross(up, forward);
+    up = normalize(cross(forward, right));
 
-    gl_Position = u_proj * vec4(aPos * scale + aOffset, 1.0);
+    mat4 mat;
+    mat[0][0] = right[0];        mat[0][1] = up[0];        mat[0][2] = forward[0];        mat[0][3] = 0;
+    mat[1][0] = right[1];        mat[1][1] = up[1];        mat[1][2] = forward[1];        mat[1][3] = 0;
+    mat[2][0] = right[2];        mat[2][1] = up[2];        mat[2][2] = forward[2];        mat[2][3] = 0;
+    mat[3][0] = -dot(right, pos); mat[3][1] = -dot(up, pos); mat[3][2] = -dot(forward, pos); mat[3][3] = 1;
+
+    return mat;
+}
+
+void main() {
+//    vec3 toCenter = aOffset - camera;
+//    vec3 toVertex = (aPos) - camera;//(aPos + aOffset) - camera;
+//    vec3 distance = normalize(toVertex) * 5;//length(toCenter);
+//    vec3 diffrence = toVertex - distance;
+//
+//    vec3 tmp = normalize(camera - aPos);
+
+//    gl_Position = projection * view * vec4(aOffset + aPos, 1.0);
+
+    gl_Position = projection * view * vec4(aOffset + right * aPos.x + up * aPos.y, 1.0);
 
     int images = rows * columns;
     float fimage = images * (1.0-aLifeTime/lifeTime);

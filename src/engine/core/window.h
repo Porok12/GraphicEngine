@@ -28,6 +28,7 @@ public:
     int shouldClose();
     void swapBuffers();
     void getCursor(double &x, double &y);
+    int getKey(int key);
 
     bool mouseButtonLeft();
 

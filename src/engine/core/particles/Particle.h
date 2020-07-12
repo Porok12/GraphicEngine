@@ -15,7 +15,7 @@ struct Particle {
     float LifeTime;
 
     Particle() : Position(0.0f), LifeTime(0.0f) { }
-    Particle(const fVec3 &Position, float LifeTime) : Position(Position), LifeTime(LifeTime) {}
+    Particle(const fVec3 &Position, float LifeTime) : Position(Position), LifeTime(LifeTime) { }
 };
 
 #endif // PARTICLE_H
