@@ -22,7 +22,7 @@ Mat4 Camera::getViewMatrix() {
 //    test = !test;
 //    std::cout << Front.x << " " << Front.y << " " << Front.z << std::endl;
 //    std::cout << this << std::endl;
-    return Mat4::lookAt(Position, Position + Front);
+    return Mat4::lookAt(Position, Position + Front, Up);
 }
 
 void Camera::updateCameraVectors() {

@@ -30,7 +30,9 @@ void UIStageManager::setStage(Stages stage) {
 
 void UIStageManager::render() {
     if (rootUI) {
+        glEnable(GL_DEPTH_TEST);
         rootUI->renderContent(camera, deltaTime);
+        glDisable(GL_DEPTH_TEST);
         rootUI->renderUI();
     }
 }

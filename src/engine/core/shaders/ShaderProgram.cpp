@@ -65,3 +65,8 @@ ShaderProgram &ShaderProgram::set1f(std::string name, float f) {
     glUniform1f(glGetUniformLocation(program, name.c_str()), f);
     return *this;
 }
+
+ShaderProgram &ShaderProgram::set1b(std::string name, bool val) {
+    glUniform1i(glGetUniformLocation(program, name.c_str()), val);
+    return *this;
+}

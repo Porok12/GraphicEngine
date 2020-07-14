@@ -3,7 +3,9 @@
 const aiScene* Model::loadModel(std::string const& path) {
     Assimp::Importer importer;
     int settings = aiProcess_Triangulate | aiProcess_FlipUVs;
-    if(bumpMapping) settings |= aiProcess_CalcTangentSpace;
+    if(bumpMapping) {
+        settings |= aiProcess_CalcTangentSpace;
+    }
     const aiScene* scene = importer.ReadFile(path, (aiPostProcessSteps)settings);
 
     if(!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
@@ -76,8 +78,9 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
     for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
 
-        for(unsigned int j = 0; j < face.mNumIndices; j++)
+        for(unsigned int j = 0; j < face.mNumIndices; j++) {
             indices.push_back(face.mIndices[j]);
+        }
     }
 
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
@@ -94,17 +97,21 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
     vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
     textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
+    if (bumpMapping) {
+        return Mesh(vertices, indices, textures, tangents);
+    }
+
     return Mesh(vertices, indices, textures);
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName) {
     vector<Texture> textures;
-    for(unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
+    for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
         aiString str;
         mat->GetTexture(type, i, &str);
         bool skip = false;
 
-        for(unsigned int j = 0; j < textures_loaded.size(); j++) {
+        for (unsigned int j = 0; j < textures_loaded.size(); j++) {
             if(std::strcmp(textures_loaded[j].path.C_Str(), str.C_Str()) == 0) {
                 textures.push_back(textures_loaded[j]);
                 skip = true;
@@ -112,7 +119,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
             }
         }
 
-        if(!skip) {
+        if (!skip) {
             Texture texture;
             texture.id = ResourceLoader::loadTexture(str.C_Str());
             texture.type = typeName;
@@ -138,6 +145,16 @@ void Model::setFakeNormals() {
 void Model::draw(const ShaderProgram &shaderProgram) const {
     for (unsigned int i = 0; i < meshes.size(); i++) {
         meshes[i].draw(shaderProgram);
+    }
+}
+
+void Model::enableBumpMapping(bool enable) {
+    this->bumpMapping = enable;
+}
+
+void Model::useFlatNormals(bool enable) {
+    for (unsigned int i = 0; i < meshes.size(); i++) {
+        meshes[i].useFlatNormals(enable);
     }
 }
 

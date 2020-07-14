@@ -18,6 +18,7 @@ public:
     void setModel(const Mat4 &model);
 
     void render(const Model &model);
+    void render(const Model &model, ShaderProgram &program);
 
     static ModelRenderer* getInstance();
 };

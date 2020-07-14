@@ -12,9 +12,16 @@
 
 class LightStage : public UIStage {
 private:
+    enum Shading {
+        FLAT,
+        GOURAUD,
+        PHONG,
+        BLINN
+    } shading = FLAT;
+
     float a = 0;
-    Model model;
-    ParticleGenerator particleGenerator;
+    Model model, plane;
+    std::shared_ptr<ShaderProgram> program, phong, gouraud;
     std::shared_ptr<UIComponent> temp;
 
     static std::shared_ptr<LightStage> instance;

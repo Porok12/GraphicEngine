@@ -37,24 +37,27 @@ struct Texture {
 
 class Mesh {
 private:
-    unsigned int VBO, EBO;
-    unsigned int buffer[3];
+    GLuint VBO, EBO;
+    GLuint buffer[3];
 
-    void setupMesh();
+    void setupMesh(bool bumpMapping);
+    void calculateFlatNormals();
 
 public:
     vector <Vertex> vertices;
+    vector <Vertex> flatVertices;
     vector <VertexTangent> tangents;
     vector<unsigned int> indices;
     vector <Texture> textures;
     unsigned int VAO;
 
-    Mesh() {}
-    ~Mesh() {}
-
+    Mesh() = default;
+    ~Mesh() = default;
     Mesh(vector <Vertex> vertices, vector<unsigned int> indices, vector <Texture> textures);
+    Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector <Texture> textures, vector <VertexTangent> tangents);
 
     void draw(const ShaderProgram &shaderProgram) const;
+    void useFlatNormals(bool enable);
 };
 
 #endif // MESH_H

@@ -14,7 +14,7 @@ public:
     static Mat4 identity();
     static Mat4 getOrtho(const float &left, const float &right, const float &bottom, const float &top, const float &near, const float &far);
     static Mat4 getProjection(const float &fov, const float &aspect, const float &near, const float &far);
-    static Mat4 lookAt(const fVec3 &pos, const fVec3 &tar);
+    static Mat4 lookAt(const fVec3 &pos, const fVec3 &tar, const fVec3 &_up);
     static Mat4 translate(const float &x, const float &y, const float &z);
     static Mat4 translate(Mat4 &mat, const float &x, const float &y, const float &z);
     static Mat4 scale(Mat4 &mat, const float &s, const fVec3 &v = fVec3(1.0f, 1.0f, 1.0f));

@@ -63,8 +63,9 @@ Mat4 Mat4::translate(Mat4 &mat, const float &x, const float &y, const float &z) 
     return mat;
 }
 
-Mat4 Mat4::lookAt(const fVec3 &pos, const fVec3 &tar) {
-    fVec3 up(0, 1, 0);
+Mat4 Mat4::lookAt(const fVec3 &pos, const fVec3 &tar, const fVec3 &_up) {
+    fVec3 up = _up;
+    up.normalize();
     fVec3 forward = (pos - tar);
     forward.normalize();
     fVec3 right = up.cross(forward);

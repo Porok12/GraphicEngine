@@ -23,6 +23,7 @@ public:
     ShaderProgram& set4f(std::string name, float x, float y, float z, float w);
     ShaderProgram& set1i(std::string name, int i);
     ShaderProgram& set1f(std::string name, float f);
+    ShaderProgram& set1b(std::string name, bool val);
 
     GLuint getId() const;
 };
