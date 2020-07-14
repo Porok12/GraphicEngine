@@ -17,7 +17,7 @@ private:
         GOURAUD,
         PHONG,
         BLINN
-    } shading = FLAT;
+    };
 
     float a = 0;
     Model model, plane;
@@ -26,6 +26,7 @@ private:
 
     static std::shared_ptr<LightStage> instance;
     LightStage();
+    void updateShading(Shading shading);
 
 public:
     static const std::shared_ptr<LightStage> &getInstance();
