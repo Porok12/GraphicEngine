@@ -1,3 +1,4 @@
+#include <core/light/Materials.h>
 #include "LightStage.h"
 
 std::shared_ptr<LightStage> LightStage::instance = nullptr;
@@ -38,8 +39,8 @@ LightStage::LightStage() {
 
     plane.loadModel(ResourceLoader::getPath("plane.obj", MODEL));
 
-    phong = std::make_shared<ShaderProgram>("light");
-    gouraud = std::make_shared<ShaderProgram>("light2");
+    phong = std::make_shared<ShaderProgram>("phong");
+    gouraud = std::make_shared<ShaderProgram>("gouraud");
     program = phong;
 
 }
@@ -53,13 +54,16 @@ void LightStage::renderContent(Camera camera, double dt) {
     Mat4 mm = Mat4::identity();
     mm = Mat4::scale(0.75f) * mm;
     mm = Mat4::translate(0, 0, -4) * mm;
-
     ModelRenderer::getInstance()->setModel( Mat4::rotation(a++, fVec3(0.9, 0.6, 0.3)) * mm);
     ModelRenderer::getInstance()->setView(view);
 
 
     program->use();
-    program->set3f("viewPos", camera.getPos().x, camera.getPos().y, camera.getPos().z);
+    program->set3f("material.ambient", GOLD.ambient);
+    program->set3f("material.diffuse", GOLD.diffuse);
+    program->set3f("material.specular", GOLD.specular);
+    program->set1f("material.shininess", GOLD.shininess);
+    program->set3f("viewPos", camera.getPos());
     program->set3f("dirLight.direction", -0.2f, -1.0f, -0.3f);
     program->set3f("dirLight.ambient", 0.05f, 0.05f, 0.05f);
     program->set3f("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
@@ -68,9 +72,12 @@ void LightStage::renderContent(Camera camera, double dt) {
 
 
     mm = Mat4::identity();
-//    mm = Mat4::scale(0.75f) * mm;
     mm = Mat4::translate(0, -2, -4) * mm;
     ModelRenderer::getInstance()->setModel(mm);
+    program->set3f("material.ambient", EMERALD.ambient);
+    program->set3f("material.diffuse", EMERALD.diffuse);
+    program->set3f("material.specular", EMERALD.specular);
+    program->set1f("material.shininess", EMERALD.shininess);
     ModelRenderer::getInstance()->render(plane, *program);
 }
 
