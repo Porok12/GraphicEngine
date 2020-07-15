@@ -3,32 +3,32 @@
 
 std::shared_ptr<LightStage> LightStage::instance = nullptr;
 
-LightStage::LightStage() {
+LightStage::LightStage()
+        : dirLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(-0.2f, -1.0f, -0.5f)),
+          pointLight(fVec3(1.0f), fVec3(1.0f), fVec3(1.0f), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
+          spotLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(0.0f, -2.0f, 1.0f), fVec3(0.0f, 0.0f, -1.0f),
+                    0.91f, 0.82f, 1.0f, 0.07f, 0.017f), dir(false), point(false), spot(false) {
 //    auto particleProgram = std::make_shared<ShaderProgram>("particle");
 //    auto texture = ResourceLoader::loadTexture("particle.png");
 //    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
 
-    auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 320);
+    auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 250);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Flat", 10, 70, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(FLAT);});
+        component = std::make_shared<UIButton>("Direct", 10, 70, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){dir = !dir;});
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Gouraud", 10, 130, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(GOURAUD);});
+        component = std::make_shared<UIButton>("Point", 10, 130, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){point = !point;});
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Phong", 10, 190, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(PHONG);});
-        composite2->add(component);
-
-        component = std::make_shared<UIButton>("Blinn", 10, 250, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(BLINN);});
+        component = std::make_shared<UIButton>("Spot", 10, 190, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){spot = !spot;});
         composite2->add(component);
     }
 
@@ -39,9 +39,7 @@ LightStage::LightStage() {
 
     plane.loadModel(ResourceLoader::getPath("plane.obj", MODEL));
 
-    phong = std::make_shared<ShaderProgram>("phong");
-    gouraud = std::make_shared<ShaderProgram>("gouraud");
-    program = phong;
+    program = std::make_shared<ShaderProgram>("light");
 
 }
 
@@ -64,10 +62,15 @@ void LightStage::renderContent(Camera camera, double dt) {
     program->set3f("material.specular", GOLD.specular);
     program->set1f("material.shininess", GOLD.shininess);
     program->set3f("viewPos", camera.getPos());
-    program->set3f("dirLight.direction", -0.2f, -1.0f, -0.3f);
-    program->set3f("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-    program->set3f("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-    program->set3f("dirLight.specular", 0.5f, 0.5f, 0.5f);
+
+    program->set1b("dir", dir);
+    program->set1b("point", point);
+    program->set1b("spot", spot);
+
+    light(program.get(), "dirLight", dirLight);
+    light(program.get(), "pointLight", pointLight);
+    light(program.get(), "spotLight", spotLight);
+
     ModelRenderer::getInstance()->render(model, *program);
 
 
@@ -89,31 +92,32 @@ const std::shared_ptr<LightStage> &LightStage::getInstance() {
     return instance;
 }
 
-void LightStage::updateShading(Shading shading) {
-    switch (shading) {
-        case FLAT:
-            program = phong;
-            model.useFlatNormals(true);
-            plane.useFlatNormals(true);
-            break;
-        case GOURAUD:
-            program = gouraud;
-            model.useFlatNormals(false);
-            plane.useFlatNormals(false);
-            break;
-        case PHONG:
-            program = phong;
-            program->use();
-            program->set1b("blinn", false);
-            model.useFlatNormals(false);
-            plane.useFlatNormals(false);
-            break;
-        case BLINN:
-            program = phong;
-            program->use();
-            program->set1b("blinn", true);
-            model.useFlatNormals(false);
-            plane.useFlatNormals(false);
-            break;
-    }
+void LightStage::light(ShaderProgram *program, std::string name, DirectionalLight dirLight) {
+    program->set3f(name+".direction", dirLight.getDirection());
+    program->set3f(name+".ambient", dirLight.getAmbient());
+    program->set3f(name+".diffuse", dirLight.getDiffuse());
+    program->set3f(name+".specular", dirLight.getSpecular());
+}
+
+void LightStage::light(ShaderProgram *program, std::string name, PointLight pointLight) {
+    program->set3f(name+".position", pointLight.getPosition());
+    program->set1f(name+".constant", pointLight.getConstant());
+    program->set1f(name+".linear", pointLight.getLinear());
+    program->set1f(name+".quadratic", pointLight.getQuadratic());
+    program->set3f(name+".ambient", pointLight.getAmbient());
+    program->set3f(name+".diffuse", pointLight.getDiffuse());
+    program->set3f(name+".specular", pointLight.getSpecular());
+}
+
+void LightStage::light(ShaderProgram *program, std::string name, SpotLight spotLight) {
+    program->set3f(name+".position", spotLight.getPosition());
+    program->set3f(name+".direction", spotLight.getDirection());
+    program->set1f(name+".cutOff", spotLight.getCutOff());
+    program->set1f(name+".outerCutOff", spotLight.getOuterCutOff());
+    program->set1f(name+".constant", spotLight.getConstant());
+    program->set1f(name+".linear", spotLight.getLinear());
+    program->set1f(name+".quadratic", spotLight.getQuadratic());
+    program->set3f(name+".ambient", spotLight.getAmbient());
+    program->set3f(name+".diffuse", spotLight.getDiffuse());
+    program->set3f(name+".specular", spotLight.getSpecular());
 }

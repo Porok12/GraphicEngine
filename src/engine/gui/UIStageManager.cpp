@@ -4,11 +4,14 @@ UIStageManager::UIStageManager()
         : rootUI(), camera(fVec3(0)) {
     MenuStage::getInstance()->setXxx([this](){this->setStage(Stages::MESH);});
     MenuStage::getInstance()->setYyy([this](){this->setStage(Stages::PARTICLES);});
-    MenuStage::getInstance()->setZzz([this](){this->setStage(Stages::LIGHT);});
+    MenuStage::getInstance()->setZzz([this](){this->setStage(Stages::SHADING);});
+    MenuStage::getInstance()->setAaa([this](){this->setStage(Stages::LIGHT);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     LightStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 }
 
 void UIStageManager::setStage(Stages stage) {
@@ -24,6 +27,9 @@ void UIStageManager::setStage(Stages stage) {
             break;
         case LIGHT:
             rootUI = LightStage::getInstance();
+            break;
+        case SHADING:
+            rootUI = ShadingStage::getInstance();
             break;
     }
 }

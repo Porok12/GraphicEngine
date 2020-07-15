@@ -55,7 +55,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main() {
-    vec3 objectColor = normalize(vec3(220, 150, 10));
+//    vec3 objectColor = normalize(vec3(220, 150, 10));
 
     vec3 norm = normalize(Normal);
     vec3 viewDir = normalize(viewPos - FragPos);
@@ -64,7 +64,7 @@ void main() {
 //    result += CalcPointLight(pointLight, norm, FragPos, viewDir);
 //    result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
-    result *= objectColor;
+//    result *= objectColor;
     FragColor = vec4(result, 1.0);
 }
 

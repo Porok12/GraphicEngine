@@ -65,9 +65,9 @@ void ShadingStage::renderContent(Camera camera, double dt) {
     program->set1f("material.shininess", GOLD.shininess);
     program->set3f("viewPos", camera.getPos());
     program->set3f("dirLight.direction", -0.2f, -1.0f, -0.3f);
-    program->set3f("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-    program->set3f("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-    program->set3f("dirLight.specular", 0.5f, 0.5f, 0.5f);
+    program->set3f("dirLight.ambient", 1.0f, 1.0f, 1.0f);
+    program->set3f("dirLight.diffuse", 1.0f, 1.0f, 1.0f);
+    program->set3f("dirLight.specular", 1.0f, 1.0f, 1.0f);
     ModelRenderer::getInstance()->render(model, *program);
 
 

@@ -6,27 +6,30 @@
 #include <core/particles/ParticleGenerator.h>
 #include <core/particles/ParticleRenderer.h>
 #include <core/models/Model.h>
+#include <core/light/PointLight.h>
+#include <core/light/DirectionalLight.h>
+#include <core/light/SpotLight.h>
 #include "UIStage.h"
 #include "UIFrameDecorator.h"
 #include "UIButton.h"
 
 class LightStage : public UIStage {
 private:
-    enum Shading {
-        FLAT,
-        GOURAUD,
-        PHONG,
-        BLINN
-    };
-
     float a = 0;
     Model model, plane;
-    std::shared_ptr<ShaderProgram> program, phong, gouraud;
+    std::shared_ptr<ShaderProgram> program;
     std::shared_ptr<UIComponent> temp;
+    PointLight pointLight;
+    DirectionalLight dirLight;
+    SpotLight spotLight;
+    bool dir, point, spot;
+
+    void light(ShaderProgram *program, std::string name, PointLight pointLight);
+    void light(ShaderProgram *program, std::string name, DirectionalLight dirLight);
+    void light(ShaderProgram *program, std::string name, SpotLight spotLight);
 
     static std::shared_ptr<LightStage> instance;
     LightStage();
-    void updateShading(Shading shading);
 
 public:
     static const std::shared_ptr<LightStage> &getInstance();

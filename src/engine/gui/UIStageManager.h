@@ -8,12 +8,14 @@
 #include "MenuStage.h"
 #include "ParticlesStage.h"
 #include "LightStage.h"
+#include "ShadingStage.h"
 
 enum Stages {
     MENU,
     MESH,
     PARTICLES,
-    LIGHT
+    LIGHT,
+    SHADING
 };
 
 class UIStageManager {
