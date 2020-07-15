@@ -9,13 +9,15 @@
 #include "ParticlesStage.h"
 #include "LightStage.h"
 #include "ShadingStage.h"
+#include "TextureStage.h"
 
 enum Stages {
     MENU,
     MESH,
     PARTICLES,
     LIGHT,
-    SHADING
+    SHADING,
+    TEXTURE_MAPS
 };
 
 class UIStageManager {

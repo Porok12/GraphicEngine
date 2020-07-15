@@ -8,7 +8,7 @@
 
 class MenuStage : public UIStage {
 private:
-    std::shared_ptr<UIComponent> temp, temp2, temp3, temp4;
+    std::shared_ptr<UIComponent> temp, temp2, temp3, temp4, temp5;
     static std::shared_ptr<MenuStage> instance;
     MenuStage();
 
@@ -32,6 +32,10 @@ public:
 
     void setAaa(std::function<void ()> fun) {
         std::dynamic_pointer_cast<UIButton>(temp4)->addClickCallback(fun);
+    }
+
+    void setBbb(std::function<void ()> fun) {
+        std::dynamic_pointer_cast<UIButton>(temp5)->addClickCallback(fun);
     }
 };
 

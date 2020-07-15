@@ -6,12 +6,13 @@ UIStageManager::UIStageManager()
     MenuStage::getInstance()->setYyy([this](){this->setStage(Stages::PARTICLES);});
     MenuStage::getInstance()->setZzz([this](){this->setStage(Stages::SHADING);});
     MenuStage::getInstance()->setAaa([this](){this->setStage(Stages::LIGHT);});
+    MenuStage::getInstance()->setBbb([this](){this->setStage(Stages::TEXTURE_MAPS);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     LightStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
-    ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    TextureStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 }
 
 void UIStageManager::setStage(Stages stage) {
@@ -30,6 +31,9 @@ void UIStageManager::setStage(Stages stage) {
             break;
         case SHADING:
             rootUI = ShadingStage::getInstance();
+            break;
+        case TEXTURE_MAPS:
+            rootUI = TextureStage::getInstance();
             break;
     }
 }
