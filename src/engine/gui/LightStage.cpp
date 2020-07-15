@@ -8,9 +8,6 @@ LightStage::LightStage()
           pointLight(fVec3(1.0f), fVec3(1.0f), fVec3(1.0f), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
           spotLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(0.0f, -2.0f, 1.0f), fVec3(0.0f, 0.0f, -1.0f),
                     0.91f, 0.82f, 1.0f, 0.07f, 0.017f), dir(false), point(false), spot(false) {
-//    auto particleProgram = std::make_shared<ShaderProgram>("particle");
-//    auto texture = ResourceLoader::loadTexture("particle.png");
-//    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
 
     auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 250);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
