@@ -9,10 +9,10 @@ MeshStage::MeshStage()
 //    auto texture = ResourceLoader::loadTexture("particle.png");
 //    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
 
-    auto rect2 = std::make_shared<Rectangle>(50, 50, 350, 250);
+    auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 70);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
-        std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 220, 100, 100, 50);
+        std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
 //        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback(fun);
 //        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([&stageManager]() {

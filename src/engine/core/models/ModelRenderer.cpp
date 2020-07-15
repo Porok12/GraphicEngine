@@ -33,3 +33,11 @@ void ModelRenderer::render(const Model &model) {
     program->setMatrix4("model", this->model);
     model.draw(*program.get());
 }
+
+void ModelRenderer::render(const Model &model, ShaderProgram &program) {
+    program.use();
+    program.setMatrix4("projection", projection);
+    program.setMatrix4("view", view);
+    program.setMatrix4("model", this->model);
+    model.draw(program);
+}

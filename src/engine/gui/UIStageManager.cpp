@@ -4,9 +4,14 @@ UIStageManager::UIStageManager()
         : rootUI(), camera(fVec3(0)) {
     MenuStage::getInstance()->setXxx([this](){this->setStage(Stages::MESH);});
     MenuStage::getInstance()->setYyy([this](){this->setStage(Stages::PARTICLES);});
+    MenuStage::getInstance()->setZzz([this](){this->setStage(Stages::SHADING);});
+    MenuStage::getInstance()->setAaa([this](){this->setStage(Stages::LIGHT);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    LightStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 }
 
 void UIStageManager::setStage(Stages stage) {
@@ -20,12 +25,20 @@ void UIStageManager::setStage(Stages stage) {
         case PARTICLES:
             rootUI = ParticleStage::getInstance();
             break;
+        case LIGHT:
+            rootUI = LightStage::getInstance();
+            break;
+        case SHADING:
+            rootUI = ShadingStage::getInstance();
+            break;
     }
 }
 
 void UIStageManager::render() {
     if (rootUI) {
+        glEnable(GL_DEPTH_TEST);
         rootUI->renderContent(camera, deltaTime);
+        glDisable(GL_DEPTH_TEST);
         rootUI->renderUI();
     }
 }

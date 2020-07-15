@@ -32,6 +32,10 @@ public:
     void setFakeNormals();
 
     bool bumpMapping;
+
+    void enableBumpMapping(bool enable);
+
+    void useFlatNormals(bool enable);
 };
 
 #endif // MODEL_H

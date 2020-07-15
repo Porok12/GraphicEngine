@@ -24,6 +24,14 @@ MenuStage::MenuStage() {
         component.reset(new UIButton("Demo2", 250, 50, 100, 50));
         temp2 = component;
         menuStage->add(component);
+
+        component.reset(new UIButton("Demo3", 400, 50, 100, 50));
+        temp3 = component;
+        menuStage->add(component);
+
+        component.reset(new UIButton("Demo4", 550, 50, 100, 50));
+        temp4 = component;
+        menuStage->add(component);
     }
 
     rootComponent = menuStage;
