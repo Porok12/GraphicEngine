@@ -1,7 +1,7 @@
 # Blender MTL File: 'None'
 # Material Count: 1
 
-newmtl None
+newmtl Sand
 Ns 0.000000
 Ka 0.000000 0.000000 0.000000
 Kd 0.800000 0.800000 0.800000
@@ -10,3 +10,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
+#map_Kd /cobblestone/diffusion.tga
+#map_Bump /cobblestone/normal.tga
+#map_Ns /cobblestone/specular.tga
+map_Kd /snow/diffusion.png
+map_Bump /snow/normal.png
+map_Ns /snow/specular.png

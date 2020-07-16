@@ -1,0 +1,27 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl Sand
+Ns 0.000000
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.800000 0.800000 0.800000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+# the ambient texture map
+map_Ka /sand/diffusion.png
+
+# the diffuse texture map
+map_Kd /sand/diffusion.png
+
+# specular color texture map
+map_Ks /sand/diffusion.png
+
+# specular highlight component
+map_Ns /sand/specular.png
+
+# bump map
+bump /sand/normal.png
+

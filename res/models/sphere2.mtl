@@ -8,4 +8,18 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Kd /home/przemek/Desktop/SEM7/Praca/GraphicEngine/res/textures/sand/diffusion.jpg
+# the ambient texture map
+#map_Ka /marble/ambient.tga
+
+# the diffuse texture map
+map_Kd /marble/diffusion.tga
+
+# specular color texture map
+# map_Ks /marble/diffusion.tga
+
+# specular highlight component
+map_Ns /marble/specular.tga
+
+# bump map
+bump /marble/normal.tga
+
