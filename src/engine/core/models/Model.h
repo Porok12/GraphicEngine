@@ -22,19 +22,18 @@ protected:
 
 public:
 
+    Model();
+
     vector<Texture> textures_loaded;
     vector<Mesh> meshes;
     bool gammaCorrection;
-    const aiScene* loadModel(std::string const &path);
-
-    void draw(const ShaderProgram &shaderProgram) const;
-//    void draw(const ShaderProgram *shaderProgram);
-    void setFakeNormals();
-
     bool bumpMapping;
 
-    void enableBumpMapping(bool enable);
+    const aiScene* loadModel(std::string const &path);
+    void draw(const ShaderProgram &shaderProgram) const;
 
+    void enableBumpMapping(bool enable);
+    void setFakeNormals();
     void useFlatNormals(bool enable);
 };
 

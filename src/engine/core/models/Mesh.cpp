@@ -9,7 +9,7 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
     setupMesh(false);
 }
 
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector <Texture> textures, vector <VertexTangent> tangents) {
+Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures, vector<VertexTangent> tangents) {
     this->vertices = std::move(vertices);
     this->indices = std::move(indices);
     this->textures = std::move(textures);
@@ -25,7 +25,7 @@ void Mesh::setupMesh(bool bumpMapping) {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
     glGenBuffers(1, &EBO);
-    glGenBuffers(3, &buffer[0]);
+    glGenBuffers(2, &buffer[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices[0]) * vertices.size(), &vertices[0], GL_STATIC_DRAW);
@@ -40,9 +40,9 @@ void Mesh::setupMesh(bool bumpMapping) {
         glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
         glBufferData(GL_ARRAY_BUFFER, sizeof(tangents[0]) * tangents.size(), &tangents[0], GL_STATIC_DRAW);
         glEnableVertexAttribArray(3);
-        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTangent), (void*)offsetof(VertexTangent, Tangent));
+        glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTangent), (void*) offsetof(VertexTangent, Tangent));
         glEnableVertexAttribArray(4);
-        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTangent), (void*)offsetof(VertexTangent, Bitangent));
+        glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(VertexTangent), (void*) offsetof(VertexTangent, Bitangent));
     }
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

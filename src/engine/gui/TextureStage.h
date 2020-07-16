@@ -16,18 +16,18 @@
 
 class TextureStage : public UIStage {
 private:
-    float a = 0;
+    float a = 0, b = 0;
+    bool enableNormalMap = false;
+    bool enableSpecularMap = false;
+
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;
     std::shared_ptr<UIComponent> temp;
     PointLight pointLight;
     DirectionalLight dirLight;
-    SpotLight spotLight;
-    bool dir, point, spot;
 
     void light(ShaderProgram *program, std::string name, PointLight pointLight);
     void light(ShaderProgram *program, std::string name, DirectionalLight dirLight);
-    void light(ShaderProgram *program, std::string name, SpotLight spotLight);
 
     static std::shared_ptr<TextureStage> instance;
     TextureStage();

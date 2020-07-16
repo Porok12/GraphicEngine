@@ -3,10 +3,8 @@
 std::shared_ptr<TextureStage> TextureStage::instance = nullptr;
 
 TextureStage::TextureStage()
-        : dirLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(-0.2f, -1.0f, -0.5f)),
-          pointLight(fVec3(1.0f), fVec3(1.0f), fVec3(1.0f), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
-          spotLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(0.0f, -2.0f, 1.0f), fVec3(0.0f, 0.0f, -1.0f),
-                    0.91f, 0.82f, 1.0f, 0.07f, 0.017f), dir(false), point(false), spot(false) {
+        : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
+          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f) {
 
     auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 250);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
@@ -15,28 +13,28 @@ TextureStage::TextureStage()
         temp = component;
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Direct", 10, 70, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){dir = !dir;});
+        component = std::make_shared<UIButton>("Reset", 10, 70, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){program = std::make_shared<ShaderProgram>("texture");});
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Point", 10, 130, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){point = !point;});
+        component = std::make_shared<UIButton>("Normal", 10, 130, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableNormalMap = !enableNormalMap;});
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Spot", 10, 190, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){spot = !spot;});
+        component = std::make_shared<UIButton>("Spec", 10, 190, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableSpecularMap = !enableSpecularMap;});
         composite2->add(component);
     }
 
     rootComponent = composite2;
 
     model.enableBumpMapping(true);
-    model.loadModel(ResourceLoader::getPath("sphere2.obj", MODEL));
+    model.loadModel(ResourceLoader::getPath("sphere3.obj", MODEL));
 
-    plane.loadModel(ResourceLoader::getPath("plane.obj", MODEL));
+    plane.enableBumpMapping(true);
+    plane.loadModel(ResourceLoader::getPath("untitled.obj", MODEL));
 
-    program = std::make_shared<ShaderProgram>("light");
-
+    program = std::make_shared<ShaderProgram>("texture");
 }
 
 void TextureStage::renderUI() {
@@ -52,31 +50,21 @@ void TextureStage::renderContent(Camera camera, double dt) {
     ModelRenderer::getInstance()->setView(view);
 
 
+    
     program->use();
-    program->set3f("material.ambient", GOLD.ambient);
-    program->set3f("material.diffuse", GOLD.diffuse);
-    program->set3f("material.specular", GOLD.specular);
-    program->set1f("material.shininess", GOLD.shininess);
     program->set3f("viewPos", camera.getPos());
-
-    program->set1b("dir", dir);
-    program->set1b("point", point);
-    program->set1b("spot", spot);
+    program->set1b("enableNormalMap", enableNormalMap);
+    program->set1b("enableSpecularMap", enableSpecularMap);
 
     light(program.get(), "dirLight", dirLight);
+    pointLight.setPosition(fVec3(3*std::cos(b), -1, -4+3*std::sin(b))); b += dt;
     light(program.get(), "pointLight", pointLight);
-    light(program.get(), "spotLight", spotLight);
 
     ModelRenderer::getInstance()->render(model, *program);
-
 
     mm = Mat4::identity();
     mm = Mat4::translate(0, -2, -4) * mm;
     ModelRenderer::getInstance()->setModel(mm);
-    program->set3f("material.ambient", EMERALD.ambient);
-    program->set3f("material.diffuse", EMERALD.diffuse);
-    program->set3f("material.specular", EMERALD.specular);
-    program->set1f("material.shininess", EMERALD.shininess);
     ModelRenderer::getInstance()->render(plane, *program);
 }
 
@@ -103,17 +91,4 @@ void TextureStage::light(ShaderProgram *program, std::string name, PointLight po
     program->set3f(name+".ambient", pointLight.getAmbient());
     program->set3f(name+".diffuse", pointLight.getDiffuse());
     program->set3f(name+".specular", pointLight.getSpecular());
-}
-
-void TextureStage::light(ShaderProgram *program, std::string name, SpotLight spotLight) {
-    program->set3f(name+".position", spotLight.getPosition());
-    program->set3f(name+".direction", spotLight.getDirection());
-    program->set1f(name+".cutOff", spotLight.getCutOff());
-    program->set1f(name+".outerCutOff", spotLight.getOuterCutOff());
-    program->set1f(name+".constant", spotLight.getConstant());
-    program->set1f(name+".linear", spotLight.getLinear());
-    program->set1f(name+".quadratic", spotLight.getQuadratic());
-    program->set3f(name+".ambient", spotLight.getAmbient());
-    program->set3f(name+".diffuse", spotLight.getDiffuse());
-    program->set3f(name+".specular", spotLight.getSpecular());
 }

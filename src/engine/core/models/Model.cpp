@@ -1,5 +1,9 @@
 #include "Model.h"
 
+Model::Model() : bumpMapping(false) {
+
+}
+
 const aiScene* Model::loadModel(std::string const& path) {
     Assimp::Importer importer;
     int settings = aiProcess_Triangulate | aiProcess_FlipUVs;
@@ -60,7 +64,9 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 
         vertices.push_back(vertex);
 
-        if(mesh->HasTangentsAndBitangents()) {
+
+//        std::cout << mesh->HasTangentsAndBitangents() << std::endl;
+        if (mesh->HasTangentsAndBitangents()) {
             VertexTangent vertTangent;
             vec.x = mesh->mTangents[i].x;
             vec.y = mesh->mTangents[i].y;
@@ -75,7 +81,7 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
         }
     }
 
-    for(unsigned int i = 0; i < mesh->mNumFaces; i++) {
+    for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
 
         for(unsigned int j = 0; j < face.mNumIndices; j++) {
@@ -85,17 +91,22 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
+//    vector<Texture> ambientMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_ambient");
+//    vector<Texture> shininessMaps = loadMaterialTextures(material, aiTextureType_SHININESS, "texture_shininess");
+
     vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-    vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+    // OBJ specular -> aiTextureType_SHININESS
+    vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SHININESS, "texture_specular");
     textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-    vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
+    // OBJ normal -> aiTextureType_HEIGHT
+    vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
     textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 
-    vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-    textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+//    vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_height");
+//    textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
     if (bumpMapping) {
         return Mesh(vertices, indices, textures, tangents);
@@ -105,6 +116,9 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName) {
+//    std::cout << typeName << " " << type << " " << mat->GetTextureCount(type) << std::endl;
+
+
     vector<Texture> textures;
     for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
         aiString str;
@@ -112,7 +126,7 @@ vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type,
         bool skip = false;
 
         for (unsigned int j = 0; j < textures_loaded.size(); j++) {
-            if(std::strcmp(textures_loaded[j].path.C_Str(), str.C_Str()) == 0) {
+            if (std::strcmp(textures_loaded[j].path.C_Str(), str.C_Str()) == 0) {
                 textures.push_back(textures_loaded[j]);
                 skip = true;
                 break;
@@ -157,9 +171,3 @@ void Model::useFlatNormals(bool enable) {
         meshes[i].useFlatNormals(enable);
     }
 }
-
-//void Model::draw(const ShaderProgram *shaderProgram) {
-//    for (unsigned int i = 0; i < meshes.size(); i++) {
-////        meshes[i].draw(*shaderProgram);
-//    }
-//}
