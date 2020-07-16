@@ -55,7 +55,8 @@ GLuint ResourceLoader::loadTexture(std::string name) {
 
         SOIL_free_image_data(data);
     } else {
-        BOOST_LOG_TRIVIAL(error) << "Texture failed to load at path: " << full_path.c_str();
+        const char* result = SOIL_last_result();
+        BOOST_LOG_TRIVIAL(error) << "Texture failed to load at path: " << full_path.c_str() << ". Reason " << result;
         SOIL_free_image_data(data);
     }
 
