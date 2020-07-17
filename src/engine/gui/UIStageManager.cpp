@@ -7,12 +7,14 @@ UIStageManager::UIStageManager()
     MenuStage::getInstance()->setZzz([this](){this->setStage(Stages::SHADING);});
     MenuStage::getInstance()->setAaa([this](){this->setStage(Stages::LIGHT);});
     MenuStage::getInstance()->setBbb([this](){this->setStage(Stages::TEXTURE_MAPS);});
+    MenuStage::getInstance()->setCcc([this](){this->setStage(Stages::DITHERING);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     LightStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     TextureStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    DitheringStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 }
 
 void UIStageManager::setStage(Stages stage) {
@@ -34,6 +36,9 @@ void UIStageManager::setStage(Stages stage) {
             break;
         case TEXTURE_MAPS:
             rootUI = TextureStage::getInstance();
+            break;
+        case DITHERING:
+            rootUI = DitheringStage::getInstance();
             break;
     }
 }
