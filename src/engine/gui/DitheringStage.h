@@ -20,7 +20,7 @@ private:
     bool enableNormalMap = false;
     bool enableSpecularMap = false;
     GLuint textureID;
-
+    int size = 0;
 
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;

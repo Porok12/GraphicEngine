@@ -17,8 +17,8 @@ DitheringStage::DitheringStage()
         std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){program = std::make_shared<ShaderProgram>("dithering");});
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Normal", 10, 130, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableNormalMap = !enableNormalMap;});
+        component = std::make_shared<UIButton>("Size", 10, 130, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){size=(size+1)%3;});
         composite2->add(component);
 
         component = std::make_shared<UIButton>("Spec", 10, 190, 100, 50);
@@ -74,14 +74,29 @@ void DitheringStage::renderContent(Camera camera, double dt) {
     program->set3f("viewPos", camera.getPos());
     program->set1b("enableNormalMap", enableNormalMap);
     program->set1b("enableSpecularMap", enableSpecularMap);
+    std::array<GLfloat, 8*3> palette = {
+                0, 0, 0,
+                0, 0, 255,
+                0, 255, 0,
+                0, 255, 255,
+                255, 0, 0,
+                255, 0, 255,
+                255, 255, 0,
+                255, 255, 255
+    };
+    program->set1i("paletteSize", palette.size()/3);
+    program->set1i("size", size);
+    glUniform3fv(glGetUniformLocation(program->getId(), "palette"), 8*3, palette.data());
 
-    Mat4 mm = Mat4::identity();
-    mm = Mat4::translate(0, -2, -4) * mm;
-
+    
 
     glBindTexture(GL_TEXTURE_2D, textureID);
 
+
+    Mat4 mm = Mat4::identity();
+    mm = Mat4::rotationX(-90) * Mat4::translate(0, 0, -8) * mm;
     ModelRenderer::getInstance()->setModel(mm);
+//    ModelRenderer::getInstance()->setProjection(Mat4::getOrtho(-4, 4, -4, 4, 0.1, 20));
     ModelRenderer::getInstance()->render(plane, *program);
 }
 
