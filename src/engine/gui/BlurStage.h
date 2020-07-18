@@ -10,6 +10,7 @@
 #include <core/light/PointLight.h>
 #include <core/light/DirectionalLight.h>
 #include <core/light/SpotLight.h>
+#include <core/effects/Bloom.h>
 #include "UIStage.h"
 #include "UIFrameDecorator.h"
 #include "UIButton.h"
@@ -18,13 +19,10 @@ class BlurStage : public UIStage {
 private:
     float a = 0, b = 0;
     GLuint textureID;
-    GLuint pingpongFBO[2];
-    GLuint pingpongColorbuffers[2];
-    GLuint quadVAO = 0;
-    GLuint quadVBO;
+    Bloom bloom;
+    Model plane;
 
-    Model model, plane;
-    std::shared_ptr<ShaderProgram> program, blur;
+    std::shared_ptr<ShaderProgram> program;
     std::shared_ptr<UIComponent> temp;
 
     static std::shared_ptr<BlurStage> instance;
@@ -39,8 +37,6 @@ public:
 
     void renderUI() override;
     void renderContent(Camera camera, double dt) override;
-
-    void drawQuad();
 };
 
 #endif // BLURSTAGE_H
