@@ -11,6 +11,7 @@
 #include "ShadingStage.h"
 #include "TextureStage.h"
 #include "BlurStage.h"
+#include "DitheringStage.h"
 
 enum Stages {
     MENU,
@@ -19,7 +20,8 @@ enum Stages {
     LIGHT,
     SHADING,
     TEXTURE_MAPS,
-    BLUR
+    BLUR,
+    DITHERING
 };
 
 class UIStageManager {
