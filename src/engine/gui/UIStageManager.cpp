@@ -41,6 +41,7 @@ void UIStageManager::setStage(Stages stage) {
             break;
         case BLUR:
             rootUI = BlurStage::getInstance();
+            break;
         case DITHERING:
             rootUI = DitheringStage::getInstance();
             break;
