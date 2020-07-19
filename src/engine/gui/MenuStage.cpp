@@ -37,6 +37,10 @@ MenuStage::MenuStage() {
         temp5 = component;
         menuStage->add(component);
 
+        component.reset(new UIButton("Demo7", 550, 400, 100, 50));
+        temp7 = component;
+        menuStage->add(component);
+      
         component.reset(new UIButton("Demo6", 550, 250, 100, 50));
         temp6 = component;
         menuStage->add(component);
@@ -58,11 +62,3 @@ const std::shared_ptr<MenuStage> & MenuStage::getInstance() {
 
     return instance;
 }
-
-//MenuStage* MenuStage::getInstance() {
-//    if (!instance) {
-//        instance = std::make_shared<MenuStage>();
-//    }
-//
-//    return instance.get();
-//}

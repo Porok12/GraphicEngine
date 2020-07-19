@@ -7,6 +7,7 @@ UIStageManager::UIStageManager()
     MenuStage::getInstance()->setZzz([this](){this->setStage(Stages::SHADING);});
     MenuStage::getInstance()->setAaa([this](){this->setStage(Stages::LIGHT);});
     MenuStage::getInstance()->setBbb([this](){this->setStage(Stages::TEXTURE_MAPS);});
+    MenuStage::getInstance()->setDdd([this](){this->setStage(Stages::BLUR);});
     MenuStage::getInstance()->setCcc([this](){this->setStage(Stages::DITHERING);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
@@ -14,6 +15,7 @@ UIStageManager::UIStageManager()
     LightStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ShadingStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     TextureStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    BlurStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     DitheringStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 }
 
@@ -37,6 +39,8 @@ void UIStageManager::setStage(Stages stage) {
         case TEXTURE_MAPS:
             rootUI = TextureStage::getInstance();
             break;
+        case BLUR:
+            rootUI = BlurStage::getInstance();
         case DITHERING:
             rootUI = DitheringStage::getInstance();
             break;

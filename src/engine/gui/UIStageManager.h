@@ -10,6 +10,7 @@
 #include "LightStage.h"
 #include "ShadingStage.h"
 #include "TextureStage.h"
+#include "BlurStage.h"
 #include "DitheringStage.h"
 
 enum Stages {
@@ -19,6 +20,7 @@ enum Stages {
     LIGHT,
     SHADING,
     TEXTURE_MAPS,
+    BLUR,
     DITHERING
 };
 
