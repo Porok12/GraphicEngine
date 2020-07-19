@@ -10,6 +10,7 @@
 #include "LightStage.h"
 #include "ShadingStage.h"
 #include "TextureStage.h"
+#include "DitheringStage.h"
 
 enum Stages {
     MENU,
@@ -17,7 +18,8 @@ enum Stages {
     PARTICLES,
     LIGHT,
     SHADING,
-    TEXTURE_MAPS
+    TEXTURE_MAPS,
+    DITHERING
 };
 
 class UIStageManager {
