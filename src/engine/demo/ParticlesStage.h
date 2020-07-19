@@ -4,9 +4,9 @@
 #include <memory>
 #include <core/particles/ParticleGenerator.h>
 #include <core/particles/ParticleRenderer.h>
-#include "UIStage.h"
-#include "UIFrameDecorator.h"
-#include "UIButton.h"
+#include "gui/UIStage.h"
+#include "gui/UIFrameDecorator.h"
+#include "gui/UIButton.h"
 
 class ParticleStage : public UIStage {
 private:

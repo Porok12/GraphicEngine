@@ -4,14 +4,14 @@
 #include <memory>
 #include <core/Camera.h>
 #include "UIRenderer.h"
-#include "MeshStage.h"
-#include "MenuStage.h"
-#include "ParticlesStage.h"
-#include "LightStage.h"
-#include "ShadingStage.h"
-#include "TextureStage.h"
-#include "BlurStage.h"
-#include "DitheringStage.h"
+#include "demo/MeshStage.h"
+#include "demo/MenuStage.h"
+#include "demo/ParticlesStage.h"
+#include "demo/LightStage.h"
+#include "demo/ShadingStage.h"
+#include "demo/TextureStage.h"
+#include "demo/BlurStage.h"
+#include "demo/DitheringStage.h"
 
 enum Stages {
     MENU,

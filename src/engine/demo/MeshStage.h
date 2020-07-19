@@ -5,9 +5,9 @@
 #include <core/particles/ParticleGenerator.h>
 #include <core/particles/ParticleRenderer.h>
 #include <core/models/Model.h>
-#include "UIStage.h"
-#include "UIFrameDecorator.h"
-#include "UIButton.h"
+#include "gui/UIStage.h"
+#include "gui/UIFrameDecorator.h"
+#include "gui/UIButton.h"
 
 class MeshStage : public UIStage {
 private:
