@@ -88,21 +88,10 @@ void DitheringStage::renderContent(Camera camera, double dt) {
         1, 1, 1
     };
 
-//    std::vector<GLfloat> palette(8*3);
-
-//    int i = 0;
-//    for(auto it = palette.begin(); it != palette.end(); ++it) {
-//        GLfloat r = this->palette[i].x;
-//        *it = r / 255;
-//        std::cout << *it << std::endl;
-//    }
-//    std::cout << std::endl;
     for (int i = 0; i < 8; ++i) {
-//        std::cout << this->palette[i][0] << " " << this->palette[i][1] << " " << this->palette[i][2] << std::endl;
         palette[i*3+0] = this->palette[i].x / 255;
         palette[i*3+1] = this->palette[i].y / 255;
         palette[i*3+2] = this->palette[i].z / 255;
-//        std::cout << palette[3*i+0] << " " << palette[3*i+1] << " " << palette[3*i+2] << std::endl;
     }
 
 

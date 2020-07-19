@@ -45,10 +45,6 @@ void main() {
     }
 
     vec3 color = texture(myTexture, TexPos).rgb;
-    //color = textureOffset(myTexture​, TexPos, ivec2(0, 0)).rgb;
-    //textureSize(myTexture, 0);
-    //    vec3 luminosity = vec3(0.30, 0.59, 0.11);
-    //    float lum = dot(luminosity, color);
 
     float R = color.r;
     float G = color.g;
