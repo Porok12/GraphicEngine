@@ -9,6 +9,7 @@
 #include <core/models/Model.h>
 #include <core/light/PointLight.h>
 #include <core/light/DirectionalLight.h>
+#include <core/algorithm/palette/MedianCut.h>
 #include <core/light/SpotLight.h>
 #include "UIStage.h"
 #include "UIFrameDecorator.h"
@@ -17,10 +18,9 @@
 class DitheringStage : public UIStage {
 private:
     float a = 0, b = 0;
-    bool enableNormalMap = false;
-    bool enableSpecularMap = false;
     GLuint textureID;
     int size = 0;
+    std::vector<fVec3> colors, palette;
 
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;

@@ -6,18 +6,13 @@ in vec2 TexPos;
 in vec3 FragPos;
 in vec3 debug;
 
-uniform bool enableNormalMap;
-uniform bool enableSpecularMap;
-uniform vec3 viewPos;
-
 uniform sampler2D myTexture;
-
 uniform vec3 palette[8];
 uniform int paletteSize;
 uniform int size;
 
 vec3 nearest_palette_color(vec3 color, float m) {
-    vec3 diff = color*255 + (255/3) * (m - 0.5);
+    vec3 diff = color + (1.0/paletteSize) * (m - 0.5);
 
     int j = 0;
     float minDist = distance(diff, palette[j]);
@@ -74,7 +69,6 @@ void main() {
     newColor = inverse(YUV) * newColor;
 
     ivec2 siz = textureSize(myTexture, 0);
-    //vec2 tex_offset = 1.0 / textureSize(myTexture, 0);
     ivec2 UV = ivec2(TexPos.x * siz.x, TexPos.y * siz.y);
 
     vec3 T;

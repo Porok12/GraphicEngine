@@ -21,8 +21,8 @@ DitheringStage::DitheringStage()
         std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){size=(size+1)%3;});
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Spec", 10, 190, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableSpecularMap = !enableSpecularMap;});
+        component = std::make_shared<UIButton>("", 10, 190, 100, 50);
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){});
         composite2->add(component);
     }
 
@@ -40,7 +40,12 @@ DitheringStage::DitheringStage()
             &width, &height, &nrComponents, 0);
 
     if (data) {
-        std::cout << "-----------\n";
+        for (int i = 0; i < width*height*3; i += 3) {
+            colors.push_back(fVec3((int)data[i+0], (int)data[i+1], (int)data[i+2]));
+        }
+        MedianCut medianCut;
+        medianCut.getPalette(3, palette, colors);
+
         GLenum format = GL_RED;
         if (nrComponents == 1)
             format = GL_RED;
@@ -72,18 +77,36 @@ void DitheringStage::renderContent(Camera camera, double dt) {
     
     program->use();
     program->set3f("viewPos", camera.getPos());
-    program->set1b("enableNormalMap", enableNormalMap);
-    program->set1b("enableSpecularMap", enableSpecularMap);
     std::array<GLfloat, 8*3> palette = {
-                0, 0, 0,
-                0, 0, 255,
-                0, 255, 0,
-                0, 255, 255,
-                255, 0, 0,
-                255, 0, 255,
-                255, 255, 0,
-                255, 255, 255
+        0, 0, 0,
+        0, 0, 1,
+        0, 1, 0,
+        0, 1, 1,
+        1, 0, 0,
+        1, 0, 1,
+        1, 1, 0,
+        1, 1, 1
     };
+
+//    std::vector<GLfloat> palette(8*3);
+
+//    int i = 0;
+//    for(auto it = palette.begin(); it != palette.end(); ++it) {
+//        GLfloat r = this->palette[i].x;
+//        *it = r / 255;
+//        std::cout << *it << std::endl;
+//    }
+//    std::cout << std::endl;
+    for (int i = 0; i < 8; ++i) {
+//        std::cout << this->palette[i][0] << " " << this->palette[i][1] << " " << this->palette[i][2] << std::endl;
+        palette[i*3+0] = this->palette[i].x / 255;
+        palette[i*3+1] = this->palette[i].y / 255;
+        palette[i*3+2] = this->palette[i].z / 255;
+//        std::cout << palette[3*i+0] << " " << palette[3*i+1] << " " << palette[3*i+2] << std::endl;
+    }
+
+
+
     program->set1i("paletteSize", palette.size()/3);
     program->set1i("size", size);
     glUniform3fv(glGetUniformLocation(program->getId(), "palette"), 8*3, palette.data());
