@@ -2,9 +2,11 @@
 #define MENUSTAGE_H
 
 #include <memory>
-#include "gui/UIStage.h"
-#include "gui/UIButton.h"
-#include "gui/UIFrameDecorator.h"
+#include <gui/UIStage.h>
+#include <gui/UIButton.h>
+#include <gui/UIFrameDecorator.h>
+#include <gui/UISlider.h>
+#include <gui/UISelectBox.h>
 
 class MenuStage : public UIStage {
 private:

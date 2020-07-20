@@ -1,5 +1,3 @@
-#include <iostream>
-#include <algorithm>
 #include "UIComposite.h"
 
 UIComposite::UIComposite(const std::shared_ptr<Shape> &shape) : UIComponent(shape), children() {
@@ -8,7 +6,7 @@ UIComposite::UIComposite(const std::shared_ptr<Shape> &shape) : UIComponent(shap
 
 void UIComposite::add(std::shared_ptr<UIComponent> &child) {
     this->children.push_back(child);
-    child->setParent(weak_from_this());
+    child->setParent(shared_from_this());
 }
 
 void UIComposite::remove(std::shared_ptr<UIComponent> &child) {
@@ -41,4 +39,3 @@ void UIComposite::cursor(const double &x, const double &y) {
         }
     }
 }
-

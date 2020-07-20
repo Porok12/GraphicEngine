@@ -44,6 +44,13 @@ MenuStage::MenuStage() {
         component.reset(new UIButton("Demo6", 550, 250, 100, 50));
         temp6 = component;
         menuStage->add(component);
+
+        component.reset(new UISlider(50, 500, 100, 50));
+        menuStage->add(component);
+
+        component.reset(new UISelectBox(50, 300, 100, 50));
+        std::dynamic_pointer_cast<UISelectBox>(component)->init();
+        menuStage->add(component);
     }
 
     rootComponent = menuStage;
