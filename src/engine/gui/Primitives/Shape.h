@@ -7,6 +7,7 @@ class Shape {
 protected:
 public:
     float x, y;
+    float w, h;
 
     Shape(float x, float y) : x(x), y(y) {}
 

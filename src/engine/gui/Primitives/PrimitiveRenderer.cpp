@@ -64,21 +64,18 @@ void PrimitiveRenderer::render(const std::shared_ptr<Shape> &shape) {
 }
 
 void PrimitiveRenderer::render(const Rectangle* rect) {
-    //TODO:
     program.lock()->use();
 
-    float vertices[6][7] = {
-            { rect->x,           rect->y + rect->h, 0.0f,   color.x, color.y, color.z, transparency },
+    float vertices[4][7] = {
             { rect->x,           rect->y,           0.0f,   color.x, color.y, color.z, transparency },
             { rect->x + rect->w, rect->y,           0.0f,   color.x, color.y, color.z, transparency },
             { rect->x,           rect->y + rect->h, 0.0f,   color.x, color.y, color.z, transparency },
-            { rect->x + rect->w, rect->y,           0.0f,   color.x, color.y, color.z, transparency },
-            { rect->x + rect->w, rect->y + rect->h, 0.0f,   color.x, color.y, color.z, transparency }
+            { rect->x + rect->w, rect->y + rect->h, 0.0f,   color.x, color.y, color.z, transparency },
     };
 
-    for (int i = 0; i < 6; i++) {
-        vertices[i][0] += offset.x;
-        vertices[i][1] += offset.y;
+    for (auto &v : vertices) {
+        v[0] += offset.x;
+        v[1] += offset.y;
     }
 
     glBindVertexArray(VAO);
@@ -86,7 +83,7 @@ void PrimitiveRenderer::render(const Rectangle* rect) {
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
 }
 

@@ -10,7 +10,8 @@ public:
 
     Circle(float x, float y, float radius, float resolution = 1.0f)
             : Shape(x, y), radius(radius), resolution(resolution) {
-
+        this->w = radius * 2;
+        this->h = radius * 2;
     }
 
     bool contains(const double &x, const double &y) override {
