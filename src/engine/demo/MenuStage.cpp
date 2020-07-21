@@ -6,15 +6,7 @@ MenuStage::MenuStage() {
     auto rect1 = std::make_shared<Rectangle>(0, 0, 800, 600);
     auto menuStage = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect1)));
     {
-        std::shared_ptr<UIComponent> component(new UIButton(100, 120, 100, 50));
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([]() { std::cout << "@\n"; });
-//        std::dynamic_pointer_cast<UIButton>(component)->addCursorCallback([](UIButton* btn) {
-//            if (auto manager = stageManager.lock()) {
-//                manager->setStage(Stages::PARTICLES);
-//            }
-//        });
-
-        menuStage->add(component);
+        std::shared_ptr<UIComponent> component;
 
         component.reset(new UIButton("Demo1", 100, 50, 100, 50));
         temp = component;

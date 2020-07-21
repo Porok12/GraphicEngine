@@ -29,14 +29,14 @@ Window::Window(int width, int height, const char* title) {
     }
 
     glViewport(0, 0, width, height);
-//    glEnable(GL_DEPTH_TEST);
 
     BOOST_LOG_TRIVIAL(debug) << "GLFW Windows was created";
 
-
-//    glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-//    if (glfwRawMouseMotionSupported())
-//        glfwSetInputMode(window.get(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CW);
 
     glfwSetWindowSizeCallback(window.get(), [](GLFWwindow* window, int w, int h){glViewport(0, 0, w, h);});
     glfwSetMouseButtonCallback(window.get(), InputHandler::mouseButtonCallback);
