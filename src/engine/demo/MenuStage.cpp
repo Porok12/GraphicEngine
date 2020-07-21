@@ -45,11 +45,29 @@ MenuStage::MenuStage() {
         temp6 = component;
         menuStage->add(component);
 
+        std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("Text", 200, 500);
+        menuStage->add(label);
+
+        UIComponent* l = label.get();
         component.reset(new UISlider(50, 500, 100, 50));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([l](float f){
+            auto cast = dynamic_cast<UILabel*>(l);
+//            std::cout << l << " " << cast << std::endl;
+            cast->setText(std::to_string(f));
+//            std::dynamic_pointer_cast<UILabel>(l)->setText(std::to_string(f));
+        });
         menuStage->add(component);
 
-        component.reset(new UISelectBox(50, 300, 100, 50));
-        std::dynamic_pointer_cast<UISelectBox>(component)->init();
+        component.reset(new UICheckBox(200, 500, 50, 50));
+        menuStage->add(component);
+
+        component.reset(new UITextBox(200, 400, 130, 50));
+        menuStage->add(component);
+
+        component.reset(new UISelectBox(50, 300, 200, 50));
+//        std::dynamic_pointer_cast<UISelectBox>(component)->init();
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"1", "2", "3"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([](int i){std::cout << i << std::endl;});
         menuStage->add(component);
     }
 

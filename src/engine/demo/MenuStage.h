@@ -7,6 +7,9 @@
 #include <gui/UIFrameDecorator.h>
 #include <gui/UISlider.h>
 #include <gui/UISelectBox.h>
+#include <gui/UILabel.h>
+#include <gui/UICheckBox.h>
+#include <gui/UITextBox.h>
 
 class MenuStage : public UIStage {
 private:
