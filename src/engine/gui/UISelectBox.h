@@ -12,21 +12,35 @@
 #include "UIButton.h"
 #include "UIComposite.h"
 
+#include <string>
 
 class UISelectBox : public UIComponent { //};, public std::enable_shared_from_this<UISelectBox> {
+    struct Option {
+        std::shared_ptr<Shape> shape;
+        bool over;
+        std::string text;
+
+        Option(float x, float y, float w, float h)
+                : shape(std::make_shared<Rectangle>(x, y, w, h)), text("none"), over(0) { };
+        Option(float x, float y, float w, float h, std::string text)
+                : shape(std::make_shared<Rectangle>(x, y, w, h)), text(std::move(text)), over(0) { };
+    };
 private:
+    bool opened = false;
     fVec3 backgroundColor;
     std::function<void ()> onClick;
+    std::function<void (int)> onChanged;
     std::function<void(UISelectBox*)> onCursor;
 
-    std::vector<std::shared_ptr<UIComponent>> buttons;
+    std::vector<std::shared_ptr<Option>> options;
+    std::shared_ptr<Option> option;
 //protected:
 //    std::shared_ptr<UIComponent> shared_from_this() override {
 //        std::cerr << std::enable_shared_from_this<UISelectBox>::shared_from_this().use_count() << std::endl;
 //        return std::enable_shared_from_this<UISelectBox>::shared_from_this();
 //    };
 public:
-    UISelectBox(const std::shared_ptr<Shape> &shape) : UIComponent(shape), buttons() {
+    UISelectBox(const std::shared_ptr<Shape> &shape) : UIComponent(shape), options() {
         this->backgroundColor = fVec3(0.5f, 0.5f, 0.5f);
     }
 
@@ -35,16 +49,21 @@ public:
     }
 
     void init() {
-        buttons.push_back(std::make_shared<UIButton>("1", 0, 0, shape->x, 40));
-        buttons.push_back(std::make_shared<UIButton>("2", 0, 0, shape->x, 40));
-        buttons.push_back(std::make_shared<UIButton>("3", 0, 0, shape->x, 40));
-        for (auto &btn: buttons) {
-            btn->setParent(shared_from_this());
-        }
+        options.push_back(std::make_shared<Option>(shape->x, shape->y - 1*shape->h, shape->w, shape->h));
+        options.push_back(std::make_shared<Option>(shape->x, shape->y - 2*shape->h, shape->w, shape->h));
+        options.push_back(std::make_shared<Option>(shape->x, shape->y - 3*shape->h, shape->w, shape->h));
+//        for (auto &btn: options) {
+//            btn->setParent(shared_from_this());
+//        }
     }
 
+    void setOptions(const std::vector<std::string> &options);
+
+    void addChangedCallback(std::function<void(int)> onChanged);
     void addClickCallback(std::function<void()> onClick);
     void addCursorCallback(std::function<void(UISelectBox*)> &onCoursor);
+
+    int getOption();
 
     void draw() override;
     void click(const double &x, const double &y) override;

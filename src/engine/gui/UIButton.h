@@ -12,10 +12,12 @@
 
 class UIButton : public UIComponent {
 private:
-    fVec3 backgroundColor;
     std::function<void ()> onClick;
     std::function<void(UIButton*)> onCursor;
+
+protected:
     std::string text = "Button";
+    fVec3 backgroundColor;
 
 public:
     UIButton(const std::shared_ptr<Shape> &shape) : UIComponent(shape) {
