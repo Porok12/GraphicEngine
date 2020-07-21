@@ -1,6 +1,8 @@
 #include "InputHandler.h"
 
+std::vector<MouseButton> InputHandler::mouseButtonListeners;
 std::vector<MousePressed> InputHandler::mousePressedListeners;
+std::vector<MouseRelease> InputHandler::mouseReleaseListeners;
 std::vector<CursorPosition> InputHandler::cursorPositionListeners;
 std::vector<CursorOffset> InputHandler::cursorOffsetListeners;
 std::vector<KeyPressed> InputHandler::keyPressedListeners;
@@ -46,6 +48,18 @@ void InputHandler::cursorPositionCallback(GLFWwindow* window, double xpos, doubl
 void InputHandler::mouseButtonCallback(GLFWwindow *window, int btn, int action, int mods) {
     if (action == GLFW_RELEASE && buttons[btn]) {
         for(const auto &listener: mousePressedListeners) {
+            listener(InputHandler::x, InputHandler::y);
+        }
+    }
+
+    if (action == GLFW_PRESS && !buttons[btn]) {
+        for(const auto &listener: mouseButtonListeners) {
+            listener(InputHandler::x, InputHandler::y);
+        }
+    }
+
+    if (action == GLFW_RELEASE && buttons[btn]) {
+        for(const auto &listener: mouseReleaseListeners) {
             listener(InputHandler::x, InputHandler::y);
         }
     }
