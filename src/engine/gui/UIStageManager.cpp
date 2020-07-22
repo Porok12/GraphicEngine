@@ -53,7 +53,10 @@ void UIStageManager::render() {
         glEnable(GL_DEPTH_TEST);
         rootUI->renderContent(camera, deltaTime);
         glDisable(GL_DEPTH_TEST);
-        rootUI->renderUI();
+
+        if (!disabled) {
+            rootUI->renderUI();
+        }
     }
 }
 
@@ -63,13 +66,21 @@ void UIStageManager::update(Camera camera, double dt) {
 }
 
 void UIStageManager::click(const double &x, const double &y) {
-    if (!camera.isEnabled()) {
+    if (!disabled) {
         rootUI->click(x, y);
     }
 }
 
 void UIStageManager::cursor(const double &x, const double &y) {
-    if (!camera.isEnabled()) {
+    if (!disabled) {
         rootUI->cursor(x, y);
     }
+}
+
+void UIStageManager::setDisabled(bool disabled) {
+    UIStageManager::disabled = disabled;
+}
+
+bool UIStageManager::isDisabled() const {
+    return disabled;
 }

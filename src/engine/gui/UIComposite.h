@@ -22,6 +22,7 @@ public:
     void draw() override;
     void click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
+    void update(int w, int h) override;
 };
 
 #endif // UICOMPOSITE_H

@@ -5,7 +5,7 @@
 Camera::Camera(const fVec3 &Position) : Position(Position) {
     const float YAW = -90.0f;
     const float PITCH = 0.0f;
-    const float SPEED = 2.5f * 10;
+    const float SPEED = 4.0f;
     const float SENSITIVITY = 0.1f;
     enabled = false;
 
@@ -41,7 +41,7 @@ void Camera::updateCameraVectors() {
 void Camera::processMouseMovement(const double &x, const double &y) {
     if (enabled) {
         double xoffset = x * MouseSensitivity;
-        double yoffset = y * MouseSensitivity;
+        double yoffset = -y * MouseSensitivity;
 
         Yaw   += xoffset;
         Pitch += yoffset;
@@ -93,4 +93,15 @@ void Camera::toggle() {
 
 bool Camera::isEnabled() const {
     return enabled;
+}
+
+void Camera::reset() {
+    const float YAW = -90.0f;
+    const float PITCH = 0.0f;
+
+    Yaw = YAW;
+    Pitch = PITCH;
+    Position = fVec3(0);
+
+    updateCameraVectors();
 }

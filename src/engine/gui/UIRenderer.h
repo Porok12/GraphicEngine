@@ -3,12 +3,16 @@
 
 #include <memory>
 #include <core/shaders/ShaderProgram.h>
+#include <core/window.h>
 #include "UIComponent.h"
 
 class GUIRenderer {
 private:
     Mat4 projection;
     std::weak_ptr<ShaderProgram> program;
+    MainWindow *window;
+    int w, h;
+    bool _update;
 
     static std::unique_ptr<GUIRenderer> instance;
     GUIRenderer();
@@ -20,6 +24,12 @@ public:
     GUIRenderer& setProjection(Mat4 &projection);
 
     void render(UIComponent *elem);
+
+    void update(int w, int h) {
+        this->w = w;
+        this->h = h;
+        _update = true;
+    }
 };
 
 #endif // GUIRENDERER_H

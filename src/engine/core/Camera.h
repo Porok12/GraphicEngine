@@ -39,6 +39,7 @@ public:
     const fVec3 &getRight() const;
 
     void toggle();
+    void reset();
 
     bool isEnabled() const;
 };

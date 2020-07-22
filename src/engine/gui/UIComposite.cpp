@@ -26,7 +26,7 @@ void UIComposite::draw() {
 
 void UIComposite::click(const double &x, const double &y) {
     if (shape->contains(x, y)) {
-        for(const auto& ch: children) {
+        for (const auto& ch: children) {
             ch->click(x-shape->x, y-shape->y);
         }
     }
@@ -34,8 +34,16 @@ void UIComposite::click(const double &x, const double &y) {
 
 void UIComposite::cursor(const double &x, const double &y) {
     if (shape->contains(x, y)) {
-        for(const auto& ch: children) {
+        for (const auto& ch: children) {
             ch->cursor(x-shape->x, y-shape->y);
         }
+    }
+}
+
+void UIComposite::update(int w, int h) {
+    UIComponent::update(w, h);
+
+    for (const auto &ch: children) {
+        ch->update(shape->w, shape->y);
     }
 }

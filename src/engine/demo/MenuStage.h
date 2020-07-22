@@ -50,6 +50,8 @@ public:
     void setDdd(std::function<void ()> fun) {
         std::dynamic_pointer_cast<UIButton>(temp7)->addClickCallback(fun);
     }
+
+
 };
 
 #endif // MENUSTAGE_H

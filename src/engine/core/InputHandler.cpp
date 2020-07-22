@@ -30,6 +30,10 @@ void InputHandler::characterCallback(GLFWwindow* window, unsigned int codepoint)
 }
 
 void InputHandler::cursorPositionCallback(GLFWwindow* window, double xpos, double ypos) {
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    ypos = height - ypos;
+
     for (const auto &listener: cursorPositionListeners) {
         listener(xpos, ypos);
     }

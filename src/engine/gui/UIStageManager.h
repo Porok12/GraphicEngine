@@ -29,6 +29,7 @@ private:
     double deltaTime;
     Camera camera;
     std::shared_ptr<UIStage> rootUI;
+    bool disabled = false;
 
 public:
     UIStageManager();
@@ -39,6 +40,9 @@ public:
 
     void click(const double &x, const double &y);
     void cursor(const double &x, const double &y);
+
+    void setDisabled(bool disabled);
+    bool isDisabled() const;
 };
 
 #endif // UISTAGEMANAGER_H

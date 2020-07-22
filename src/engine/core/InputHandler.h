@@ -71,6 +71,14 @@ public:
         charactersListeners.push_back(listener);
     }
 
+    static void removeMousePressedListner(const MousePressed &listner) {
+//        mousePressedListeners.erase(std::find(mousePressedListeners.begin(), mousePressedListeners.end(), listner));
+    }
+
+    static void removeCursorPositionListener(const CursorPosition &listner) {
+//        cursorPositionListeners.erase(std::find(cursorPositionListeners.begin(), cursorPositionListeners.end(), listner));
+    }
+
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void characterCallback(GLFWwindow* window, unsigned int codepoint);
     static void cursorPositionCallback(GLFWwindow* window, double xpos, double ypos);

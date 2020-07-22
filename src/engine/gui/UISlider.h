@@ -28,12 +28,27 @@ public:
         slider = std::make_shared<Circle>(0, 0, 10);
         range = std::make_shared<Rectangle>(0, 0, 100, 10);
 
-        InputHandler::addMouseReleaseListner([this](const double &x, const double &y){action = false;});
-        InputHandler::addMouseButtonListner([this](const double &x, const double &y){action = true;});
+        InputHandler::addMouseReleaseListner([this](const double &x, const double &y){
+            action = false;
+        });
+        InputHandler::addMouseButtonListner([this](const double &x, const double &y){
+            if (this->shape->contains(x, y)) {
+                action = true;
+            }
+        });
     }
 
     UISlider(const int &x, const int &y, const int &w, const int &h)
             : UISlider(std::make_shared<Rectangle>(x, y, w, h)) {
+    }
+
+    UISlider(const int &x, const int &y, const int &w, const int &h, float l, float r, float s)
+            : UISlider(std::make_shared<Rectangle>(x, y, w, h)) {
+        this->lBorder = l;
+        this->rBorder = r;
+        this->step= s;
+
+//        onChange(lBorder);
     }
 
     void addClickCallback(std::function<void()> onClick);

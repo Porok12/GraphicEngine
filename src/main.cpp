@@ -19,11 +19,11 @@
 #include <core/particles/ParticleRenderer.h>
 #include <core/models/ModelRenderer.h>
 
-#define SCREEN_WIDTH 800.0f
-#define SCREEN_HEIGHT 600.0f
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
 int main(int argc, char *argv[]) {
-    Window window(SCREEN_WIDTH, SCREEN_HEIGHT, "Graphic Engine Demo");
+    MainWindow window(SCREEN_WIDTH, SCREEN_HEIGHT, "Graphic Engine Demo");
 
     ResourceLoader resourceLoader(boost::filesystem::current_path().parent_path());
 
@@ -36,7 +36,17 @@ int main(int argc, char *argv[]) {
     Camera camera(fVec3(0, 0, 0));
 
     Mat4 ortho = Mat4::getOrtho(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT, -1, 100);
-    Mat4 projection = Mat4::getProjection(60.0f, SCREEN_WIDTH / SCREEN_HEIGHT, 0.1f, 100.f);
+    Mat4 projection = Mat4::getProjection(60.0f, SCREEN_WIDTH / static_cast<float>(SCREEN_HEIGHT), 0.1f, 100.f);
+    window.addOnResizeListener([&projection, &ortho](int w, int h){
+        projection = Mat4::getProjection(60.0f, w / static_cast<float>(h), 0.1f, 100.f);
+        ModelRenderer::getInstance()->setProjection(projection);
+        ParticleRenderer::getInstance()->setProjection(projection);
+
+        ortho = Mat4::getOrtho(0, w, 0, h, -1, 100);
+        FontRenderer::getInstance()->setProjection(ortho);
+        GUIRenderer::getInstance()->setProjection(ortho);
+        GUIRenderer::getInstance()->update(w, h);
+    });
 
     ModelRenderer::getInstance()->setProgram(modelProgram);
     ModelRenderer::getInstance()->setProjection(projection);
@@ -53,6 +63,9 @@ int main(int argc, char *argv[]) {
     auto fun = std::bind(&Camera::processMouseMovement, &camera, // DO NOT USE camera ALONE
             std::placeholders::_1, std::placeholders::_2);
     InputHandler::addCursorOffsetListener(fun);
+
+
+
 
     InputHandler::addKeyPressedListener([&camera, &window](const int &key){
         if (key == GLFW_KEY_LEFT_CONTROL) {
@@ -71,9 +84,15 @@ int main(int argc, char *argv[]) {
 
     UIStageManager stageManager;
     stageManager.setStage(Stages::MENU);
-
-    InputHandler::addMousePressedListner([&stageManager](const double &x, const double &y){stageManager.click(x, 600-y);});
-    InputHandler::addCursorPositionListener([&stageManager](const double &x, const double &y){stageManager.cursor(x, 600-y);});
+    auto clickLambda = [&stageManager](const double &x, const double &y){stageManager.click(x, y);};
+    auto cursorLambda = [&stageManager](const double &x, const double &y){stageManager.cursor(x, y);};
+    InputHandler::addMousePressedListner(clickLambda);
+    InputHandler::addCursorPositionListener(cursorLambda);
+    InputHandler::addKeyPressedListener([&stageManager](const int &key){
+        if (key == GLFW_KEY_LEFT_CONTROL) {
+            stageManager.setDisabled(!stageManager.isDisabled());
+        }
+    });
 
     while (!window.shouldClose()) {
         window.clear(0.3f, 0.3f, 0.3f);
