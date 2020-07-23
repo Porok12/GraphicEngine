@@ -1,5 +1,3 @@
-#include <core/models/ModelRenderer.h>
-#include <gui/UISlider.h>
 #include "MeshStage.h"
 
 std::shared_ptr<MeshStage> MeshStage::instance = nullptr;
@@ -19,39 +17,80 @@ MeshStage::MeshStage()
                                           ->setX(new CenterConstraint)->setY(new FixedConstraint(500 - 50 - 10)));
         composite2->add(component);
 
-        component.reset(new UISlider(50, 500, 100, 30, 0.01, 2, 0.1));
-        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+
+        std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("0.00", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(30))
+                                          ->setY(new FixedConstraint(22)));
+        composite2->add(label);
+        UIComponent* label_ptr = label.get();
+
+        component.reset(new UISlider(50, 500, 100, 30, 0, 2, 0.1));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this, label_ptr](float f){
             rotationSpeed = f;
+
+            auto cast = dynamic_cast<UILabel*>(label_ptr);
+            cast->setText(std::to_string(f).substr(0, 4));
         });
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new FixedConstraint(10))
+                                          ->setX(new FixedConstraint(90))
                                           ->setY(new FixedConstraint(10)));
         composite2->add(component);
 
-        component.reset(new UISlider(50, 500, 100, 30, 0.01, 2, 0.1));
-        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+        label.reset(new UILabel("0.00", 50, 500));
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(30))
+                                      ->setY(new FixedConstraint(45+22)));
+        composite2->add(label);
+        label_ptr = label.get();
+
+        component.reset(new UISlider(50, 500, 100, 30, 0.001, 2, 0.1));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this, label_ptr](float f){
             rotationX = f;
+
+            auto cast = dynamic_cast<UILabel*>(label_ptr);
+            cast->setText(std::to_string(f).substr(0, 4));
         });
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new FixedConstraint(10))
+                                          ->setX(new FixedConstraint(90))
                                           ->setY(new FixedConstraint(50)));
         composite2->add(component);
 
-        component.reset(new UISlider(50, 500, 100, 30, 0.01, 2, 0.1));
-        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+        label.reset(new UILabel("0.00", 50, 500));
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(30))
+                                      ->setY(new FixedConstraint(90+22)));
+        composite2->add(label);
+        label_ptr = label.get();
+
+        component.reset(new UISlider(50, 500, 100, 30, 0.001, 2, 0.1));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this, label_ptr](float f){
             rotationY = f;
+
+            auto cast = dynamic_cast<UILabel*>(label_ptr);
+            cast->setText(std::to_string(f).substr(0, 4));
         });
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new FixedConstraint(10))
+                                          ->setX(new FixedConstraint(90))
                                           ->setY(new FixedConstraint(100)));
         composite2->add(component);
 
-        component.reset(new UISlider(50, 500, 100, 30, 0, 2, 0.1));
-        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+        label.reset(new UILabel("0.00", 50, 500));
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(30))
+                                      ->setY(new FixedConstraint(140+22)));
+        composite2->add(label);
+        label_ptr = label.get();
+
+        component.reset(new UISlider(50, 500, 100, 30, 0.001, 2, 0.1));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this, label_ptr](float f){
             rotationZ = f;
+
+            auto cast = dynamic_cast<UILabel*>(label_ptr);
+            cast->setText(std::to_string(f).substr(0, 4));
         });
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new FixedConstraint(10))
+                                          ->setX(new FixedConstraint(90))
                                           ->setY(new FixedConstraint(150)));
         composite2->add(component);
     }
