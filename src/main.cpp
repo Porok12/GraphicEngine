@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     std::shared_ptr<Font> ubuntu(FontLoader::loadFont("Ubuntu.ttf"));
     FontLoader::destroy();
 
-    Camera camera(fVec3(0, 0, 0));
+    auto camera = std::make_shared<Camera>(fVec3(0, 0, 0));
 
     Mat4 ortho = Mat4::getOrtho(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT, -1, 100);
     Mat4 projection = Mat4::getProjection(60.0f, SCREEN_WIDTH / static_cast<float>(SCREEN_HEIGHT), 0.1f, 100.f);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
     PrimitiveRenderer::getInstance()->setProgram(guiProgram);
 
-    auto fun = std::bind(&Camera::processMouseMovement, &camera, // DO NOT USE camera ALONE
+    auto fun = std::bind(&Camera::processMouseMovement, &*camera.get(), // DO NOT USE camera ALONE
             std::placeholders::_1, std::placeholders::_2);
     InputHandler::addCursorOffsetListener(fun);
 
@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 
     InputHandler::addKeyPressedListener([&camera, &window](const int &key){
         if (key == GLFW_KEY_LEFT_CONTROL) {
-            camera.toggle();
+            camera->toggle();
             window.toggleCursor();
         }
     });
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
 
     GUIRenderer::getInstance()->setProgram(guiProgram).setProjection(ortho);
 
-    UIStageManager stageManager;
+    UIStageManager stageManager(camera);
     stageManager.setStage(Stages::MENU);
     auto clickLambda = [&stageManager](const double &x, const double &y){stageManager.click(x, y);};
     auto cursorLambda = [&stageManager](const double &x, const double &y){stageManager.cursor(x, y);};
@@ -98,17 +98,17 @@ int main(int argc, char *argv[]) {
         window.clear(0.3f, 0.3f, 0.3f);
         currentTime = glfwGetTime();
 
-        stageManager.update(camera, deltaTime);
+        stageManager.update(deltaTime);
         deltaTime = currentTime - lastTime;
 
         if (window.getKey(GLFW_KEY_D))
-            camera.processKeyboard(Camera_Movement::RIGHT, deltaTime);
+            camera->processKeyboard(Camera_Movement::RIGHT, deltaTime);
         if (window.getKey(GLFW_KEY_A))
-            camera.processKeyboard(Camera_Movement::LEFT, deltaTime);
+            camera->processKeyboard(Camera_Movement::LEFT, deltaTime);
         if (window.getKey(GLFW_KEY_W))
-            camera.processKeyboard(Camera_Movement::FORWARD, deltaTime);
+            camera->processKeyboard(Camera_Movement::FORWARD, deltaTime);
         if (window.getKey(GLFW_KEY_S))
-            camera.processKeyboard(Camera_Movement::BACKWARD, deltaTime);
+            camera->processKeyboard(Camera_Movement::BACKWARD, deltaTime);
 
         stageManager.render();
 

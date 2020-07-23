@@ -27,15 +27,15 @@ enum Stages {
 class UIStageManager {
 private:
     double deltaTime;
-    Camera camera;
     std::shared_ptr<UIStage> rootUI;
+    std::shared_ptr<Camera> camera;
     bool disabled = false;
 
 public:
-    UIStageManager();
+    UIStageManager(const std::shared_ptr<Camera> &camera);
 
     void setStage(Stages stage);
-    void update(Camera camera, double dt);
+    void update(double dt);
     void render();
 
     void click(const double &x, const double &y);
