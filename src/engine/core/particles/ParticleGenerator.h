@@ -2,6 +2,9 @@
 #define PARTICLEGENERATOR_H
 
 #include "Particle.h"
+#include <boost/random.hpp>
+#include <ctime>
+#include <cstdint>
 
 class ParticleGenerator {
 private:
@@ -19,9 +22,13 @@ private:
     float angleMin, angleMax;
     float weightMin, weightMax;
     float transparencyMin, transparencyMax;
+    float spawnRate;
+    fVec3 velocityMin, velocityMax;
+    fVec3 positionMin, positionMax;
     function_update updateFun;
+    float size;
+    int select;
 
-    fVec3 velocity;
     float rate, curr;
     float tmp;
 
@@ -36,7 +43,13 @@ private:
                       float weightMax,
                       float transparencyMin,
                       float transparencyMax,
-                      const function_update &updateFun);
+                      float spawnRate,
+                      fVec3 velocityMin,
+                      fVec3 velocityMax,
+                      fVec3 positionMin,
+                      fVec3 positionMax,
+                      const function_update &updateFun,
+                      int select);
     void init();
     void spawnParticle();
 
@@ -51,11 +64,12 @@ private:
         float angleMin, angleMax;
         float weightMin, weightMax;
         float transparencyMin, transparencyMax;
+        float spawnRate;
         function_update updateFun;
-
+        fVec3 velocityMin, velocityMax;
+        fVec3 positionMin, positionMax;
         int select;
-        fVec3 Velocity;
-        fVec3 Position;
+
     public:
         GeneratorBuilder();
 
@@ -70,7 +84,13 @@ private:
         GeneratorBuilder &setWeight(const float &minWeight, const float &maxWeight);
         GeneratorBuilder &setTransparency(const float &transparency);
         GeneratorBuilder &setTransparency(const float &minTransparency, const float &maxTransparency);
+        GeneratorBuilder &setSpawnRate(const float &spawnRate);
+        GeneratorBuilder &setPosition(const fVec3 &position);
+        GeneratorBuilder &setPosition(const fVec3 &minPosition, const fVec3 &maxPosition);
+        GeneratorBuilder &setVelocity(const fVec3 &velocity);
+        GeneratorBuilder &setVelocity(const fVec3 &minVelocity, const fVec3 &maxVelocity);
         GeneratorBuilder &setUpdate(const function_update &updateFun);
+        GeneratorBuilder &setSelect(const int &select);
 
         ParticleGenerator build();
         ParticleGenerator* buildPtr();
@@ -78,10 +98,10 @@ private:
 public:
 
     static GeneratorBuilder getBuilder();
-
     void update(double dt);
     const shared_vector &getParticles() const;
     float getLifeTime() const;
+    GLuint getTexture() const;
 };
 
 #endif // PARTICLEGENERATOR_H

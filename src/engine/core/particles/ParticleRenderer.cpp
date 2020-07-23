@@ -1,4 +1,5 @@
 #include "ParticleRenderer.h"
+#include "ParticleGenerator.h"
 
 std::unique_ptr<ParticleRenderer> ParticleRenderer::instance = nullptr;
 
@@ -36,15 +37,25 @@ void ParticleRenderer::init() {
 
     glBindBuffer(GL_ARRAY_BUFFER, dataVBO);
 //    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
+    std::cerr << sizeof(ParticleData) << std::endl;
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float)*4, (void*) nullptr);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (void*) nullptr);
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float)*4, (void*) (sizeof(float)*3));
+    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (void*) (sizeof(float)*3));
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (void*) (sizeof(float)*4));
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (void*) (sizeof(float)*5));
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (void*) (sizeof(float)*7));
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glVertexAttribDivisor(0, 0);
     glVertexAttribDivisor(1, 1);
     glVertexAttribDivisor(2, 1);
+    glVertexAttribDivisor(3, 1);
+    glVertexAttribDivisor(4, 1);
+    glVertexAttribDivisor(5, 1);
 
     glBindVertexArray(0);
 }
@@ -66,12 +77,19 @@ ParticleRenderer *ParticleRenderer::setProjection(const Mat4 &projection) {
     return this;
 }
 
-void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &particles, float lifeTime) {
+void ParticleRenderer::render(const ParticleGenerator *generator) {
+    render(generator->getParticles(), generator->getLifeTime(), generator->getTexture());
+}
+
+void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &particles, float lifeTime, const GLuint &texture) {
     std::vector<ParticleData> data;
     for (const auto& p: particles) {
         if (p->LifeTime < 0.01) continue;
         data.push_back(ParticleData(*p));
+//        std::cout << p->Select << std::endl;
+        data.emplace_back(*p);
     }
+
 
     auto cam = this->cameraPos;
     auto right = this->right;
@@ -92,7 +110,7 @@ void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &part
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, dataVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data.size()*4, &data[0], GL_STREAM_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(ParticleData)*data.size(), &data[0], GL_STREAM_DRAW);
 
     program->use().setMatrix4("projection", projection).setMatrix4("view", view)
             .set3f("camera", cameraPos.x, cameraPos.y, cameraPos.z)
@@ -100,9 +118,8 @@ void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &part
             .set3f("up", up.x, up.y, up.z);
     program->set1f("lifeTime", lifeTime).set1i("rows", rows).set1i("columns", columns);
 
-
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, this->texture);
 
     glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, static_cast<GLsizei>(data.size()));
     glBindVertexArray(0);
@@ -128,12 +145,19 @@ ParticleRenderer *ParticleRenderer::setUp(const fVec3 &up) {
     return this;
 }
 
-ParticleRenderer::ParticleData::ParticleData(float x, float y, float z, float lifeTime)
-        : x(x), y(y), z(z), lifeTime(lifeTime) {
-
-}
-
 ParticleRenderer::ParticleData::ParticleData(const Particle& particle)
-: x(particle.Position.x), y(particle.Position.y), z(particle.Position.z), lifeTime(particle.LifeTime) {
-
+        : x(particle.Position.x), y(particle.Position.y), z(particle.Position.z),
+          lifeTime(particle.LifeTime), transparency(particle.Transparency),
+          size(particle.Size), angle(particle.Angle), select(particle.Select) {
 }
+
+//ParticleRenderer::ParticleData::ParticleData(float x, float y, float z, float lifeTime)
+//        : x(x), y(y), z(z), lifeTime(lifeTime), transparency(1) {
+//
+//}
+//
+//
+//ParticleRenderer::ParticleData::ParticleData(float x, float y, float z, float lifeTime, float transparency)
+//        : x(x), y(y), z(z), lifeTime(lifeTime), transparency(transparency) {
+//
+//}

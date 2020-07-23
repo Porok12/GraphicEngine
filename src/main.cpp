@@ -64,9 +64,6 @@ int main(int argc, char *argv[]) {
             std::placeholders::_1, std::placeholders::_2);
     InputHandler::addCursorOffsetListener(fun);
 
-
-
-
     InputHandler::addKeyPressedListener([&camera, &window](const int &key){
         if (key == GLFW_KEY_LEFT_CONTROL) {
             camera->toggle();
@@ -94,6 +91,7 @@ int main(int argc, char *argv[]) {
         }
     });
 
+
     while (!window.shouldClose()) {
         window.clear(0.3f, 0.3f, 0.3f);
         currentTime = glfwGetTime();
@@ -116,5 +114,5 @@ int main(int argc, char *argv[]) {
         window.update();
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

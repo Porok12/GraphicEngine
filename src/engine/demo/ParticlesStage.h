@@ -13,9 +13,11 @@ class ParticleStage : public UIStage {
 private:
     std::unique_ptr<ParticleGenerator> particleGenerator;
     std::shared_ptr<UIComponent> temp;
+    GLuint texFire, texCloud, texExplosion, texCandleSmoke, texSnowFlakes;
 
     static std::shared_ptr<ParticleStage> instance;
     ParticleStage();
+    void changeGenerator(int i);
 
 public:
     static const std::shared_ptr<ParticleStage> &getInstance();
