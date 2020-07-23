@@ -5,13 +5,14 @@
 #include <core/particles/ParticleGenerator.h>
 #include <core/particles/ParticleRenderer.h>
 #include <core/models/Model.h>
-#include "UIStage.h"
-#include "UIFrameDecorator.h"
-#include "UIButton.h"
+#include "gui/UIStage.h"
+#include "gui/UIFrameDecorator.h"
+#include "gui/UIButton.h"
 
 class MeshStage : public UIStage {
 private:
-    float a = 0;
+    float rotationSpeed = 0, tmp = 0;
+    float rotationX, rotationY, rotationZ;
     Model model;
     ParticleGenerator particleGenerator;
     std::shared_ptr<UIComponent> temp;

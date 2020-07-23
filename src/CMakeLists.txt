@@ -1,6 +1,7 @@
 add_subdirectory(engine/math)
 add_subdirectory(engine/core)
 add_subdirectory(engine/gui)
+add_subdirectory(engine/demo)
 
 if(Boost_FOUND)
     message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
@@ -46,7 +47,7 @@ add_executable(GraphicEngine main.cpp ${someResources})
 target_link_libraries(GraphicEngine ${OPENGL_LIBRARIES})
 target_link_libraries(GraphicEngine ${Boost_LIBRARIES})# pthread)
 target_link_libraries(GraphicEngine glfw assimp freetype SOIL libglew_shared)
-target_link_libraries(GraphicEngine math core gui)
+target_link_libraries(GraphicEngine math core gui demo)
 
 #add_custom_command(
 #        OUTPUT res

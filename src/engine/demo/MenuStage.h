@@ -2,9 +2,14 @@
 #define MENUSTAGE_H
 
 #include <memory>
-#include "UIStage.h"
-#include "UIButton.h"
-#include "UIFrameDecorator.h"
+#include <gui/UIStage.h>
+#include <gui/UIButton.h>
+#include <gui/UIFrameDecorator.h>
+#include <gui/UISlider.h>
+#include <gui/UISelectBox.h>
+#include <gui/UILabel.h>
+#include <gui/UICheckBox.h>
+#include <gui/UITextBox.h>
 
 class MenuStage : public UIStage {
 private:
@@ -45,6 +50,8 @@ public:
     void setDdd(std::function<void ()> fun) {
         std::dynamic_pointer_cast<UIButton>(temp7)->addClickCallback(fun);
     }
+
+
 };
 
 #endif // MENUSTAGE_H

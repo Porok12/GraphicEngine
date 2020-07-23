@@ -3,11 +3,15 @@
 
 #include <vector>
 #include <memory>
+#include <iostream>
+#include <algorithm>
 #include "UIComponent.h"
+#include "Utils/Utils.h"
 
-class UIComposite : public UIComponent, public std::enable_shared_from_this<UIComposite> {
+class UIComposite : public UIComponent {
 private:
     std::vector<std::shared_ptr<UIComponent>> children;
+
 public:
     UIComposite(const std::shared_ptr<Shape> &shape);
 
@@ -18,6 +22,7 @@ public:
     void draw() override;
     void click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
+    void update(int w, int h) override;
 };
 
 #endif // UICOMPOSITE_H

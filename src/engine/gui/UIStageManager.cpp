@@ -1,7 +1,7 @@
 #include "UIStageManager.h"
 
-UIStageManager::UIStageManager()
-        : rootUI(), camera(fVec3(0)) {
+UIStageManager::UIStageManager(const std::shared_ptr<Camera> &camera)
+        : rootUI() {
     MenuStage::getInstance()->setXxx([this](){this->setStage(Stages::MESH);});
     MenuStage::getInstance()->setYyy([this](){this->setStage(Stages::PARTICLES);});
     MenuStage::getInstance()->setZzz([this](){this->setStage(Stages::SHADING);});
@@ -17,6 +17,8 @@ UIStageManager::UIStageManager()
     TextureStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     BlurStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     DitheringStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+
+    this->camera = camera;
 }
 
 void UIStageManager::setStage(Stages stage) {
@@ -46,30 +48,42 @@ void UIStageManager::setStage(Stages stage) {
             rootUI = DitheringStage::getInstance();
             break;
     }
+
+    camera->reset();
 }
 
 void UIStageManager::render() {
     if (rootUI) {
         glEnable(GL_DEPTH_TEST);
-        rootUI->renderContent(camera, deltaTime);
+        rootUI->renderContent(*camera, deltaTime);
         glDisable(GL_DEPTH_TEST);
-        rootUI->renderUI();
+
+        if (!disabled) {
+            rootUI->renderUI();
+        }
     }
 }
 
-void UIStageManager::update(Camera camera, double dt) {
-    this->camera = camera;
+void UIStageManager::update(double dt) {
     this->deltaTime = dt;
 }
 
 void UIStageManager::click(const double &x, const double &y) {
-    if (!camera.isEnabled()) {
+    if (!disabled) {
         rootUI->click(x, y);
     }
 }
 
 void UIStageManager::cursor(const double &x, const double &y) {
-    if (!camera.isEnabled()) {
+    if (!disabled) {
         rootUI->cursor(x, y);
     }
+}
+
+void UIStageManager::setDisabled(bool disabled) {
+    UIStageManager::disabled = disabled;
+}
+
+bool UIStageManager::isDisabled() const {
+    return disabled;
 }

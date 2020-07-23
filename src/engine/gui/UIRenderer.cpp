@@ -28,5 +28,11 @@ void GUIRenderer::render(UIComponent *elem) {
     if (auto p = program.lock()) {
         p->use().setMatrix4("ortho", projection);
     }
+
+    if (_update) {
+        _update = false;
+        elem->update(w, h);
+    }
+
     elem->draw();
 }

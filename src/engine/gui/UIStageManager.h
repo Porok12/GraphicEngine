@@ -4,14 +4,14 @@
 #include <memory>
 #include <core/Camera.h>
 #include "UIRenderer.h"
-#include "MeshStage.h"
-#include "MenuStage.h"
-#include "ParticlesStage.h"
-#include "LightStage.h"
-#include "ShadingStage.h"
-#include "TextureStage.h"
-#include "BlurStage.h"
-#include "DitheringStage.h"
+#include "demo/MeshStage.h"
+#include "demo/MenuStage.h"
+#include "demo/ParticlesStage.h"
+#include "demo/LightStage.h"
+#include "demo/ShadingStage.h"
+#include "demo/TextureStage.h"
+#include "demo/BlurStage.h"
+#include "demo/DitheringStage.h"
 
 enum Stages {
     MENU,
@@ -27,18 +27,22 @@ enum Stages {
 class UIStageManager {
 private:
     double deltaTime;
-    Camera camera;
     std::shared_ptr<UIStage> rootUI;
+    std::shared_ptr<Camera> camera;
+    bool disabled = false;
 
 public:
-    UIStageManager();
+    UIStageManager(const std::shared_ptr<Camera> &camera);
 
     void setStage(Stages stage);
-    void update(Camera camera, double dt);
+    void update(double dt);
     void render();
 
     void click(const double &x, const double &y);
     void cursor(const double &x, const double &y);
+
+    void setDisabled(bool disabled);
+    bool isDisabled() const;
 };
 
 #endif // UISTAGEMANAGER_H

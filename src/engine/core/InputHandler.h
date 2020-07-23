@@ -8,13 +8,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-enum MouseButton {
+enum MouseButtons {
     LEFT_BUTTON,
     MIDDLE_BUTTON,
     RIGHT_BUTTON
 };
 
+//TODO: Refactor
+typedef std::function<void (const double &x, const double &y)> MouseButton;
 typedef std::function<void (const double &x, const double &y)> MousePressed;
+typedef std::function<void (const double &x, const double &y)> MouseRelease;
 typedef std::function<void (const double &x, const double &y)> CursorPosition;
 typedef std::function<void (const double &x, const double &y)> CursorOffset;
 typedef std::function<void (const int& key)> KeyPressed;
@@ -27,7 +30,9 @@ private:
     static double x, y;
     static bool buttons[];
     static bool keys[];
+    static std::vector<MouseButton> mouseButtonListeners;
     static std::vector<MousePressed> mousePressedListeners;
+    static std::vector<MouseRelease> mouseReleaseListeners;
     static std::vector<CursorPosition> cursorPositionListeners;
     static std::vector<CursorPosition> cursorOffsetListeners;
     static std::vector<KeyPressed> keyPressedListeners;
@@ -36,6 +41,14 @@ private:
 public:
     static void addMousePressedListner(const MousePressed &listner) {
         mousePressedListeners.push_back(listner);
+    }
+
+    static void addMouseReleaseListner(const MouseRelease &listner) {
+        mouseReleaseListeners.push_back(listner);
+    }
+
+    static void addMouseButtonListner(const MouseButton &listner) {
+        mouseButtonListeners.push_back(listner);
     }
 
     static void addCursorPositionListener(const CursorPosition &listener) {
@@ -56,6 +69,14 @@ public:
 
     static void addCharactersListener(const CharacterCode &listener) {
         charactersListeners.push_back(listener);
+    }
+
+    static void removeMousePressedListner(const MousePressed &listner) {
+//        mousePressedListeners.erase(std::find(mousePressedListeners.begin(), mousePressedListeners.end(), listner));
+    }
+
+    static void removeCursorPositionListener(const CursorPosition &listner) {
+//        cursorPositionListeners.erase(std::find(cursorPositionListeners.begin(), cursorPositionListeners.end(), listner));
     }
 
     static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);

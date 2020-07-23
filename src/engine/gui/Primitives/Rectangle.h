@@ -5,11 +5,10 @@
 
 class Rectangle : public Shape {
 public:
-    float w, h;
-
     Rectangle(float x, float y, float w, float h)
-            : Shape(x, y), w(w), h(h) {
-
+            : Shape(x, y) {
+        this->w = w;
+        this->h = h;
     }
 
     bool contains(const double &x, const double &y) override {
