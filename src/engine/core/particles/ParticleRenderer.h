@@ -10,6 +10,7 @@ class ParticleRenderer {
         float x, y, z, lifeTime;
 
         ParticleData(float x, float y, float z, float lifeTime);
+        explicit ParticleData(const Particle& particle);
     };
 private:
     std::shared_ptr<ShaderProgram> program;
@@ -32,8 +33,8 @@ public:
     ParticleRenderer* setTexture(const GLuint &texture, const int &rows, const int &columns);
     ParticleRenderer* setView(const Mat4 &view);
     ParticleRenderer* setCamera(fVec3 cameraPos);
-    ParticleRenderer *setRight(const fVec3 &right);
-    ParticleRenderer *setUp(const fVec3 &up);
+    ParticleRenderer* setRight(const fVec3 &right);
+    ParticleRenderer* setUp(const fVec3 &up);
 };
 
 #endif // PARTICLERENDERER_H

@@ -9,13 +9,27 @@
 #include <core/shaders/ShaderProgram.h>
 #include <core/utils/ResourceLoader.h>
 
+//struct Particle {
+//    fVec3 Position;
+//    fVec3 Velocity;
+//    float LifeTime;
+//
+//    Particle() : Position(0.0f), LifeTime(0.0f) { }
+//    Particle(const fVec3 &Position, float LifeTime) : Position(Position), LifeTime(LifeTime) { }
+//};
+
 struct Particle {
     fVec3 Position;
     fVec3 Velocity;
     float LifeTime;
+    float Transparency;
+    float Size, Angle, Weight;
+    int Select;
 
-    Particle() : Position(0.0f), LifeTime(0.0f) { }
-    Particle(const fVec3 &Position, float LifeTime) : Position(Position), LifeTime(LifeTime) { }
+    Particle()
+            : Position(0.0f), LifeTime(0.0f) { }
+    Particle(const fVec3 &Position, float LifeTime)
+            : Position(Position), LifeTime(LifeTime) { }
 };
 
 #endif // PARTICLE_H

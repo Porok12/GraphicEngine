@@ -67,37 +67,16 @@ ParticleRenderer *ParticleRenderer::setProjection(const Mat4 &projection) {
 }
 
 void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &particles, float lifeTime) {
-//    std::vector<float> data;
-//    for (const auto& p: particles) {
-//        if (p->LifeTime < 0.01) continue;
-//        data.push_back((float)p->Position.x);
-//        data.push_back((float)p->Position.y);
-//        data.push_back((float)p->Position.z);
-//        data.push_back(p->LifeTime);
-//    }
     std::vector<ParticleData> data;
     for (const auto& p: particles) {
         if (p->LifeTime < 0.01) continue;
-        data.push_back(ParticleData(p->Position.x, p->Position.y, p->Position.z, p->LifeTime));
+        data.push_back(ParticleData(*p));
     }
 
     auto cam = this->cameraPos;
     auto right = this->right;
     auto up = this->up;
-    auto sortRule = [&cam, &right, &up](const ParticleData & a, const ParticleData & b) -> bool {
-//        float ax = a.x;
-//        float ay = a.y;
-//        float az = a.z;
-//        fVec3 atmp = fVec3(ax, ay, az);
-//        atmp = right * ax;
-//
-//        float bx = b.x;
-//        float by = b.y;
-//        float bz = b.z;
-//        fVec3 btmp = fVec3(bx, by, bz);
-//        btmp = right * bx;
-
-
+    auto sortRule = [&cam, &right, &up](const ParticleData &a, const ParticleData &b) -> bool {
         float aDist =
                 (cam.x-a.x)*(cam.x-a.x)+
                 (cam.y-a.y)*(cam.y-a.y)+
@@ -111,16 +90,6 @@ void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &part
 
     std::sort(data.begin(), data.end(), sortRule);
 
-//    std::cout << "------------------\n";
-//    std::for_each(data.begin(), data.end(), [&cam](const ParticleData& a) {
-//        float aDist =
-//                (cam.x-a.x)*(cam.x-a.x)+
-//                (cam.y-a.y)*(cam.y-a.y)+
-//                (cam.z-a.z)*(cam.z-a.z);
-//        std::cout << " " << std::sqrt(aDist) << std::endl;
-//    });
-
-
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, dataVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float)*data.size()*4, &data[0], GL_STREAM_DRAW);
@@ -130,7 +99,6 @@ void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &part
             .set3f("right", right.x, right.y, right.z)
             .set3f("up", up.x, up.y, up.z);
     program->set1f("lifeTime", lifeTime).set1i("rows", rows).set1i("columns", columns);
-//    std::cout << cameraPos.x << " " << cameraPos.y << " " << cameraPos.z << std::endl;
 
 
     glActiveTexture(GL_TEXTURE0);
@@ -162,5 +130,10 @@ ParticleRenderer *ParticleRenderer::setUp(const fVec3 &up) {
 
 ParticleRenderer::ParticleData::ParticleData(float x, float y, float z, float lifeTime)
         : x(x), y(y), z(z), lifeTime(lifeTime) {
+
+}
+
+ParticleRenderer::ParticleData::ParticleData(const Particle& particle)
+: x(particle.Position.x), y(particle.Position.y), z(particle.Position.z), lifeTime(particle.LifeTime) {
 
 }
