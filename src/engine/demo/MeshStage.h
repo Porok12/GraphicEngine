@@ -17,7 +17,6 @@ private:
     float rotationSpeed = 0, tmp = 0;
     float rotationX = 0.01, rotationY = 0.01, rotationZ = 0.01;
     Model model;
-    ParticleGenerator particleGenerator;
     std::shared_ptr<UIComponent> temp;
 
     static std::shared_ptr<MeshStage> instance;

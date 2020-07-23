@@ -2,8 +2,7 @@
 
 std::shared_ptr<MeshStage> MeshStage::instance = nullptr;
 
-MeshStage::MeshStage()
-        : particleGenerator(2.0f) {
+MeshStage::MeshStage() {
 //    auto particleProgram = std::make_shared<ShaderProgram>("particle");
 //    auto texture = ResourceLoader::loadTexture("particle.png");
 //    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
@@ -107,8 +106,6 @@ void MeshStage::renderUI() {
 }
 
 void MeshStage::renderContent(Camera camera, double dt) {
-    particleGenerator.update(dt);
-
     Mat4 view = camera.getViewMatrix();
     Mat4 mm = Mat4::identity();
     mm = Mat4::scale(0.75f) * mm;
