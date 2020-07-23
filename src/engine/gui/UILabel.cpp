@@ -1,7 +1,7 @@
 #include "UILabel.h"
 
 void UILabel::draw() {
-    fVec2 offset = getOffset() + fVec2(shape->y, shape->y);
+    fVec2 offset = getOffset() + fVec2(shape->x, shape->y);
     FontRenderer::getInstance()->setPosition((float)offset.x, (float)offset.y)
             .setScale(0.5f)
             .setTextBox(shape->getTextBox())

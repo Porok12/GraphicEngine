@@ -42,6 +42,7 @@ public:
 
     static std::shared_ptr<FontRenderer> getInstance();
 
+    float getWidth(std::string text);
     void render(std::string text);
 };
 

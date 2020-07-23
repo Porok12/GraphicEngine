@@ -126,4 +126,8 @@ FontRenderer &FontRenderer::setTextBox(const fVec4& box) {
     return *this;
 }
 
+float FontRenderer::getWidth(std::string text) {
+    return textWidth(text);
+}
+
 
