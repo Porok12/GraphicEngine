@@ -40,7 +40,7 @@ void UISelectBox::draw() {
             if (option == opt)
                 continue;
             PrimitiveRenderer::getInstance()
-                    ->setColor(opt->over ? fVec3(1.0) : fVec3(0.5))
+                    ->setColor(opt->over ? fVec3(1.0) : fVec3(0.9))
                     ->setOffset(fVec3(offset.x, offset.y, 0))
                     ->render(opt->shape);
             FontRenderer::getInstance()->setPosition(opt->shape->x+offset.x, opt->shape->y+offset.y)
@@ -85,13 +85,14 @@ void UISelectBox::draw() {
 //    }
 };
 
-void UISelectBox::click(const double &x, const double &y) {
+bool UISelectBox::click(const double &x, const double &y) {
+    bool clicked = false;
     if (opened) {
         fVec2 offset = getOffset() + fVec2(shape->x, shape->y);
         if (option->shape->contains(x-offset.x, y-offset.y)) {
             option = option;
             opened = false;
-            return;
+            clicked = true;
         }
         offset += fVec2(0, -option->shape->h);
 
@@ -102,6 +103,7 @@ void UISelectBox::click(const double &x, const double &y) {
             if (opt->shape->contains(x-offset.x, y-offset.y)) {
                 option = opt;
                 opened = false;
+                clicked = true;
                 if (onChanged) {
                     onChanged(getOption());
                 }
@@ -112,12 +114,15 @@ void UISelectBox::click(const double &x, const double &y) {
 
     if (shape->contains(x, y)) {
         opened = !opened;
+        clicked = true;
         if(onClick) {
             onClick();
         }
     } else {
         opened = false;
     }
+
+    return clicked;
 }
 
 void UISelectBox::cursor(const double &x, const double &y) {
@@ -127,7 +132,7 @@ void UISelectBox::cursor(const double &x, const double &y) {
         }
         this->backgroundColor = fVec3(1.0f);
     } else {
-        this->backgroundColor = fVec3(0.5f);
+        this->backgroundColor = fVec3(0.9f);
     }
 
     if (opened) {

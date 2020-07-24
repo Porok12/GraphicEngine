@@ -20,12 +20,15 @@ void UIButton::draw() {
             .render(text);
 };
 
-void UIButton::click(const double &x, const double &y) {
+bool UIButton::click(const double &x, const double &y) {
     if (shape->contains(x, y)) {
         if(onClick) {
             onClick();
         }
+        return true;
     }
+
+    return false;
 }
 
 void UIButton::cursor(const double &x, const double &y) {

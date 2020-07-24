@@ -12,8 +12,8 @@ void UILabel::setText(const std::string &text) {
     UILabel::text = text;
 }
 
-void UILabel::click(const double &x, const double &y) {
-
+bool UILabel::click(const double &x, const double &y) {
+    return false;
 }
 
 void UILabel::cursor(const double &x, const double &y) {

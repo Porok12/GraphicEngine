@@ -41,7 +41,7 @@ private:
 //    };
 public:
     UISelectBox(const std::shared_ptr<Shape> &shape) : UIComponent(shape), options() {
-        this->backgroundColor = fVec3(0.5f, 0.5f, 0.5f);
+        this->backgroundColor = fVec3(0.9f, 0.9f, 0.9f);
     }
 
     UISelectBox(const int &x, const int &y, const int &w, const int &h)
@@ -66,7 +66,7 @@ public:
     int getOption();
 
     void draw() override;
-    void click(const double &x, const double &y) override;
+    bool click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
 
     void setBackgroundColor(const fVec3 &backgroundColor);

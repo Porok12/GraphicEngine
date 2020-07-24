@@ -20,7 +20,7 @@ public:
     std::vector<std::shared_ptr<UIComponent>> &getChildren();
 
     void draw() override;
-    void click(const double &x, const double &y) override;
+    bool click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
     void update(int w, int h) override;
 };

@@ -29,7 +29,7 @@ public:
 
     virtual ~UIComponent() { }
 
-    virtual void click(const double &x, const double &y) = 0;
+    virtual bool click(const double &x, const double &y) = 0;
     virtual void cursor(const double &x, const double &y) = 0;
     virtual void draw() = 0;
 

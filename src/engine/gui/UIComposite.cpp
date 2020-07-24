@@ -7,6 +7,11 @@ UIComposite::UIComposite(const std::shared_ptr<Shape> &shape) : UIComponent(shap
 void UIComposite::add(std::shared_ptr<UIComponent> &child) {
     this->children.push_back(child);
     child->setParent(shared_from_this());
+
+//    std::sort(children.begin(), children.end(),
+//              [](const std::shared_ptr<UIComponent> &a, const std::shared_ptr<UIComponent> &b) -> bool {
+//        return std::dynamic_pointer_cast<UISelectBox>(a) != nullptr;
+//    });
 }
 
 void UIComposite::remove(std::shared_ptr<UIComponent> &child) {
@@ -24,12 +29,16 @@ void UIComposite::draw() {
     }
 }
 
-void UIComposite::click(const double &x, const double &y) {
+bool UIComposite::click(const double &x, const double &y) {
     if (shape->contains(x, y)) {
         for (const auto& ch: children) {
-            ch->click(x-shape->x, y-shape->y);
+            if (ch->click(x-shape->x, y-shape->y)){
+                return true;
+            }
         }
     }
+
+    return false;
 }
 
 void UIComposite::cursor(const double &x, const double &y) {

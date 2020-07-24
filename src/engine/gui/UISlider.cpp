@@ -20,7 +20,7 @@ void UISlider::draw() {
             ->setOffset(fVec3(offset1.x, offset1.y, 0))->render(slider);
 };
 
-void UISlider::click(const double &x, const double &y) {
+bool UISlider::click(const double &x, const double &y) {
     if (shape->contains(x, y)) {
         if(onClick) {
             onClick();
@@ -42,7 +42,11 @@ void UISlider::click(const double &x, const double &y) {
                 onChange(lBorder + (rBorder - lBorder) * f);
             }
         }
+
+        return true;
     }
+
+    return false;
 }
 
 void UISlider::cursor(const double &x, const double &y) {
