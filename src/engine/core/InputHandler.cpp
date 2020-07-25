@@ -8,6 +8,7 @@ std::vector<CursorOffset> InputHandler::cursorOffsetListeners;
 std::vector<KeyPressed> InputHandler::keyPressedListeners;
 std::vector<ScrollOffset> InputHandler::scrollOffsetListeners;
 std::vector<CharacterCode> InputHandler::charactersListeners;
+std::vector<PathDrop> InputHandler::dropListeners;
 bool InputHandler::buttons[8];
 bool InputHandler::keys[512];
 double InputHandler::x, InputHandler::y;
@@ -80,5 +81,8 @@ void InputHandler::scrollCallback(GLFWwindow* window, double xoffset, double yof
 void InputHandler::dropCallback(GLFWwindow* window, int count, const char **paths) {
     for (int i = 0; i < count; ++i) {
         std::cout << paths[i] << std::endl;
+        for (const auto &listener: dropListeners) {
+            listener(paths[i]);
+        }
     }
 }
