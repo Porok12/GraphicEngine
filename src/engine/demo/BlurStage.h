@@ -14,6 +14,9 @@
 #include "gui/UIStage.h"
 #include "gui/UIFrameDecorator.h"
 #include "gui/UIButton.h"
+#include <gui/UISelectBox.h>
+#include <gui/UISlider.h>
+#include <gui/UILabel.h>
 
 class BlurStage : public UIStage {
 private:
@@ -34,6 +37,7 @@ public:
     void setXxx(std::function<void ()> fun) {
         std::dynamic_pointer_cast<UIButton>(temp)->addClickCallback(fun);
     }
+
 
     void renderUI() override;
     void renderContent(Camera camera, double dt) override;

@@ -16,7 +16,7 @@ public:
     void addCursorCallback(std::function<void(UICheckBox*)> &onCoursor);
 
     void draw() override;
-    void click(const double &x, const double &y) override;
+    bool click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
 
     void setBackgroundColor(const fVec3 &backgroundColor);

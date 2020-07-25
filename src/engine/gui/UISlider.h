@@ -57,7 +57,7 @@ public:
 //    void addMouseButtonCallback(std::function<void(int)> &onMouseButton);
 
     void draw() override;
-    void click(const double &x, const double &y) override;
+    bool click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
 
     void setBackgroundColor(const fVec3 &backgroundColor);

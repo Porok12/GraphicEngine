@@ -29,7 +29,7 @@ public:
 
     virtual ~UIComponent() { }
 
-    virtual void click(const double &x, const double &y) = 0;
+    virtual bool click(const double &x, const double &y) = 0;
     virtual void cursor(const double &x, const double &y) = 0;
     virtual void draw() = 0;
 
@@ -61,6 +61,8 @@ public:
         if (parent.use_count() == 0) {
 //            shape->w = w;
 //            shape->h = h;
+//            shape->x = constraints->getX(0, w, shape->x, shape->w);
+//            shape->y = constraints->getY(0, h, shape->y, shape->h);
             shape->w = constraints->getW(0, w, shape->x, shape->w);
             shape->h = constraints->getH(0, h, shape->y, shape->h);
         } else {

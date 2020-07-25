@@ -7,7 +7,7 @@ Bloom::Bloom() {
     for (unsigned int i = 0; i < 2; i++) {
         glBindFramebuffer(GL_FRAMEBUFFER, FBOs[i]);
         glBindTexture(GL_TEXTURE_2D, textures[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, 800, 600, 0, GL_RGBA, GL_FLOAT, nullptr);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, IMAGE_WIDTH, IMAGE_HEIGHT, 0, GL_RGBA, GL_FLOAT, nullptr);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -40,17 +40,21 @@ void Bloom::calculateKernel() {
     for (int x = 0; x < kernelSize; ++x) {
         kernel[x] = exp( -0.5 * pow((x-mean)/sigma, 2.0) ) / sqrt(2 * M_PI * sigma * sigma);
         sum += kernel[x];
+        std::cout << kernel[x] << " ";
     }
+    std::cout << std::endl;
 
-    for (int x = 0; x < kernelSize/2; ++x) {
+    for (int x = 0; x < kernelSize; ++x) {
         kernel[x] /= sum;
+        std::cout << kernel[x] << " + ";
     }
+    std::cout << std::endl;
 }
 
 void Bloom::updateKernel() {
     program->use();
     program->set1i("kernelSize", kernelSize);
-    for (int x = 0; x < kernelSize/2; ++x) {
+    for (int x = 0; x <= kernelSize/2; ++x) {
         std::stringstream ss;
         ss << "kernel" << '[' << x << ']';
         program->set1f(ss.str(), static_cast<float>(kernel[kernelSize/2 + x]));
@@ -59,6 +63,10 @@ void Bloom::updateKernel() {
 }
 
 const GLuint & Bloom::apply(const GLuint &textureID) {
+    GLint data[4];
+    glGetIntegerv(GL_VIEWPORT, data);
+
+    glViewport(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
     program->use();
     bool horizontal = true;
     glBindFramebuffer(GL_FRAMEBUFFER, FBOs[horizontal]);
@@ -72,21 +80,22 @@ const GLuint & Bloom::apply(const GLuint &textureID) {
     glBindTexture(GL_TEXTURE_2D, textures[!horizontal]);
     drawQuad();
 
-//    for (int i = 0; i < 5; ++i) {
-//        horizontal = true;
-//        glBindFramebuffer(GL_FRAMEBUFFER, FBOs[horizontal]);
-//        program->set1b("horizontal", horizontal);
-//        glBindTexture(GL_TEXTURE_2D, textures[!horizontal]);
-//        drawQuad();
-//
-//        horizontal = false;
-//        glBindFramebuffer(GL_FRAMEBUFFER, FBOs[horizontal]);
-//        program->set1b("horizontal", horizontal);
-//        glBindTexture(GL_TEXTURE_2D, textures[!horizontal]);
-//        drawQuad();
-//    }
+    for (int i = 0; i < iterations; ++i) {
+        horizontal = true;
+        glBindFramebuffer(GL_FRAMEBUFFER, FBOs[horizontal]);
+        program->set1b("horizontal", horizontal);
+        glBindTexture(GL_TEXTURE_2D, textures[!horizontal]);
+        drawQuad();
+
+        horizontal = false;
+        glBindFramebuffer(GL_FRAMEBUFFER, FBOs[horizontal]);
+        program->set1b("horizontal", horizontal);
+        glBindTexture(GL_TEXTURE_2D, textures[!horizontal]);
+        drawQuad();
+    }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(data[0], data[1], data[2], data[3]);
 
     return textures[0];
 }
@@ -114,4 +123,20 @@ void Bloom::drawQuad() {
     glBindVertexArray(quadVAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
+}
+
+void Bloom::setKernelSize(unsigned int kernelSize) {
+    Bloom::kernelSize = kernelSize;
+    calculateKernel();
+    updateKernel();
+}
+
+void Bloom::setSigma(double sigma) {
+    Bloom::sigma = sigma;
+    calculateKernel();
+    updateKernel();
+}
+
+void Bloom::setIterations(unsigned int iterations) {
+    Bloom::iterations = iterations;
 }

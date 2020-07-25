@@ -21,7 +21,7 @@ public:
 
     void draw() override;
 
-    void click(const double &x, const double &y) override;
+    bool click(const double &x, const double &y) override;
 
     void cursor(const double &x, const double &y) override;
 

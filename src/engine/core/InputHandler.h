@@ -23,6 +23,7 @@ typedef std::function<void (const double &x, const double &y)> CursorOffset;
 typedef std::function<void (const int& key)> KeyPressed;
 typedef std::function<void (const double &x, const double &y)> ScrollOffset;
 typedef std::function<void (const unsigned int&)> CharacterCode;
+typedef std::function<void (const char *path)> PathDrop;
 
 class InputHandler {
 private:
@@ -38,6 +39,7 @@ private:
     static std::vector<KeyPressed> keyPressedListeners;
     static std::vector<ScrollOffset> scrollOffsetListeners;
     static std::vector<CharacterCode> charactersListeners;
+    static std::vector<PathDrop> dropListeners;
 public:
     static void addMousePressedListner(const MousePressed &listner) {
         mousePressedListeners.push_back(listner);
@@ -69,6 +71,10 @@ public:
 
     static void addCharactersListener(const CharacterCode &listener) {
         charactersListeners.push_back(listener);
+    }
+
+    static void addDropListener(const PathDrop &listener) {
+        dropListeners.push_back(listener);
     }
 
     static void removeMousePressedListner(const MousePressed &listner) {

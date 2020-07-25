@@ -25,14 +25,15 @@ UITextBox::UITextBox(int x, int y, int w, int h)
 
 }
 
-void UITextBox::click(const double &x, const double &y) {
+bool UITextBox::click(const double &x, const double &y) {
     active = false;
     
     if (shape->contains(x, y)) {
         active = true;
     }
 
-    backgroundColor = active ? fVec3(1.0) : fVec3(0.5);
+    backgroundColor = active ? fVec3(0.8) : fVec3(0.5);
+    return active;
 }
 
 void UITextBox::cursor(const double &x, const double &y) {
