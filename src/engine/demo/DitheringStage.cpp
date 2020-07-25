@@ -6,26 +6,111 @@ DitheringStage::DitheringStage()
         : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
           pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f) {
 
-    auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 250);
+    auto rect2 = std::make_shared<Rectangle>(10, 10, 250, 500);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(500 - 50 - 10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Reset", 10, 70, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){program = std::make_shared<ShaderProgram>("dithering");});
+        component = std::make_shared<UISelectBox>(10, 70, 50, 50);
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"2x2", "4x4", "8x8"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int i){
+            size = i;
+        });
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(4))->setY(new FixedConstraint(10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Size", 10, 130, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){size=(size+1)%3;});
+        component = std::make_shared<UISelectBox>(10, 80, 50, 50);
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"2", "4", "8", "16", "32", "64"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int i){
+            paletteColors = i;
+            palette.clear();
+
+            switch (paletteId) {
+                case 0: {
+                    MedianCut medianCut;
+                    medianCut.getPalette((i+1), palette, colors);
+                    break;
+                }
+                case 1: {
+                    switch (i) {
+                        case 0: FixedPalette::getFixed(2, this->palette); break;
+                        case 1: FixedPalette::getFixed(4, this->palette); break;
+                        case 2: FixedPalette::getFixed(8, this->palette); break;
+                        case 3: FixedPalette::getFixed(16, this->palette); break;
+                        case 4: FixedPalette::getFixed(32, this->palette); break;
+                        case 5: FixedPalette::getFixed(64, this->palette); break;
+                    }
+                    break;
+                }
+                case 2: {
+                    switch (i) {
+                        case 0: FixedPalette::getRandom(2, this->palette); break;
+                        case 1: FixedPalette::getRandom(4, this->palette); break;
+                        case 2: FixedPalette::getRandom(8, this->palette); break;
+                        case 3: FixedPalette::getRandom(16, this->palette); break;
+                        case 4: FixedPalette::getRandom(32, this->palette); break;
+                        case 5: FixedPalette::getRandom(64, this->palette); break;
+                    }
+                    break;
+                }
+            }
+        });
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(60))->setY(new FixedConstraint(10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("", 10, 190, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){});
+        component = std::make_shared<UISelectBox>(10, 150, 130, 50);
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"Dedicated", "Fixed", "Random"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int i){
+            paletteId = i;
+            palette.clear();
+            switch (i) {
+                case 0: {
+                    MedianCut medianCut;
+                    medianCut.getPalette((paletteColors+1), palette, colors);
+                    break;
+                }
+                case 1: {
+                    switch (paletteColors) {
+                        case 0: FixedPalette::getFixed(2, this->palette); break;
+                        case 1: FixedPalette::getFixed(4, this->palette); break;
+                        case 2: FixedPalette::getFixed(8, this->palette); break;
+                        case 3: FixedPalette::getFixed(16, this->palette); break;
+                        case 4: FixedPalette::getFixed(32, this->palette); break;
+                        case 5: FixedPalette::getFixed(64, this->palette); break;
+                    }
+                    break;
+                }
+                case 2: {
+                    switch (paletteColors) {
+                        case 0: FixedPalette::getRandom(2, this->palette); break;
+                        case 1: FixedPalette::getRandom(4, this->palette); break;
+                        case 2: FixedPalette::getRandom(8, this->palette); break;
+                        case 3: FixedPalette::getRandom(16, this->palette); break;
+                        case 4: FixedPalette::getRandom(32, this->palette); break;
+                        case 5: FixedPalette::getRandom(64, this->palette); break;
+                    }
+                    break;
+                }
+            }
+        });
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(115))->setY(new FixedConstraint(10)));
         composite2->add(component);
     }
 
+//    composite2->setConstraints((new RectangleConstraints())
+//                                       ->setX(new FixedConstraint(10))
+//                                       ->setY(new RelativeConstraint(0.5f))
+//                                       ->setW(new FixedConstraint(600))
+//                                       ->setH(new FixedConstraint(100)));
+
+    composite2->update(800, 600);
     rootComponent = composite2;
 
     plane.enableBumpMapping(true);
@@ -36,15 +121,16 @@ DitheringStage::DitheringStage()
     glGenTextures(1, &textureID);
 
     int width, height, nrComponents;
-    unsigned char * data = SOIL_load_image("/home/przemek/Desktop/SEM7/Praca/GraphicEngine/res/textures/test.bmp",
+    unsigned char * data = SOIL_load_image(ResourceLoader::getPath("test.bmp", TEXTURE).c_str(),
             &width, &height, &nrComponents, 0);
 
     if (data) {
         for (int i = 0; i < width*height*3; i += 3) {
             colors.push_back(fVec3((int)data[i+0], (int)data[i+1], (int)data[i+2]));
         }
+
         MedianCut medianCut;
-        medianCut.getPalette(3, palette, colors);
+        medianCut.getPalette(1, palette, colors);
 
         GLenum format = GL_RED;
         if (nrComponents == 1)
@@ -65,6 +151,68 @@ DitheringStage::DitheringStage()
 
         SOIL_free_image_data(data);
     }
+
+    InputHandler::addDropListener([this](const char *path){
+        int width, height, nrComponents;
+        unsigned char * data = SOIL_load_image(path, &width, &height, &nrComponents, 0);
+
+        if (data) {
+            colors.clear();
+            for (int i = 0; i < width*height*3; i += 3) {
+                colors.push_back(fVec3((int)data[i+0], (int)data[i+1], (int)data[i+2]));
+            }
+
+            palette.clear();
+            switch (paletteId) {
+                case 0: {
+                    MedianCut medianCut;
+                    medianCut.getPalette((paletteColors+1), palette, colors);
+                    break;
+                }
+                case 1: {
+                    switch (paletteColors) {
+                        case 0: FixedPalette::getFixed(2, this->palette); break;
+                        case 1: FixedPalette::getFixed(4, this->palette); break;
+                        case 2: FixedPalette::getFixed(8, this->palette); break;
+                        case 3: FixedPalette::getFixed(16, this->palette); break;
+                        case 4: FixedPalette::getFixed(32, this->palette); break;
+                        case 5: FixedPalette::getFixed(64, this->palette); break;
+                    }
+                    break;
+                }
+                case 2: {
+                    switch (paletteColors) {
+                        case 0: FixedPalette::getRandom(2, this->palette); break;
+                        case 1: FixedPalette::getRandom(4, this->palette); break;
+                        case 2: FixedPalette::getRandom(8, this->palette); break;
+                        case 3: FixedPalette::getRandom(16, this->palette); break;
+                        case 4: FixedPalette::getRandom(32, this->palette); break;
+                        case 5: FixedPalette::getRandom(64, this->palette); break;
+                    }
+                    break;
+                }
+            }
+
+            GLenum format = GL_RED;
+            if (nrComponents == 1)
+                format = GL_RED;
+            else if (nrComponents == 3)
+                format = GL_RGB;
+            else if (nrComponents == 4)
+                format = GL_RGBA;
+
+            glBindTexture(GL_TEXTURE_2D, textureID);
+            glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+            SOIL_free_image_data(data);
+        }
+    });
 }
 
 void DitheringStage::renderUI() {
@@ -77,28 +225,27 @@ void DitheringStage::renderContent(Camera camera, double dt) {
     
     program->use();
     program->set3f("viewPos", camera.getPos());
-    std::array<GLfloat, 8*3> palette = {
-        0, 0, 0,
-        0, 0, 1,
-        0, 1, 0,
-        0, 1, 1,
-        1, 0, 0,
-        1, 0, 1,
-        1, 1, 0,
-        1, 1, 1
-    };
+    std::array<GLfloat, MAX_PALETTE*3> palette {};
+//            = {
+//        0, 0, 0,
+//        0, 0, 1,
+//        0, 1, 0,
+//        0, 1, 1,
+//        1, 0, 0,
+//        1, 0, 1,
+//        1, 1, 0,
+//        1, 1, 1
+//    };
 
-    for (int i = 0; i < 8; ++i) {
+    for (int i = 0; i < this->palette.size(); ++i) {
         palette[i*3+0] = this->palette[i].x / 255;
         palette[i*3+1] = this->palette[i].y / 255;
         palette[i*3+2] = this->palette[i].z / 255;
     }
 
-
-
-    program->set1i("paletteSize", palette.size()/3);
+    program->set1i("paletteSize", this->palette.size());
     program->set1i("size", size);
-    glUniform3fv(glGetUniformLocation(program->getId(), "palette"), 8*3, palette.data());
+    glUniform3fv(glGetUniformLocation(program->getId(), "palette"), palette.size(), palette.data());
 
     
 
