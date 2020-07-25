@@ -10,7 +10,8 @@ BlurStage::BlurStage() : bloom() {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(500 - 50 - 10)));
+                                          ->setX(new CenterConstraint)
+                                          ->setY(new FixedConstraint(500 - 50 - 10)));
         composite2->add(component);
 
         component = std::make_shared<UISelectBox>(10, 70, 150, 50);
@@ -30,13 +31,14 @@ BlurStage::BlurStage() : bloom() {
             }
         });
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(10)));
+                                          ->setX(new CenterConstraint)
+                                          ->setY(new FixedConstraint(10)));
         composite2->add(component);
 
         std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("0.1", 50, 500);
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(150))
-                                      ->setY(new FixedConstraint(104)));
+                                      ->setY(new FixedConstraint(250+104)));
         composite2->add(label);
 
         component = std::make_shared<UISlider>(10, 90, 100, 30, 0.1, 2, 0.1);
@@ -46,7 +48,9 @@ BlurStage::BlurStage() : bloom() {
             auto cast = dynamic_cast<UILabel*>(label.get());
             cast->setText(std::to_string(f).substr(0, 3));
         });
-        component->setConstraints((new RectangleConstraints())->setX(new FixedConstraint(10))->setY(new FixedConstraint(90)));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(10))
+                                          ->setY(new FixedConstraint(250+90)));
         composite2->add(component);
 
 //        component = std::make_shared<UIButton>("Reset", 10, 70, 100, 50);
@@ -65,7 +69,7 @@ BlurStage::BlurStage() : bloom() {
         label = std::make_shared<UILabel>("0", 50, 500);
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(150))
-                                      ->setY(new FixedConstraint(144)));
+                                      ->setY(new FixedConstraint(250+144)));
         composite2->add(label);
 
         component = std::make_shared<UISlider>(10, 90, 100, 30, 0, 9, 1);
@@ -75,7 +79,9 @@ BlurStage::BlurStage() : bloom() {
             auto cast = dynamic_cast<UILabel*>(label.get());
             cast->setText(std::to_string(f).substr(0, 1));
         });
-        component->setConstraints((new RectangleConstraints())->setX(new FixedConstraint(10))->setY(new FixedConstraint(130)));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(10))
+                                          ->setY(new FixedConstraint(250+130)));
         composite2->add(component);
     }
 
