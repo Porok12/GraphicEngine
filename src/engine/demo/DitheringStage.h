@@ -14,12 +14,19 @@
 #include "gui/UIStage.h"
 #include "gui/UIFrameDecorator.h"
 #include "gui/UIButton.h"
+#include "gui/UISelectBox.h"
+#include <core/algorithm/palette/Octree.h>
+#include <core/algorithm/palette/FixedPalette.h>
+
+#define MAX_PALETTE 64
 
 class DitheringStage : public UIStage {
 private:
     float a = 0, b = 0;
     GLuint textureID;
     int size = 0;
+    int paletteColors = 0;
+    int paletteId = 0;
     std::vector<fVec3> colors, palette;
 
     Model model, plane;

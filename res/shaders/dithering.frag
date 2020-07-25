@@ -7,7 +7,7 @@ in vec3 FragPos;
 in vec3 debug;
 
 uniform sampler2D myTexture;
-uniform vec3 palette[8];
+uniform vec3 palette[64];
 uniform int paletteSize;
 uniform int size;
 
@@ -46,23 +46,23 @@ void main() {
 
     vec3 color = texture(myTexture, TexPos).rgb;
 
-    float R = color.r;
-    float G = color.g;
-    float B = color.b;
-
-    mat3 YUV = mat3(
-    0.299,  0.587,  0.114,
-    -0.147, -0.289,  0.437,
-    0.615, -0.515, -0.100
-    );
-
-    float Y = 0.299 * R + 0.587 * G + 0.114 * B;
-    float U = 0.492 * (B - Y);
-    float V = 0.877 * (R - Y);
-
-    vec3 newColor = YUV * color;
-    newColor.b = 0;
-    newColor = inverse(YUV) * newColor;
+//    float R = color.r;
+//    float G = color.g;
+//    float B = color.b;
+//
+//    mat3 YUV = mat3(
+//    0.299,  0.587,  0.114,
+//    -0.147, -0.289,  0.437,
+//    0.615, -0.515, -0.100
+//    );
+//
+//    float Y = 0.299 * R + 0.587 * G + 0.114 * B;
+//    float U = 0.492 * (B - Y);
+//    float V = 0.877 * (R - Y);
+//
+//    vec3 newColor = YUV * color;
+//    newColor.b = 0;
+//    newColor = inverse(YUV) * newColor;
 
     ivec2 siz = textureSize(myTexture, 0);
     ivec2 UV = ivec2(TexPos.x * siz.x, TexPos.y * siz.y);
