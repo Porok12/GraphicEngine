@@ -7,14 +7,17 @@
 #include "gui/UIStage.h"
 #include "gui/UIFrameDecorator.h"
 #include "gui/UIButton.h"
+#include "gui/UISelectBox.h"
 
 class ParticleStage : public UIStage {
 private:
-    ParticleGenerator particleGenerator;
+    std::unique_ptr<ParticleGenerator> particleGenerator;
     std::shared_ptr<UIComponent> temp;
+    GLuint texFire, texCloud, texExplosion, texCandleSmoke, texSnowFlakes;
 
     static std::shared_ptr<ParticleStage> instance;
     ParticleStage();
+    void changeGenerator(int i);
 
 public:
     static const std::shared_ptr<ParticleStage> &getInstance();

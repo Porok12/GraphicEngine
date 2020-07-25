@@ -3,10 +3,14 @@
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aOffset;
 layout (location = 2) in float aLifeTime;
+layout (location = 3) in float aTransparency;
+layout (location = 4) in vec2 aTrans;
+layout (location = 5) in int aSelect;
 
 out vec2 currentTexCoord;
 out vec2 nextTextCoord;
 out float factor;
+out float transparency;
 
 uniform vec3 camera, right, up;
 uniform mat4 projection, view;
@@ -29,6 +33,8 @@ mat4 lookAt(vec3 pos, vec3 tar) {
 }
 
 void main() {
+    transparency = aTransparency;
+
 //    vec3 toCenter = aOffset - camera;
 //    vec3 toVertex = (aPos) - camera;//(aPos + aOffset) - camera;
 //    vec3 distance = normalize(toVertex) * 5;//length(toCenter);
@@ -38,40 +44,52 @@ void main() {
 
 //    gl_Position = projection * view * vec4(aOffset + aPos, 1.0);
 
-    gl_Position = projection * view * vec4(aOffset + right * aPos.x + up * aPos.y, 1.0);
+    vec2 pos2d = vec2(aPos.xy * aTrans.x);
+    gl_Position = projection * view * vec4(aOffset + right * pos2d.x + up * pos2d.y, 1.0);
 
     int images = rows * columns;
-    float fimage = images * (1.0-aLifeTime/lifeTime);
-    int iimage = int(fimage);
-    factor = fimage - iimage;
-    int id = iimage;
+    int id;
 
-    float uv_x = (id%8)/8.0f;
-    float uv_y = (id/8)/8.0f;
-    float off = 1.0f/8.0f;
+    if (aSelect >= 0) {
+        id = aSelect;
+        factor = 0;
+    } else {
+        float fimage = images * (1.0-aLifeTime/lifeTime);
+        int iimage = int(fimage);
+        factor = fimage - iimage;
+        id = iimage;
+    }
+
+    float uv_x = (id%rows) / float(rows);
+    float uv_y = (id/columns) / float(columns);
+    float xoff = 1.0f / float(rows);
+    float yoff = 1.0f / float(columns);
 
     if (gl_VertexID == 0) {
-        currentTexCoord = vec2(uv_x+off, uv_y);
+        currentTexCoord = vec2(uv_x+xoff, uv_y);
     } else if (gl_VertexID == 1) {
         currentTexCoord = vec2(uv_x, uv_y);
     } else if (gl_VertexID == 2) {
-        currentTexCoord = vec2(uv_x+off, uv_y+off);
+        currentTexCoord = vec2(uv_x+xoff, uv_y+yoff);
     } else if (gl_VertexID == 3) {
-        currentTexCoord = vec2(uv_x, uv_y+off);
+        currentTexCoord = vec2(uv_x, uv_y+yoff);
     }
 
+    if (id > (id+1)%rows) {
+        factor = 0;
+    }
     id = id + 1;
 
-    uv_x = (id%8)/8.0f;
-    uv_y = (id/8)/8.0f;
+    uv_x = (id%rows) / float(rows);
+    uv_y = (id/columns) / float(columns);
 
     if (gl_VertexID == 0) {
-        nextTextCoord = vec2(uv_x+off, uv_y);
+        nextTextCoord = vec2(uv_x+xoff, uv_y);
     } else if (gl_VertexID == 1) {
         nextTextCoord = vec2(uv_x, uv_y);
     } else if (gl_VertexID == 2) {
-        nextTextCoord = vec2(uv_x+off, uv_y+off);
+        nextTextCoord = vec2(uv_x+xoff, uv_y+yoff);
     } else if (gl_VertexID == 3) {
-        nextTextCoord = vec2(uv_x, uv_y+off);
+        nextTextCoord = vec2(uv_x, uv_y+yoff);
     }
 }
