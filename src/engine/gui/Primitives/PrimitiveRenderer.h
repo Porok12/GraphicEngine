@@ -17,7 +17,7 @@ private:
     GLuint VAO, VBO;
     fVec3 color;
     float x, y;
-    float transparency = 0.5f;
+    float transparency = 0.9f;
     std::weak_ptr<ShaderProgram> program;
     fVec3 offset;
 

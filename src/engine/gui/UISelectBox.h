@@ -11,7 +11,8 @@
 #include "UIComponent.h"
 #include "UIButton.h"
 #include "UIComposite.h"
-
+#include <boost/range/adaptor/reversed.hpp>
+#include <boost/foreach.hpp>
 #include <string>
 
 class UISelectBox : public UIComponent { //};, public std::enable_shared_from_this<UISelectBox> {
@@ -41,7 +42,7 @@ private:
 //    };
 public:
     UISelectBox(const std::shared_ptr<Shape> &shape) : UIComponent(shape), options() {
-        this->backgroundColor = fVec3(0.9f, 0.9f, 0.9f);
+        this->backgroundColor = fVec3(0.5f);
     }
 
     UISelectBox(const int &x, const int &y, const int &w, const int &h)

@@ -32,7 +32,7 @@ bool UITextBox::click(const double &x, const double &y) {
         active = true;
     }
 
-    backgroundColor = active ? fVec3(1.0) : fVec3(0.5);
+    backgroundColor = active ? fVec3(0.8) : fVec3(0.5);
     return active;
 }
 

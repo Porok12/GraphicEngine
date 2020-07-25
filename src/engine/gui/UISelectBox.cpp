@@ -40,7 +40,7 @@ void UISelectBox::draw() {
             if (option == opt)
                 continue;
             PrimitiveRenderer::getInstance()
-                    ->setColor(opt->over ? fVec3(1.0) : fVec3(0.9))
+                    ->setColor(opt->over ? fVec3(0.8) : fVec3(0.5))
                     ->setOffset(fVec3(offset.x, offset.y, 0))
                     ->render(opt->shape);
             FontRenderer::getInstance()->setPosition(opt->shape->x+offset.x, opt->shape->y+offset.y)
@@ -130,9 +130,9 @@ void UISelectBox::cursor(const double &x, const double &y) {
         if(onCursor) {
             onCursor(this);
         }
-        this->backgroundColor = fVec3(1.0f);
+        this->backgroundColor = fVec3(0.8f);
     } else {
-        this->backgroundColor = fVec3(0.9f);
+        this->backgroundColor = fVec3(0.5f);
     }
 
     if (opened) {
