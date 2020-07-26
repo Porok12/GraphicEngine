@@ -41,3 +41,7 @@ void ModelRenderer::render(const Model &model, ShaderProgram &program) {
     program.setMatrix4("model", this->model);
     model.draw(program);
 }
+
+ShaderProgram *ModelRenderer::getProgram() {
+    return program.get();
+}
