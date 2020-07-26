@@ -92,8 +92,17 @@ MeshStage::MeshStage() {
                                           ->setX(new FixedConstraint(90))
                                           ->setY(new FixedConstraint(150)));
         composite2->add(component);
-    }
 
+        component = std::make_shared<UISelectBox>(10, 150, 150, 50);
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"RGB", "Y", "U", "V"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int i){
+            colorTarget = i;
+        });
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint())->setY(new FixedConstraint(200)));
+        composite2->add(component);
+    }
+    
 //    composite2->setConstraints((new RectangleConstraints())->setX(new FixedConstraint(10))->setY(new FixedConstraint(10)));
     composite2->update(800, 600);
     rootComponent = composite2;
@@ -113,6 +122,7 @@ void MeshStage::renderContent(Camera camera, double dt) {
 
     tmp += rotationSpeed;
 
+    ModelRenderer::getInstance()->getProgram()->use().set1i("colorTarget", colorTarget);
     ModelRenderer::getInstance()->setModel( Mat4::rotation(tmp, fVec3(rotationX, rotationY, rotationZ)) * mm);
     ModelRenderer::getInstance()->setView(view);
     ModelRenderer::getInstance()->render(model);

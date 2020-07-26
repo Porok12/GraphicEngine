@@ -21,6 +21,8 @@ public:
     void render(const Model &model, ShaderProgram &program);
 
     static ModelRenderer* getInstance();
+
+    ShaderProgram *getProgram();
 };
 
 #endif // MODELRENDERER_H

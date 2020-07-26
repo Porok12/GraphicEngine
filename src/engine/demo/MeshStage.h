@@ -11,6 +11,7 @@
 #include "gui/UIStage.h"
 #include "gui/UIFrameDecorator.h"
 #include "gui/UIButton.h"
+#include <gui/UISelectBox.h>
 
 class MeshStage : public UIStage {
 private:
@@ -18,6 +19,7 @@ private:
     float rotationX = 0.01, rotationY = 0.01, rotationZ = 0.01;
     Model model;
     std::shared_ptr<UIComponent> temp;
+    int colorTarget = 0;
 
     static std::shared_ptr<MeshStage> instance;
     MeshStage();
