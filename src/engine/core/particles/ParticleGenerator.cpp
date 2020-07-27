@@ -38,7 +38,6 @@ void ParticleGenerator::update(double dt) {
     }
 
     for (auto &p: particles) {
-//        std::cout << p->Transparency << std::endl;
         if (p->LifeTime < 0.02) {
             if (std::find(expired.begin(), expired.end(), p) == expired.end()) {
                 expired.push_back(p);

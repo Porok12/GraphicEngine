@@ -156,7 +156,6 @@ void ParticleStage::changeGenerator(int i) {
                             .setUpdate([](double dt, const std::vector<std::shared_ptr<Particle>> &particles){
                                 static std::time_t now = std::time(0);
                                 static boost::random::mt19937 gen{static_cast<std::uint32_t>(now)};
-//                                std::cout << 1/dt << std::endl;
 
                                 boost::random::uniform_real_distribution<> dist{-1, 1};
                                 fVec3 wind = fVec3(0);

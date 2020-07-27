@@ -64,8 +64,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 
         vertices.push_back(vertex);
 
-
-//        std::cout << mesh->HasTangentsAndBitangents() << std::endl;
         if (mesh->HasTangentsAndBitangents()) {
             VertexTangent vertTangent;
             vec.x = mesh->mTangents[i].x;
@@ -116,9 +114,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 }
 
 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName) {
-//    std::cout << typeName << " " << type << " " << mat->GetTextureCount(type) << std::endl;
-
-
     vector<Texture> textures;
     for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
         aiString str;

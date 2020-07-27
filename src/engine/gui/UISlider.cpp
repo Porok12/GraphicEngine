@@ -56,12 +56,10 @@ void UISlider::cursor(const double &x, const double &y) {
 
             float xPos = (float) x - shape->x;
             if (std::abs(slider->x - xPos) >= step * pixStep) {
-//                std::cout << xPos >  ? step * pixStep << std::endl;
                 float diff = (int) xPos % (int) (step * pixStep);
                 slider->x = xPos - diff;
                 if (onChange) {
                     float f = slider->x / range->w;
-//                    std::cout << lBorder + (rBorder - lBorder) * f << std::endl;
                     onChange(lBorder + (rBorder - lBorder) * f);
                 }
             }
@@ -97,10 +95,5 @@ void UISlider::addChangedCallback(std::function<void(float)> onChange) {
 
 void UISlider::setValue(float value) {
     float f = (value - lBorder) / (rBorder - lBorder);
-    std::cerr << f << " " << range->w << std::endl;
     slider->x = f * range->w;
 }
-
-//void UISlider::addMouseButtonCallback(std::function<void(int)> &onCoursor) {
-//
-//}

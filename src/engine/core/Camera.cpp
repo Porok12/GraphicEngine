@@ -18,10 +18,6 @@ Camera::Camera(const fVec3 &Position) : Position(Position) {
 }
 
 Mat4 Camera::getViewMatrix() {
-//    std::cout << Mat4::lookAt(Position, Position + Front);
-//    test = !test;
-//    std::cout << Front.x << " " << Front.y << " " << Front.z << std::endl;
-//    std::cout << this << std::endl;
     return Mat4::lookAt(Position, Position + Front, Up);
 }
 
@@ -32,8 +28,6 @@ void Camera::updateCameraVectors() {
     front.y = std::sin(Pitch * D2R);
     front.z = std::sin(Yaw * D2R) * std::cos(Pitch * D2R);
     Front = front.normalize();
-//    std::cout << this << std::endl;
-//    std::cout << Front.x << " " << Front.y << " " << Front.z << std::endl;
     Right = Front.cross(fVec3(0, 1, 0)).normalize();
     Up = Right.cross(Front);
 }
@@ -45,8 +39,6 @@ void Camera::processMouseMovement(const double &x, const double &y) {
 
         Yaw   += xoffset;
         Pitch += yoffset;
-
-//    std::cout << Yaw << std::endl;
 
         if (Pitch > 89.0f)
             Pitch = 89.0f;
