@@ -25,7 +25,7 @@
 int main(int argc, char *argv[]) {
     MainWindow window(SCREEN_WIDTH, SCREEN_HEIGHT, "Graphic Engine Demo");
 
-    ResourceLoader resourceLoader(boost::filesystem::current_path().parent_path());
+    ResourceLoader resourceLoader(boost::filesystem::path().relative_path());
 
     auto modelProgram = std::make_shared<ShaderProgram>("model");
     auto fontProgram = std::make_shared<ShaderProgram>("font");
