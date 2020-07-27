@@ -1,3 +1,5 @@
+#include <gui/UICheckBox.h>
+#include <gui/UILabel.h>
 #include "TextureStage.h"
 
 std::shared_ptr<TextureStage> TextureStage::instance = nullptr;
@@ -6,26 +8,53 @@ TextureStage::TextureStage()
         : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
           pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f) {
 
-    auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 250);
+    auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 200);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(200 - 50 - 10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Reset", 10, 70, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){program = std::make_shared<ShaderProgram>("texture");});
+//        component = std::make_shared<UIButton>("Reset", 10, 70, 100, 50);
+//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){program = std::make_shared<ShaderProgram>("texture");});
+//        composite2->add(component);
+
+        std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("Normal", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(120))
+                                      ->setY(new FixedConstraint(30)));
+        composite2->add(label);
+
+        component = std::make_shared<UICheckBox>(10, 10, 40, 40);
+        std::dynamic_pointer_cast<UICheckBox>(component)->addClickCallback([this](){enableNormalMap = !enableNormalMap;});
+        component->setConstraints((new RectangleConstraints)
+                                           ->setX(new FixedConstraint(10))->setY(new FixedConstraint(10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Normal", 10, 130, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableNormalMap = !enableNormalMap;});
+        label = std::make_shared<UILabel>("Specular", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(120))
+                                      ->setY(new FixedConstraint(80)));
+        composite2->add(label);
+
+        component = std::make_shared<UICheckBox>(10, 10, 40, 40);
+        std::dynamic_pointer_cast<UICheckBox>(component)->addClickCallback([this](){enableSpecularMap = !enableSpecularMap;});
+        component->setConstraints((new RectangleConstraints)
+                                          ->setX(new FixedConstraint(10))->setY(new FixedConstraint(60)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Spec", 10, 190, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableSpecularMap = !enableSpecularMap;});
-        composite2->add(component);
+//        component = std::make_shared<UIButton>("Normal", 10, 130, 100, 50);
+//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableNormalMap = !enableNormalMap;});
+//        composite2->add(component);
+//
+//        component = std::make_shared<UIButton>("Spec", 10, 190, 100, 50);
+//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableSpecularMap = !enableSpecularMap;});
+//        composite2->add(component);
     }
 
+    composite2->update(800, 600);
     rootComponent = composite2;
 
     model.enableBumpMapping(true);
