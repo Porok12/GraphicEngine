@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_SUITE(math_mat4_suitex)
     BOOST_AUTO_TEST_CASE(lookAt) {
         fVec3 eye(0, -10, 50);
         fVec3 target(0, 1, -50);
-        Mat4 mat = Mat4::lookAt(eye, target);
+        Mat4 mat = Mat4::lookAt(eye, target, fVec3(0, 1, 0));
 
         double precision = 2.0; //%
         BOOST_CHECK_CLOSE(mat[loc(0, 0)], 0.994, precision);
