@@ -48,7 +48,7 @@ void UIStageManager::setStage(Stages stage) {
             rootUI = DitheringStage::getInstance();
             break;
     }
-
+    GUIRenderer::getInstance()->requestUpdate();
     camera->reset();
 }
 

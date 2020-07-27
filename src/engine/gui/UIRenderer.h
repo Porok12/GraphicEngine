@@ -10,8 +10,7 @@ class GUIRenderer {
 private:
     Mat4 projection;
     std::weak_ptr<ShaderProgram> program;
-    MainWindow *window;
-    int w, h;
+    int w = 800, h = 600;
     bool _update;
 
     static std::unique_ptr<GUIRenderer> instance;
@@ -24,10 +23,12 @@ public:
     GUIRenderer& setProjection(Mat4 &projection);
 
     void render(UIComponent *elem);
-
     void update(int w, int h) {
         this->w = w;
         this->h = h;
+        _update = true;
+    }
+    void requestUpdate() {
         _update = true;
     }
 };

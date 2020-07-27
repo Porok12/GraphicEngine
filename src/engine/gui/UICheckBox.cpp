@@ -45,7 +45,7 @@ void UICheckBox::cursor(const double &x, const double &y) {
         if(onCursor) {
             onCursor(this);
         }
-        this->backgroundColor = fVec3(1.0f);
+        this->backgroundColor = fVec3(0.8f);
     } else {
         this->backgroundColor = fVec3(0.5f);
     }

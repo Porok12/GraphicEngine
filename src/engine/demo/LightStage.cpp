@@ -1,4 +1,7 @@
 #include <core/light/Materials.h>
+#include <gui/UILabel.h>
+#include <gui/UICheckBox.h>
+#include <gui/UISlider.h>
 #include "LightStage.h"
 
 std::shared_ptr<LightStage> LightStage::instance = nullptr;
@@ -9,26 +12,75 @@ LightStage::LightStage()
           spotLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(0.0f, -2.0f, 1.0f), fVec3(0.0f, 0.0f, -1.0f),
                     0.91f, 0.82f, 1.0f, 0.07f, 0.017f), dir(false), point(false), spot(false) {
 
-    auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 250);
+    auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 300);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(300 - 50 - 10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Direct", 10, 70, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){dir = !dir;});
+        std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("Direct", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(120))
+                                      ->setY(new FixedConstraint(30)));
+        composite2->add(label);
+
+        component = std::make_shared<UICheckBox>(10, 10, 40, 40);
+        std::dynamic_pointer_cast<UICheckBox>(component)->addClickCallback([this](){dir = !dir;});
+        component->setConstraints((new RectangleConstraints)
+                                          ->setX(new FixedConstraint(10))->setY(new FixedConstraint(10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Point", 10, 130, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){point = !point;});
+        label = std::make_shared<UILabel>("Point", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(120))
+                                      ->setY(new FixedConstraint(50+30)));
+        composite2->add(label);
+
+        component = std::make_shared<UICheckBox>(10, 10, 40, 40);
+        std::dynamic_pointer_cast<UICheckBox>(component)->addClickCallback([this](){point = !point;});
+        component->setConstraints((new RectangleConstraints)
+                                          ->setX(new FixedConstraint(10))->setY(new FixedConstraint(50+10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Spot", 10, 190, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){spot = !spot;});
+        label = std::make_shared<UILabel>("Spot", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(120))
+                                      ->setY(new FixedConstraint(100+30)));
+        composite2->add(label);
+
+        component = std::make_shared<UICheckBox>(10, 10, 40, 40);
+        std::dynamic_pointer_cast<UICheckBox>(component)->addClickCallback([this](){spot = !spot;});
+        component->setConstraints((new RectangleConstraints)
+                                          ->setX(new FixedConstraint(10))->setY(new FixedConstraint(100+10)));
+        composite2->add(component);
+
+        label = std::make_shared<UILabel>("2.22", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(30))
+                                      ->setY(new FixedConstraint(185)));
+        composite2->add(label);
+        UIComponent* label_ptr = label.get();
+
+        component.reset(new UISlider(50, 500, 100, 30, 0, 4, 0.1));
+        std::dynamic_pointer_cast<UISlider>(component)->setValue(2.22);
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this, label_ptr](float f){
+            program->use().set1f("gamma", f);
+
+            auto cast = dynamic_cast<UILabel*>(label_ptr);
+            cast->setText(std::to_string(f).substr(0, 4));
+        });
+
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(90))
+                                          ->setY(new FixedConstraint(170)));
         composite2->add(component);
     }
 
+
+    composite2->update(800, 600);
     rootComponent = composite2;
 
     model.enableBumpMapping(true);

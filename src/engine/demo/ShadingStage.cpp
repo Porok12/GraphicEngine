@@ -1,4 +1,5 @@
 #include <core/light/Materials.h>
+#include <gui/UISelectBox.h>
 #include "ShadingStage.h"
 
 std::shared_ptr<ShadingStage> ShadingStage::instance = nullptr;
@@ -8,30 +9,26 @@ ShadingStage::ShadingStage() {
 //    auto texture = ResourceLoader::loadTexture("particle.png");
 //    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
 
-    auto rect2 = std::make_shared<Rectangle>(10, 10, 120, 320);
+    auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 300);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(300 - 50 - 10)));
         composite2->add(component);
 
-        component = std::make_shared<UIButton>("Flat", 10, 70, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(FLAT);});
-        composite2->add(component);
-
-        component = std::make_shared<UIButton>("Gouraud", 10, 130, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(GOURAUD);});
-        composite2->add(component);
-
-        component = std::make_shared<UIButton>("Phong", 10, 190, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(PHONG);});
-        composite2->add(component);
-
-        component = std::make_shared<UIButton>("Blinn", 10, 250, 100, 50);
-        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){updateShading(BLINN);});
+        component = std::make_shared<UISelectBox>(10, 10, 150, 50);
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"Flat", "Gourand", "Phong", "Blinn"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int option){
+            updateShading(static_cast<Shading>(option));
+        });
+        std::dynamic_pointer_cast<UISelectBox>(component)->setConstraints(
+                (new RectangleConstraints())->setX(new CenterConstraint())->setY(new FixedConstraint(10)));
         composite2->add(component);
     }
 
+    composite2->update(800, 600);
     rootComponent = composite2;
 
     model.enableBumpMapping(true);
@@ -41,8 +38,8 @@ ShadingStage::ShadingStage() {
 
     phong = std::make_shared<ShaderProgram>("phong");
     gouraud = std::make_shared<ShaderProgram>("gouraud");
-    program = phong;
-
+//    program = phong;
+    updateShading(FLAT);
 }
 
 void ShadingStage::renderUI() {

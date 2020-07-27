@@ -95,6 +95,12 @@ void UISlider::addChangedCallback(std::function<void(float)> onChange) {
     this->onChange = onChange;
 }
 
+void UISlider::setValue(float value) {
+    float f = (value - lBorder) / (rBorder - lBorder);
+    std::cerr << f << " " << range->w << std::endl;
+    slider->x = f * range->w;
+}
+
 //void UISlider::addMouseButtonCallback(std::function<void(int)> &onCoursor) {
 //
 //}
