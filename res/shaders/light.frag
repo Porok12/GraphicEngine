@@ -52,6 +52,7 @@ uniform PointLight pointLight;
 uniform DirLight dirLight;
 uniform SpotLight spotLight;
 uniform Material material;
+uniform float gamma = 2.2;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
@@ -69,6 +70,7 @@ void main() {
     if (spot)
         result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
 
+    result.rgb = pow(result.rgb, vec3(1.0/gamma));
     FragColor = vec4(result, 1.0);
 }
 
