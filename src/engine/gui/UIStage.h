@@ -12,8 +12,6 @@ protected:
 public:
     UIStage();
 
-//    UIStage(const std::shared_ptr<UIComponent> &rootComponent);
-
     virtual void click(const double &x, const double &y);
     virtual void cursor(const double &x, const double &y);
     virtual void renderUI();

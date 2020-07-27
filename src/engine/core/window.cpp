@@ -84,8 +84,6 @@ void MainWindow::toggleCursor() {
 
     if (cursorEnabled) {
         glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-//        if (glfwRawMouseMotionSupported())
-//            glfwSetInputMode(window.get(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
     } else {
         glfwSetInputMode(window.get(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }

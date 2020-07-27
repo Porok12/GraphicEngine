@@ -15,7 +15,7 @@
 #include <boost/foreach.hpp>
 #include <string>
 
-class UISelectBox : public UIComponent { //};, public std::enable_shared_from_this<UISelectBox> {
+class UISelectBox : public UIComponent {
     struct Option {
         std::shared_ptr<Shape> shape;
         bool over;
@@ -35,11 +35,6 @@ private:
 
     std::vector<std::shared_ptr<Option>> options;
     std::shared_ptr<Option> option;
-//protected:
-//    std::shared_ptr<UIComponent> shared_from_this() override {
-//        std::cerr << std::enable_shared_from_this<UISelectBox>::shared_from_this().use_count() << std::endl;
-//        return std::enable_shared_from_this<UISelectBox>::shared_from_this();
-//    };
 public:
     UISelectBox(const std::shared_ptr<Shape> &shape) : UIComponent(shape), options() {
         this->backgroundColor = fVec3(0.5f);
@@ -53,9 +48,6 @@ public:
         options.push_back(std::make_shared<Option>(shape->x, shape->y - 1*shape->h, shape->w, shape->h));
         options.push_back(std::make_shared<Option>(shape->x, shape->y - 2*shape->h, shape->w, shape->h));
         options.push_back(std::make_shared<Option>(shape->x, shape->y - 3*shape->h, shape->w, shape->h));
-//        for (auto &btn: options) {
-//            btn->setParent(shared_from_this());
-//        }
     }
 
     void setOptions(const std::vector<std::string> &options);
@@ -69,11 +61,7 @@ public:
     void draw() override;
     bool click(const double &x, const double &y) override;
     void cursor(const double &x, const double &y) override;
-
     void setBackgroundColor(const fVec3 &backgroundColor);
-
-
-
 };
 
 #endif // UISELECTBOX_H

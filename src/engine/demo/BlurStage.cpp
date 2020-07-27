@@ -53,19 +53,6 @@ BlurStage::BlurStage() : bloom() {
                                           ->setY(new FixedConstraint(250+90)));
         composite2->add(component);
 
-//        component = std::make_shared<UIButton>("Reset", 10, 70, 100, 50);
-//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){});
-//        //program = std::make_shared<ShaderProgram>("gaussian");
-//        composite2->add(component);
-//
-//        component = std::make_shared<UIButton>("Normal", 10, 130, 100, 50);
-//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){});
-//        composite2->add(component);
-//
-//        component = std::make_shared<UIButton>("Spec", 10, 190, 100, 50);
-//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){});
-//        composite2->add(component);
-
         label = std::make_shared<UILabel>("0", 50, 500);
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(150))

@@ -5,10 +5,6 @@
 std::shared_ptr<ShadingStage> ShadingStage::instance = nullptr;
 
 ShadingStage::ShadingStage() {
-//    auto particleProgram = std::make_shared<ShaderProgram>("particle");
-//    auto texture = ResourceLoader::loadTexture("particle.png");
-//    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
-
     auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 300);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {

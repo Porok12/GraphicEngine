@@ -28,9 +28,9 @@ Bloom::Bloom() {
 }
 
 Bloom::~Bloom() {
-//    BOOST_LOG_TRIVIAL(debug) << "Bloom destructor";
-//    glDeleteTextures(2, textures);
-//    glDeleteFramebuffers(2, FBOs);
+    BOOST_LOG_TRIVIAL(debug) << "Bloom destructor";
+    glDeleteTextures(2, textures);
+    glDeleteFramebuffers(2, FBOs);
 }
 
 void Bloom::calculateKernel() {

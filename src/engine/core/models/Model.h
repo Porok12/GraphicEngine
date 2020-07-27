@@ -26,7 +26,6 @@ public:
 
     vector<Texture> textures_loaded;
     vector<Mesh> meshes;
-    bool gammaCorrection;
     bool bumpMapping;
 
     const aiScene* loadModel(std::string const &path);

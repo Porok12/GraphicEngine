@@ -13,15 +13,6 @@ void UISelectBox::addChangedCallback(std::function<void(int)> onChanged) {
 }
 
 void UISelectBox::draw() {
-//    PrimitiveRenderer::getInstance()
-//            ->setColor(backgroundColor)
-//            ->setOffset(fVec3(getOffset().x, getOffset().y, 0))
-//            ->render(shape);
-//    FontRenderer::getInstance()->setPosition(shape->x+getOffset().x, shape->y+getOffset().y)
-//            .setScale(0.5f)
-//            .setTextBox(shape->getTextBox())
-//            .render("1");
-
     fVec2 offset = getOffset() + fVec2(shape->x, shape->y);
 
     PrimitiveRenderer::getInstance()
@@ -50,39 +41,6 @@ void UISelectBox::draw() {
             offset += fVec2(0, -opt->shape->h);
         }
     }
-
-//    fVec2 offset = fVec2(0, 0);
-//    for (const auto &opt: options) {
-//        PrimitiveRenderer::getInstance()
-//                ->setColor(opt->over ? fVec3(1.0) : fVec3(0.5))
-//                ->setOffset(fVec3(offset.x, offset.y, 0))
-//                ->render(opt->shape);
-//        FontRenderer::getInstance()->setPosition(opt->shape->x+offset.x, opt->shape->y+offset.y)
-//                .setScale(0.5f)
-//                .setTextBox(shape->getTextBox())
-//                .render(opt->text);
-//        if (!opened)
-//            break;
-//    }
-
-//    if (opened) {
-//        fVec2 offset = fVec2(0, 0); //getOffset() + fVec2(shape->x, shape->y);
-//        for (const auto &opt: options) {
-////            offset -= fVec2(0, 40);
-//            PrimitiveRenderer::getInstance()
-//                    ->setColor(opt->over ? fVec3(1.0) : fVec3(0.5))
-//                    ->setOffset(fVec3(offset.x, offset.y, 0))
-//                    ->render(opt->shape);
-//            FontRenderer::getInstance()->setPosition(opt->shape->x+offset.x, opt->shape->y+offset.y)
-//                    .setScale(0.5f)
-//                    .setTextBox(shape->getTextBox())
-//                    .render(opt->text);
-//        }
-//    }
-
-//    for (const auto &btn: options) {
-//        btn->draw();
-//    }
 };
 
 bool UISelectBox::click(const double &x, const double &y) {
@@ -155,17 +113,11 @@ void UISelectBox::setBackgroundColor(const fVec3 &backgroundColor) {
 }
 
 void UISelectBox::setOptions(const std::vector<std::string> &options) {
-//    std::vector<std::string> vec = {options...};
-
     for (int i = 0; i < options.size(); ++i) {
-//        this->options.push_back(std::make_shared<Option>(shape->x, shape->y - i*shape->h, shape->w, shape->h, options[i]));
         this->options.push_back(std::make_shared<Option>(0, 0, shape->w, shape->h, options[i]));
     }
 
     option = this->options[0];
-//    for (auto a: options) {
-//
-//    }
 }
 
 int UISelectBox::getOption() {

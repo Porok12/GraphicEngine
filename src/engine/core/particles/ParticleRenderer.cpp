@@ -36,8 +36,6 @@ void ParticleRenderer::init() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, dataVBO);
-//    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
-    std::cerr << sizeof(ParticleData) << std::endl;
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (void*) nullptr);
     glEnableVertexAttribArray(2);

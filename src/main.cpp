@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
     PrimitiveRenderer::getInstance()->setProgram(guiProgram);
 
-    auto fun = std::bind(&Camera::processMouseMovement, &*camera.get(), // DO NOT USE camera ALONE
+    auto fun = std::bind(&Camera::processMouseMovement, &*camera.get(),
             std::placeholders::_1, std::placeholders::_2);
     InputHandler::addCursorOffsetListener(fun);
 

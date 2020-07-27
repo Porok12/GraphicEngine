@@ -9,8 +9,6 @@ void UISlider::addCursorCallback(std::function<void(UISlider*)> &onCoursor) {
 }
 
 void UISlider::draw() {
-//    PrimitiveRenderer::getInstance()
-//            ->setColor(backgroundColor)->setOffset(fVec3(getOffset().x, getOffset().y, 0))->render(shape);
     fVec2 offset = getOffset() + fVec2(shape->x, shape->y);
     fVec2 offset1 = offset + fVec2(0, shape->h / 2);
     fVec2 offset2 = offset + fVec2(0, shape->h / 2 - range->h / 2);

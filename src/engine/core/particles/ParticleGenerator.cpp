@@ -27,7 +27,6 @@ ParticleGenerator::ParticleGenerator(GLuint texture,
 }
 
 void ParticleGenerator::init() {
-//    particles.emplace_back(std::make_shared<Particle>(fVec3(0,2,-5), lifeTime));
     rate = 0.3f;
     curr = 0.0f;
 }

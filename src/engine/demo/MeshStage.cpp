@@ -3,10 +3,6 @@
 std::shared_ptr<MeshStage> MeshStage::instance = nullptr;
 
 MeshStage::MeshStage() {
-//    auto particleProgram = std::make_shared<ShaderProgram>("particle");
-//    auto texture = ResourceLoader::loadTexture("particle.png");
-//    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
-
     auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 500);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
@@ -102,8 +98,7 @@ MeshStage::MeshStage() {
                                           ->setX(new CenterConstraint())->setY(new FixedConstraint(200)));
         composite2->add(component);
     }
-    
-//    composite2->setConstraints((new RectangleConstraints())->setX(new FixedConstraint(10))->setY(new FixedConstraint(10)));
+
     composite2->update(800, 600);
     rootComponent = composite2;
 

@@ -89,9 +89,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
 
     aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-//    vector<Texture> ambientMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_ambient");
-//    vector<Texture> shininessMaps = loadMaterialTextures(material, aiTextureType_SHININESS, "texture_shininess");
-
     vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
     textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
@@ -102,9 +99,6 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene) {
     // OBJ normal -> aiTextureType_HEIGHT
     vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
     textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-
-//    vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_height");
-//    textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
     if (bumpMapping) {
         return Mesh(vertices, indices, textures, tangents);

@@ -3,10 +3,6 @@
 std::shared_ptr<ParticleStage> ParticleStage::instance = nullptr;
 
 ParticleStage::ParticleStage() {
-//    auto particleProgram = std::make_shared<ShaderProgram>("particle");
-//    auto texture = ResourceLoader::loadTexture("particle.png");
-//    ParticleRenderer::getInstance()->setProjection(projection)->setProgram(particleProgram)->setTexture(texture, 8, 8);
-
     texFire = ResourceLoader::loadTexture("particle.png");
     texCloud = ResourceLoader::loadTexture("Cloud.tga");
     texExplosion = ResourceLoader::loadTexture("Explosion.tga");
@@ -129,18 +125,6 @@ void ParticleStage::changeGenerator(int i) {
                                 }
                             }).buildPtr());
             break;
-//        case 3:
-//            ParticleRenderer::getInstance()->setTexture(texCandleSmoke, 20, 4);
-//            particleGenerator = std::unique_ptr<ParticleGenerator>(
-//                    ParticleGenerator::getBuilder().setTexture(texCandleSmoke).setLifeTime(4)
-//                            .setUpdate([](double dt, const std::vector<std::shared_ptr<Particle>> &particles){
-//                                for (auto &p: particles) {
-//                                    p->LifeTime -= dt;
-//                                    p->Velocity += fVec3(0.0f, -9.81f, 0.0f) * dt * 0.5f;
-//                                    p->Position += p->Velocity * dt * 0.4;
-//                                }
-//                            }).buildPtr());
-//            break;
         case 3:
             ParticleRenderer::getInstance()->setTexture(texSnowFlakes, 2, 2);
             particleGenerator = std::unique_ptr<ParticleGenerator>(
