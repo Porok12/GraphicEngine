@@ -61,6 +61,7 @@ public:
     void cursor(const double &x, const double &y) override;
 
     void setBackgroundColor(const fVec3 &backgroundColor);
+    void setValue(float value);
 
 };
 
