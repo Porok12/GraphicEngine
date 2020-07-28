@@ -35,15 +35,6 @@ mat4 lookAt(vec3 pos, vec3 tar) {
 void main() {
     transparency = aTransparency;
 
-//    vec3 toCenter = aOffset - camera;
-//    vec3 toVertex = (aPos) - camera;//(aPos + aOffset) - camera;
-//    vec3 distance = normalize(toVertex) * 5;//length(toCenter);
-//    vec3 diffrence = toVertex - distance;
-//
-//    vec3 tmp = normalize(camera - aPos);
-
-//    gl_Position = projection * view * vec4(aOffset + aPos, 1.0);
-
     vec2 pos2d = vec2(aPos.xy * aTrans.x);
     gl_Position = projection * view * vec4(aOffset + right * pos2d.x + up * pos2d.y, 1.0);
 

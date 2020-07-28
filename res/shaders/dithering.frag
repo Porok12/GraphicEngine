@@ -12,7 +12,7 @@ uniform int paletteSize;
 uniform int size;
 
 vec3 nearest_palette_color(vec3 color, float m) {
-    vec3 diff = color + (1.0/paletteSize) * (m - 0.5);
+    vec3 diff = color + (1.0 / paletteSize) * (m - 0.5);
 
     int j = 0;
     float minDist = distance(diff, palette[j]);
@@ -45,24 +45,6 @@ void main() {
     }
 
     vec3 color = texture(myTexture, TexPos).rgb;
-
-//    float R = color.r;
-//    float G = color.g;
-//    float B = color.b;
-//
-//    mat3 YUV = mat3(
-//    0.299,  0.587,  0.114,
-//    -0.147, -0.289,  0.437,
-//    0.615, -0.515, -0.100
-//    );
-//
-//    float Y = 0.299 * R + 0.587 * G + 0.114 * B;
-//    float U = 0.492 * (B - Y);
-//    float V = 0.877 * (R - Y);
-//
-//    vec3 newColor = YUV * color;
-//    newColor.b = 0;
-//    newColor = inverse(YUV) * newColor;
 
     ivec2 siz = textureSize(myTexture, 0);
     ivec2 UV = ivec2(TexPos.x * siz.x, TexPos.y * siz.y);
