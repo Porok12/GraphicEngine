@@ -86,7 +86,7 @@ void BlurStage::renderUI() {
     UIStage::renderUI();
 }
 
-void BlurStage::renderContent(Camera camera, double dt) {
+void BlurStage::renderContent(FreeCamera camera, double dt) {
     GLuint tex = bloom.apply(textureID);
 
     program->use();

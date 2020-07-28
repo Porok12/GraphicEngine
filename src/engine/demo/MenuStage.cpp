@@ -77,7 +77,7 @@ void MenuStage::renderUI() {
     UIStage::renderUI();
 }
 
-void MenuStage::renderContent(Camera camera, double dt) { }
+void MenuStage::renderContent(FreeCamera camera, double dt) { }
 
 const std::shared_ptr<MenuStage> & MenuStage::getInstance() {
     if (!instance) {

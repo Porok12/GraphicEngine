@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
     std::shared_ptr<Font> ubuntu(FontLoader::loadFont("Ubuntu.ttf"));
     FontLoader::destroy();
 
-    auto camera = std::make_shared<Camera>(fVec3(0, 0, 0));
+    auto camera = std::make_shared<FreeCamera>(fVec3(0, 0, 0));
 
     Mat4 ortho = Mat4::getOrtho(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT, -1, 100);
     Mat4 projection = Mat4::getProjection(60.0f, SCREEN_WIDTH / static_cast<float>(SCREEN_HEIGHT), 0.1f, 100.f);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
 
     PrimitiveRenderer::getInstance()->setProgram(guiProgram);
 
-    auto fun = std::bind(&Camera::processMouseMovement, &*camera.get(),
+    auto fun = std::bind(&FreeCamera::processMouseMovement, &*camera.get(),
             std::placeholders::_1, std::placeholders::_2);
     InputHandler::addCursorOffsetListener(fun);
 

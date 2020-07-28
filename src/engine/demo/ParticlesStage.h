@@ -27,7 +27,7 @@ public:
     }
 
     void renderUI() override;
-    void renderContent(Camera camera, double dt) override;
+    void renderContent(FreeCamera camera, double dt) override;
 };
 
 #endif // PARTICLESTAGE_H
