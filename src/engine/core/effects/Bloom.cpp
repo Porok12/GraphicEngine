@@ -28,9 +28,9 @@ Bloom::Bloom() {
 }
 
 Bloom::~Bloom() {
-    BOOST_LOG_TRIVIAL(debug) << "Bloom destructor";
-    glDeleteTextures(2, textures);
-    glDeleteFramebuffers(2, FBOs);
+//    BOOST_LOG_TRIVIAL(debug) << "Bloom destructor";
+//    glDeleteTextures(2, textures);
+//    glDeleteFramebuffers(2, FBOs);
 }
 
 void Bloom::calculateKernel() {
@@ -52,6 +52,7 @@ void Bloom::updateKernel() {
     program->set1i("kernelSize", kernelSize);
     for (int x = 0; x <= kernelSize/2; ++x) {
         std::stringstream ss;
+        ss << "kernel" << '[' << x << ']';
         program->set1f(ss.str(), static_cast<float>(kernel[kernelSize/2 + x]));
     }
 }
