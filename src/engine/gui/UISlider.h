@@ -22,6 +22,8 @@ private:
     std::shared_ptr<Shape> slider, range;
     float lBorder = 0, rBorder = 10, step = 2;
 
+    void updateSlider(double x);
+
 public:
     UISlider(const std::shared_ptr<Shape> &shape) : UIComponent(shape) {
         this->backgroundColor = fVec3(0.5f, 0.5f, 0.5f);

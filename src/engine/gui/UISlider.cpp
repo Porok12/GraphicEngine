@@ -28,18 +28,7 @@ bool UISlider::click(const double &x, const double &y) {
             action = true;
         }
 
-        float pixStep = range->w / (rBorder - lBorder);
-        float xPos = (float) x - shape->x;
-
-
-        if (std::abs(slider->x - xPos) >= step * pixStep) {
-            float diff = (int) xPos % (int) (step * pixStep);
-            slider->x = xPos - diff;
-            if (onChange) {
-                float f = slider->x / range->w;
-                onChange(lBorder + (rBorder - lBorder) * f);
-            }
-        }
+        updateSlider(x);
 
         return true;
     }
@@ -50,17 +39,7 @@ bool UISlider::click(const double &x, const double &y) {
 void UISlider::cursor(const double &x, const double &y) {
     if (shape->contains(x, y)) {
         if (action) {
-            float pixStep = range->w / (rBorder - lBorder);
-
-            float xPos = (float) x - shape->x;
-            if (std::abs(slider->x - xPos) >= step * pixStep) {
-                float diff = (int) xPos % (int) (step * pixStep);
-                slider->x = xPos - diff;
-                if (onChange) {
-                    float f = slider->x / range->w;
-                    onChange(lBorder + (rBorder - lBorder) * f);
-                }
-            }
+            updateSlider(x);
         }
 
         if(onCursor) {
@@ -94,4 +73,18 @@ void UISlider::addChangedCallback(std::function<void(float)> onChange) {
 void UISlider::setValue(float value) {
     float f = (value - lBorder) / (rBorder - lBorder);
     slider->x = f * range->w;
+}
+
+void UISlider::updateSlider(double x) {
+    float pixStep = range->w / (rBorder - lBorder);
+    float xPos = (float) x - shape->x;
+
+    if (std::abs(slider->x - xPos) >= step * pixStep) {
+        float diff = (int) xPos % (int) (step * pixStep);
+        slider->x = xPos - diff;
+        if (onChange) {
+            float f = slider->x / range->w;
+            onChange(lBorder + (rBorder - lBorder) * f);
+        }
+    }
 }
