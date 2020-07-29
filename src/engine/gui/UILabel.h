@@ -10,10 +10,6 @@ class UILabel : public UIComponent {
 private:
     std::string text;
 public:
-//    UILabel(const std::shared_ptr <Shape> &shape) : UIComponent(shape) {
-//
-//    }
-
     UILabel(std::string text, int x, int y)
             : UIComponent(std::make_shared<Rectangle>(x, y, 0, 0)) {
         this->text = text;

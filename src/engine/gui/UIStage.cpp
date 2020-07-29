@@ -2,10 +2,6 @@
 
 UIStage::UIStage() = default;
 
-//UIStage::UIStage(const std::shared_ptr<UIComponent> &rootComponent)
-//        : rootComponent(rootComponent) {
-//}
-
 void UIStage::renderUI() {
     if (rootComponent) {
         GUIRenderer::getInstance()->render(rootComponent.get());

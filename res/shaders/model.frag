@@ -33,13 +33,11 @@ void main() {
     } else if (colorTarget == 2) {
         YUV.x = 0;
         YUV.z = -Vmax;
-//        YUV.y = YUV.y / (YUV.y+Vmax);
         YUV = inverse((YUVmatrix)) * YUV;
         FragColor = vec4((YUV), 1.0);
     } else if (colorTarget == 3) {
         YUV.x = 0;
         YUV.y = -Umax;
-//        YUV.z = YUV.z / (YUV.z+Umax);
         YUV = inverse((YUVmatrix)) * YUV;
         FragColor = vec4((YUV), 1.0);
     }

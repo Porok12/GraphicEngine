@@ -9,8 +9,6 @@ void UISlider::addCursorCallback(std::function<void(UISlider*)> &onCoursor) {
 }
 
 void UISlider::draw() {
-//    PrimitiveRenderer::getInstance()
-//            ->setColor(backgroundColor)->setOffset(fVec3(getOffset().x, getOffset().y, 0))->render(shape);
     fVec2 offset = getOffset() + fVec2(shape->x, shape->y);
     fVec2 offset1 = offset + fVec2(0, shape->h / 2);
     fVec2 offset2 = offset + fVec2(0, shape->h / 2 - range->h / 2);
@@ -30,18 +28,7 @@ bool UISlider::click(const double &x, const double &y) {
             action = true;
         }
 
-        float pixStep = range->w / (rBorder - lBorder);
-        float xPos = (float) x - shape->x;
-
-
-        if (std::abs(slider->x - xPos) >= step * pixStep) {
-            float diff = (int) xPos % (int) (step * pixStep);
-            slider->x = xPos - diff;
-            if (onChange) {
-                float f = slider->x / range->w;
-                onChange(lBorder + (rBorder - lBorder) * f);
-            }
-        }
+        updateSlider(x);
 
         return true;
     }
@@ -52,19 +39,7 @@ bool UISlider::click(const double &x, const double &y) {
 void UISlider::cursor(const double &x, const double &y) {
     if (shape->contains(x, y)) {
         if (action) {
-            float pixStep = range->w / (rBorder - lBorder);
-
-            float xPos = (float) x - shape->x;
-            if (std::abs(slider->x - xPos) >= step * pixStep) {
-//                std::cout << xPos >  ? step * pixStep << std::endl;
-                float diff = (int) xPos % (int) (step * pixStep);
-                slider->x = xPos - diff;
-                if (onChange) {
-                    float f = slider->x / range->w;
-//                    std::cout << lBorder + (rBorder - lBorder) * f << std::endl;
-                    onChange(lBorder + (rBorder - lBorder) * f);
-                }
-            }
+            updateSlider(x);
         }
 
         if(onCursor) {
@@ -97,10 +72,19 @@ void UISlider::addChangedCallback(std::function<void(float)> onChange) {
 
 void UISlider::setValue(float value) {
     float f = (value - lBorder) / (rBorder - lBorder);
-    std::cerr << f << " " << range->w << std::endl;
     slider->x = f * range->w;
 }
 
-//void UISlider::addMouseButtonCallback(std::function<void(int)> &onCoursor) {
-//
-//}
+void UISlider::updateSlider(double x) {
+    float pixStep = range->w / (rBorder - lBorder);
+    float xPos = (float) x - shape->x;
+
+    if (std::abs(slider->x - xPos) >= step * pixStep) {
+        float diff = (int) xPos % (int) (step * pixStep);
+        slider->x = xPos - diff;
+        if (onChange) {
+            float f = slider->x / range->w;
+            onChange(lBorder + (rBorder - lBorder) * f);
+        }
+    }
+}

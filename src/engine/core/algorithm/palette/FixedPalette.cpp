@@ -9,7 +9,6 @@ void FixedPalette::getRandom(int s, std::vector <fVec3> &palette) {
     for (int j = 0; j < s; ++j) {
         palette.push_back(fVec3(dist(gen), dist(gen), dist(gen)));
     }
-    std::cout << palette.size() << std::endl;
 }
 
 void FixedPalette::getFixed(int s, std::vector <fVec3> &palette) {
@@ -17,8 +16,6 @@ void FixedPalette::getFixed(int s, std::vector <fVec3> &palette) {
     for (int i = 1; i <= s; ++i) {
         for (int j = 0; j < 8 && (i-1)*8+j < s; j++) {
             palette.push_back(fVec3(255.0/i * (j/4), 255.0/i * ((j/2)%2), 255.0/i *(j%2)));
-//            std::cout << 255.0/i * (j/4) << " " << 255.0/i * ((j/2)%2) << " " << 255.0/i *(j%2) << std::endl;
         }
     }
-//    std::cout << palette.size() << std::endl;
 }

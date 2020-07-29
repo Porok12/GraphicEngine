@@ -14,8 +14,6 @@ class ParticleRenderer {
         int select;
 
         explicit ParticleData(const Particle& particle);
-//        ParticleData(float x, float y, float z, float lifeTime);
-//        ParticleData(float x, float y, float z, float lifeTime, float transparency);
     };
 //#pragma pack(pop)
 private:

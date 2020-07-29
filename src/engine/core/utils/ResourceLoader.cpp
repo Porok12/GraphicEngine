@@ -51,7 +51,7 @@ GLuint ResourceLoader::loadTexture(std::string name) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        BOOST_LOG_TRIVIAL(info) << "Texture " << name.c_str() << " was loaded";
+        BOOST_LOG_TRIVIAL(debug) << "Texture " << name.c_str() << " was loaded";
 
         SOIL_free_image_data(data);
     } else {

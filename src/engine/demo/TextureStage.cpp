@@ -17,10 +17,6 @@ TextureStage::TextureStage()
                                           ->setX(new CenterConstraint)->setY(new FixedConstraint(200 - 50 - 10)));
         composite2->add(component);
 
-//        component = std::make_shared<UIButton>("Reset", 10, 70, 100, 50);
-//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){program = std::make_shared<ShaderProgram>("texture");});
-//        composite2->add(component);
-
         std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("Normal", 50, 500);
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(120))
@@ -44,14 +40,6 @@ TextureStage::TextureStage()
         component->setConstraints((new RectangleConstraints)
                                           ->setX(new FixedConstraint(10))->setY(new FixedConstraint(60)));
         composite2->add(component);
-
-//        component = std::make_shared<UIButton>("Normal", 10, 130, 100, 50);
-//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableNormalMap = !enableNormalMap;});
-//        composite2->add(component);
-//
-//        component = std::make_shared<UIButton>("Spec", 10, 190, 100, 50);
-//        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){enableSpecularMap = !enableSpecularMap;});
-//        composite2->add(component);
     }
 
     composite2->update(800, 600);
@@ -70,7 +58,7 @@ void TextureStage::renderUI() {
     UIStage::renderUI();
 }
 
-void TextureStage::renderContent(Camera camera, double dt) {
+void TextureStage::renderContent(FreeCamera camera, double dt) {
     Mat4 view = camera.getViewMatrix();
     Mat4 mm = Mat4::identity();
     mm = Mat4::scale(0.75f) * mm;

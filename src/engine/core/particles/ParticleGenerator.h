@@ -8,8 +8,6 @@
 
 class ParticleGenerator {
 private:
-//    typedef std::vector<std::shared_ptr<Particle>> shared_vector;
-//    typedef std::function<void (double, const shared_vector &)> function_update;
     using shared_vector = std::vector<std::shared_ptr<Particle>>;
     using function_update = std::function<void (double, const shared_vector &)>;
     shared_vector particles;

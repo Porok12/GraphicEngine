@@ -27,7 +27,6 @@ ParticleGenerator::ParticleGenerator(GLuint texture,
 }
 
 void ParticleGenerator::init() {
-//    particles.emplace_back(std::make_shared<Particle>(fVec3(0,2,-5), lifeTime));
     rate = 0.3f;
     curr = 0.0f;
 }
@@ -38,7 +37,6 @@ void ParticleGenerator::update(double dt) {
     }
 
     for (auto &p: particles) {
-//        std::cout << p->Transparency << std::endl;
         if (p->LifeTime < 0.02) {
             if (std::find(expired.begin(), expired.end(), p) == expired.end()) {
                 expired.push_back(p);

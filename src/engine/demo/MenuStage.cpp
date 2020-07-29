@@ -8,90 +8,59 @@ MenuStage::MenuStage() {
     {
         std::shared_ptr<UIComponent> component;
 
-        component.reset(new UIButton("Demo1", 375, 50, 100, 50));
+        component.reset(new UIButton("Model/YUV demo", 375, 50, 250, 50));
         temp = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
                                           ->setY(new FixedConstraint(50)));
         menuStage->add(component);
 
-        component.reset(new UIButton("Demo2", 375, 110, 100, 50));
+        component.reset(new UIButton("Particles demo", 375, 110, 250, 50));
         temp2 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
                                           ->setY(new FixedConstraint(110)));
         menuStage->add(component);
 
-        component.reset(new UIButton("Demo3", 375, 170, 100, 50));
+        component.reset(new UIButton("Shading demo", 375, 170, 250, 50));
         temp3 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
                                           ->setY(new FixedConstraint(170)));
         menuStage->add(component);
 
-        component.reset(new UIButton("Demo4", 375, 230, 100, 50));
+        component.reset(new UIButton("Light demo", 375, 230, 250, 50));
         temp4 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
                                           ->setY(new FixedConstraint(230)));
         menuStage->add(component);
 
-        component.reset(new UIButton("Demo5", 375, 290, 100, 50));
+        component.reset(new UIButton("Textures demo", 375, 290, 250, 50));
         temp5 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
                                           ->setY(new FixedConstraint(290)));
         menuStage->add(component);
 
-        component.reset(new UIButton("Demo7", 375, 410, 100, 50));
+        component.reset(new UIButton("Blur demo", 375, 410, 250, 50));
         temp7 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
                                           ->setY(new FixedConstraint(410)));
         menuStage->add(component);
       
-        component.reset(new UIButton("Demo6", 375, 350, 100, 50));
+        component.reset(new UIButton("Dithering demo", 375, 350, 250, 50));
         temp6 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
                                           ->setY(new FixedConstraint(350)));
         menuStage->add(component);
 
-        std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("Text", 50, 500);
-        label->setConstraints((new RectangleConstraints())
-                                      ->setX(new FixedConstraint(50))
-                                      ->setY(new FixedConstraint(500)));
-        menuStage->add(label);
-
-        UIComponent* l = label.get();
-        component.reset(new UISlider(50, 500, 100, 50));
-        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([l](float f){
-            auto cast = dynamic_cast<UILabel*>(l);
-            cast->setText(std::to_string(f));
-        });
-        component->setConstraints((new RectangleConstraints())
-                                      ->setX(new FixedConstraint(50))
-                                      ->setY(new FixedConstraint(400)));
-        menuStage->add(component);
-
-        component.reset(new UICheckBox(50, 500, 50, 50));
-        component->setConstraints((new RectangleConstraints())
-                                          ->setX(new FixedConstraint(50))
-                                          ->setY(new FixedConstraint(300)));
-        menuStage->add(component);
-
         component.reset(new UITextBox(50, 400, 130, 50));
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new FixedConstraint(50))
-                                          ->setY(new FixedConstraint(200)));
-        menuStage->add(component);
-
-        component.reset(new UISelectBox(50, 300, 200, 50));
-        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"1", "2", "3"});
-        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([](int i){std::cout << i << std::endl;});
-        component->setConstraints((new RectangleConstraints())
-                                          ->setX(new FixedConstraint(50))
-                                          ->setY(new FixedConstraint(100)));
+                                          ->setX(new FixedConstraint(10))
+                                          ->setY(new FixedConstraint(10)));
         menuStage->add(component);
     }
 
@@ -108,7 +77,7 @@ void MenuStage::renderUI() {
     UIStage::renderUI();
 }
 
-void MenuStage::renderContent(Camera camera, double dt) { }
+void MenuStage::renderContent(FreeCamera camera, double dt) { }
 
 const std::shared_ptr<MenuStage> & MenuStage::getInstance() {
     if (!instance) {

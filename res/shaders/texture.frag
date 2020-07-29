@@ -8,7 +8,6 @@ in vec3 FragPos;
 in vec3 TangentFragPos;
 in vec3 TangentViewPos;
 in mat3 oTBN;
-in vec3 debug;
 
 struct DirLight {
     vec3 direction;
@@ -36,7 +35,6 @@ uniform DirLight dirLight;
 uniform sampler2D texture_diffuse1;
 uniform sampler2D texture_specular1;
 uniform sampler2D texture_normal1;
-//uniform sampler2D texture_height1;
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);

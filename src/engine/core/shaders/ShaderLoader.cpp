@@ -13,7 +13,3 @@ ShaderLoader ShaderLoader::get() {
 
     return *shaderLoader;
 }
-
-//Shader ShaderLoader::loadShader(const char *name) {
-//    return nullptr;
-//}

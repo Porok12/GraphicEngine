@@ -34,7 +34,6 @@ public:
     }
 
     void addClickCallback(std::function<void()> onClick);
-//    void addCursorCallback(std::function<void(UIButton*)> onCoursor);
     void addCursorCallback(std::function<void(UIButton*)> &onCoursor);
 
     void draw() override;

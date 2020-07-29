@@ -2,7 +2,7 @@
 #define UISTAGEMANAGER_H
 
 #include <memory>
-#include <core/Camera.h>
+#include <core/FreeCamera.h>
 #include "UIRenderer.h"
 #include "demo/MeshStage.h"
 #include "demo/MenuStage.h"
@@ -28,11 +28,11 @@ class UIStageManager {
 private:
     double deltaTime;
     std::shared_ptr<UIStage> rootUI;
-    std::shared_ptr<Camera> camera;
+    std::shared_ptr<FreeCamera> camera;
     bool disabled = false;
 
 public:
-    UIStageManager(const std::shared_ptr<Camera> &camera);
+    UIStageManager(const std::shared_ptr<FreeCamera> &camera);
 
     void setStage(Stages stage);
     void update(double dt);

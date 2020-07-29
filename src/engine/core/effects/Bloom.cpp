@@ -40,15 +40,11 @@ void Bloom::calculateKernel() {
     for (int x = 0; x < kernelSize; ++x) {
         kernel[x] = exp( -0.5 * pow((x-mean)/sigma, 2.0) ) / sqrt(2 * M_PI * sigma * sigma);
         sum += kernel[x];
-        std::cout << kernel[x] << " ";
     }
-    std::cout << std::endl;
 
     for (int x = 0; x < kernelSize; ++x) {
         kernel[x] /= sum;
-        std::cout << kernel[x] << " + ";
     }
-    std::cout << std::endl;
 }
 
 void Bloom::updateKernel() {
@@ -58,7 +54,6 @@ void Bloom::updateKernel() {
         std::stringstream ss;
         ss << "kernel" << '[' << x << ']';
         program->set1f(ss.str(), static_cast<float>(kernel[kernelSize/2 + x]));
-        std::cout << ss.str() << " " << kernel[kernelSize/2 + x] << std::endl;
     }
 }
 

@@ -22,6 +22,8 @@ private:
     std::shared_ptr<Shape> slider, range;
     float lBorder = 0, rBorder = 10, step = 2;
 
+    void updateSlider(double x);
+
 public:
     UISlider(const std::shared_ptr<Shape> &shape) : UIComponent(shape) {
         this->backgroundColor = fVec3(0.5f, 0.5f, 0.5f);
@@ -47,14 +49,11 @@ public:
         this->lBorder = l;
         this->rBorder = r;
         this->step= s;
-
-//        onChange(lBorder);
     }
 
     void addClickCallback(std::function<void()> onClick);
     void addCursorCallback(std::function<void(UISlider*)> &onCoursor);
     void addChangedCallback(std::function<void(float)> onChange);
-//    void addMouseButtonCallback(std::function<void(int)> &onMouseButton);
 
     void draw() override;
     bool click(const double &x, const double &y) override;

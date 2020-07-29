@@ -36,8 +36,6 @@ void ParticleRenderer::init() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, dataVBO);
-//    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_STREAM_DRAW);
-    std::cerr << sizeof(ParticleData) << std::endl;
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (void*) nullptr);
     glEnableVertexAttribArray(2);
@@ -86,7 +84,6 @@ void ParticleRenderer::render(const std::vector<std::shared_ptr<Particle>> &part
     for (const auto& p: particles) {
         if (p->LifeTime < 0.01) continue;
         data.push_back(ParticleData(*p));
-//        std::cout << p->Select << std::endl;
         data.emplace_back(*p);
     }
 
@@ -150,14 +147,3 @@ ParticleRenderer::ParticleData::ParticleData(const Particle& particle)
           lifeTime(particle.LifeTime), transparency(particle.Transparency),
           size(particle.Size), angle(particle.Angle), select(particle.Select) {
 }
-
-//ParticleRenderer::ParticleData::ParticleData(float x, float y, float z, float lifeTime)
-//        : x(x), y(y), z(z), lifeTime(lifeTime), transparency(1) {
-//
-//}
-//
-//
-//ParticleRenderer::ParticleData::ParticleData(float x, float y, float z, float lifeTime, float transparency)
-//        : x(x), y(y), z(z), lifeTime(lifeTime), transparency(transparency) {
-//
-//}

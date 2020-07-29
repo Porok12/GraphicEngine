@@ -1,6 +1,6 @@
 #include "UIStageManager.h"
 
-UIStageManager::UIStageManager(const std::shared_ptr<Camera> &camera)
+UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
         : rootUI() {
     MenuStage::getInstance()->setXxx([this](){this->setStage(Stages::MESH);});
     MenuStage::getInstance()->setYyy([this](){this->setStage(Stages::PARTICLES);});
