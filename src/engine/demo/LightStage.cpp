@@ -101,7 +101,8 @@ void LightStage::renderContent(FreeCamera camera, double dt) {
     Mat4 mm = Mat4::identity();
     mm = Mat4::scale(0.75f) * mm;
     mm = Mat4::translate(0, 0, -4) * mm;
-    ModelRenderer::getInstance()->setModel( Mat4::rotation(a++, fVec3(0.9, 0.6, 0.3)) * mm);
+    a += dt * 60;
+    ModelRenderer::getInstance()->setModel( Mat4::rotation(a, fVec3(0.9, 0.6, 0.3)) * mm);
     ModelRenderer::getInstance()->setView(view);
 
 

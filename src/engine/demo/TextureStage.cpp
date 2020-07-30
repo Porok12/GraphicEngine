@@ -63,7 +63,8 @@ void TextureStage::renderContent(FreeCamera camera, double dt) {
     Mat4 mm = Mat4::identity();
     mm = Mat4::scale(0.75f) * mm;
     mm = Mat4::translate(0, 0, -4) * mm;
-    ModelRenderer::getInstance()->setModel( Mat4::rotation(a++, fVec3(0.9, 0.6, 0.3)) * mm);
+    a += dt * 60;
+    ModelRenderer::getInstance()->setModel( Mat4::rotation(a, fVec3(0.9, 0.6, 0.3)) * mm);
     ModelRenderer::getInstance()->setView(view);
 
 
@@ -74,7 +75,8 @@ void TextureStage::renderContent(FreeCamera camera, double dt) {
     program->set1b("enableSpecularMap", enableSpecularMap);
 
     light(program.get(), "dirLight", dirLight);
-    pointLight.setPosition(fVec3(3*std::cos(b), -1, -4+3*std::sin(b))); b += dt;
+    pointLight.setPosition(fVec3(3*std::cos(b), -1, -4+3*std::sin(b)));
+    b += dt;
     light(program.get(), "pointLight", pointLight);
 
     ModelRenderer::getInstance()->render(model, *program);
