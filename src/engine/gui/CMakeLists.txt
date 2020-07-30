@@ -3,7 +3,8 @@ find_package(Boost COMPONENTS log_setup log thread date_time filesystem system R
 
 #add_definitions(-DBOOST_LOG_DYN_LINK)
 include_directories(${Boost_INCLUDE_DIRS})
-include_directories(../../../lib/glew/include
+include_directories(
+        ../../../lib/glew/include
         ../../../lib/assimp-3.3.1/include
         ../../../lib/soil/src
         ../../../lib/freetype-2.10.0/include)
@@ -13,7 +14,7 @@ add_library(gui STATIC Primitives/PrimitiveRenderer.cpp Primitives/PrimitiveRend
 
 set_target_properties(gui PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(gui ${Boost_LIBRARIES})
-target_link_libraries(gui assimp SOIL freetype glfw libglew_static)
+target_link_libraries(gui assimp SOIL freetype glfw)
 target_link_libraries(gui math core)
 
 #

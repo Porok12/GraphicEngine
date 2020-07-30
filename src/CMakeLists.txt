@@ -50,7 +50,7 @@ add_executable(GraphicEngine main.cpp ${someResources})
 
 target_link_libraries(GraphicEngine ${OPENGL_LIBRARIES})
 target_link_libraries(GraphicEngine ${Boost_LIBRARIES})# pthread)
-target_link_libraries(GraphicEngine glfw assimp freetype SOIL libglew_static)
+target_link_libraries(GraphicEngine glfw assimp freetype SOIL)
 target_link_libraries(GraphicEngine math core gui demo)
 
 #add_custom_command(
