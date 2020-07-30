@@ -14,7 +14,7 @@ add_library(demo STATIC MenuStage.cpp MenuStage.h MeshStage.cpp MeshStage.h Part
 
 set_target_properties(demo PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(demo ${Boost_LIBRARIES})
-target_link_libraries(demo assimp SOIL freetype glfw libglew_static)
+target_link_libraries(demo assimp SOIL freetype glfw)
 target_link_libraries(demo math core gui)
 
 #

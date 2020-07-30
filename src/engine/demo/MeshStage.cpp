@@ -115,7 +115,7 @@ void MeshStage::renderContent(FreeCamera camera, double dt) {
     mm = Mat4::scale(0.75f) * mm;
     mm = Mat4::translate(0, 0, -4) * mm;
 
-    tmp += rotationSpeed;
+    tmp += rotationSpeed * dt * 60;
 
     ModelRenderer::getInstance()->getProgram()->use().set1i("colorTarget", colorTarget);
     ModelRenderer::getInstance()->setModel( Mat4::rotation(tmp, fVec3(rotationX, rotationY, rotationZ)) * mm);
