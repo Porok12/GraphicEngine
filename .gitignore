@@ -35,8 +35,8 @@
 .idea/
 
 # CMake
-cmake-build-debug/
-cmake-build-release/
+cmake-build-debug*/
+cmake-build-release*/
 
 build/
 !res/*/*.obj

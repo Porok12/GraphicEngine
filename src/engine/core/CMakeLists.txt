@@ -1,8 +1,13 @@
-find_package(Boost COMPONENTS log log_setup thread date_time filesystem system REQUIRED)
+set(Boost_USE_STATIC_LIBS   ON)
+find_package(Boost COMPONENTS log_setup log thread date_time filesystem system REQUIRED)
 
-add_definitions(-DBOOST_LOG_DYN_LINK)
+#add_definitions(-DBOOST_LOG_DYN_LINK)
 include_directories(${Boost_INCLUDE_DIRS})
-include_directories(../../../lib/glew/include ../../../lib/assimp-3.3.1/include ../../../lib/soil/src ../../../lib/freetype-2.10.0/include)
+include_directories(
+        ../../../lib/glew/include
+        ../../../lib/assimp-3.3.1/include
+        ../../../lib/soil/src
+        ../../../lib/freetype-2.10.0/include)
 include_directories(../)
 
 add_library(core STATIC
@@ -12,6 +17,6 @@ add_library(core STATIC
 
 set_target_properties(core PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(core ${Boost_LIBRARIES})
-target_link_libraries(core assimp SOIL freetype glfw libglew_shared)
+target_link_libraries(core assimp SOIL freetype glfw libglew_static)
 target_link_libraries(core math)
 #install(FILES window.h DESTINATION ../../include/engine/core)
