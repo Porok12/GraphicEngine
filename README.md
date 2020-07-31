@@ -1,5 +1,5 @@
 # GraphicEngine
-Multiplatformowy silnik graficzny 3D wykonwny w oparciu o OpenGL.
+Multiplatformowy silnik graficzny 3D wykonany w oparciu o OpenGL.
 
 ## Struktura katalogów
 
