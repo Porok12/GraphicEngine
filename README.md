@@ -1,5 +1,5 @@
 # GraphicEngine
-Silnik graficzny 3D wykonwny w jest C++.
+Multiplatformowy silnik graficzny 3D wykonwny w oparciu o OpenGL.
 
 ## Struktura katalogów
 
@@ -10,6 +10,8 @@ Silnik graficzny 3D wykonwny w jest C++.
 
 
 ## Demo
+    ESC - Wyjście z programu
+    L-CTRL - Wyłączenie menu
 
 #### Wczytywanie modeli + YUV
 Zadaniem tego dema jest wczytanie modelu kostki 
