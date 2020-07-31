@@ -11,7 +11,8 @@ Multiplatformowy silnik graficzny 3D wykonany w oparciu o OpenGL.
 
 ## Demo
     ESC - Wyjście z programu
-    L-CTRL - Wyłączenie menu
+    L-CTRL - Wyłączenie/Włączenie menu
+    W, S, A, D - Poruszanie kamerą (jeśli menu wyłączone)
 
 #### Wczytywanie modeli + YUV
 Zadaniem tego dema jest wczytanie modelu kostki 
