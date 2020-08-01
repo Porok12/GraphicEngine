@@ -9,6 +9,7 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
     MenuStage::getInstance()->setBbb([this](){this->setStage(Stages::TEXTURE_MAPS);});
     MenuStage::getInstance()->setDdd([this](){this->setStage(Stages::BLUR);});
     MenuStage::getInstance()->setCcc([this](){this->setStage(Stages::DITHERING);});
+    MenuStage::getInstance()->setEee([this](){this->setStage(Stages::BRESENHAM);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
@@ -17,6 +18,7 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
     TextureStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     BlurStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     DitheringStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    BresenhamStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 
     this->camera = camera;
 }
@@ -46,6 +48,9 @@ void UIStageManager::setStage(Stages stage) {
             break;
         case DITHERING:
             rootUI = DitheringStage::getInstance();
+            break;
+        case BRESENHAM:
+            rootUI = BresenhamStage::getInstance();
             break;
     }
     GUIRenderer::getInstance()->requestUpdate();

@@ -17,6 +17,6 @@ add_library(core STATIC
 
 set_target_properties(core PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(core ${Boost_LIBRARIES})
-target_link_libraries(core assimp SOIL freetype glfw libglew_static)
+target_link_libraries(core assimp SOIL freetype glfw ${GLEW_LIB_NAME})
 target_link_libraries(core math)
 #install(FILES window.h DESTINATION ../../include/engine/core)

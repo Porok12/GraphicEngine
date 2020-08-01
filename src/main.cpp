@@ -15,7 +15,7 @@
 #include <memory>
 #include <core/text/Font.h>
 #include <core/text/FontRenderer.h>
-#include <gui/UIStageManager.h>
+#include <demo/UIStageManager.h>
 #include <core/particles/ParticleRenderer.h>
 #include <core/models/ModelRenderer.h>
 
