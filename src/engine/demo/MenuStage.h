@@ -21,7 +21,7 @@ public:
     static const std::shared_ptr<MenuStage> & getInstance();
 
     void renderUI() override;
-    void renderContent(FreeCamera camera, double dt) override;
+    void renderContent(FreeCamera &camera, double dt) override;
 
     void setXxx(std::function<void ()> fun) {
         std::dynamic_pointer_cast<UIButton>(temp)->addClickCallback(fun);

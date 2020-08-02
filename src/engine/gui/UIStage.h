@@ -15,7 +15,7 @@ public:
     virtual void click(const double &x, const double &y);
     virtual void cursor(const double &x, const double &y);
     virtual void renderUI();
-    virtual void renderContent(FreeCamera camera, double dt) = 0;
+    virtual void renderContent(FreeCamera &camera, double dt) = 0;
 };
 
 

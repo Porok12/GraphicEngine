@@ -213,7 +213,7 @@ void DitheringStage::renderUI() {
     UIStage::renderUI();
 }
 
-void DitheringStage::renderContent(FreeCamera camera, double dt) {
+void DitheringStage::renderContent(FreeCamera &camera, double dt) {
     Mat4 view = camera.getViewMatrix();
     ModelRenderer::getInstance()->setView(view);
     

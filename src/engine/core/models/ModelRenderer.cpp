@@ -45,3 +45,11 @@ void ModelRenderer::render(const Model &model, ShaderProgram &program) {
 ShaderProgram *ModelRenderer::getProgram() {
     return program.get();
 }
+
+const Mat4 &ModelRenderer::getProjection() const {
+    return projection;
+}
+
+const Mat4 &ModelRenderer::getView() const {
+    return view;
+}

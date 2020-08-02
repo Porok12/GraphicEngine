@@ -94,6 +94,12 @@ Mat4 Mat4::operator*(const Mat4 &other) {
         }
     }
 
+    for (int m = 0; m < 4; ++m) {
+        for (int n = 0; n < 4; ++n) {
+            mat[m][n] = round(mat[m][n] * 1000000.0 ) / 1000000.0;
+        }
+    }
+
     return mat;
 }
 
@@ -193,4 +199,82 @@ Mat4 Mat4::rotation(const float &angle, fVec3 u) {
     m[3][3] = 1;
 
     return m;
+}
+
+Mat4 &Mat4::inverse() {
+//    throw NotImplementedException();
+    double a11 = (*this)[0][0]; double a12 = (*this)[0][1]; double a13 = (*this)[0][2]; double a14 = (*this)[0][3];
+    double a21 = (*this)[1][0]; double a22 = (*this)[1][1]; double a23 = (*this)[1][2]; double a24 = (*this)[1][3];
+    double a31 = (*this)[2][0]; double a32 = (*this)[2][1]; double a33 = (*this)[2][2]; double a34 = (*this)[2][3];
+    double a41 = (*this)[3][0]; double a42 = (*this)[3][1]; double a43 = (*this)[3][2]; double a44 = (*this)[3][3];
+
+    double determinant = 0;
+
+    determinant =
+              a11*a22*a33*a44 + a11*a23*a34*a42 + a11*a24*a32*a43
+            - a11*a24*a33*a42 - a11*a23*a32*a44 - a11*a22*a34*a43
+            - a12*a21*a33*a44 - a13*a21*a34*a42 - a14*a21*a32*a43
+            + a14*a21*a33*a42 + a13*a21*a32*a44 + a12*a21*a34*a43
+            + a12*a23*a31*a44 + a13*a24*a31*a42 + a14*a22*a31*a43
+            - a14*a23*a31*a42 - a13*a22*a31*a44 - a12*a24*a31*a43
+            - a12*a23*a34*a41 - a13*a24*a32*a41 - a14*a22*a33*a41
+            + a14*a23*a32*a41 + a13*a22*a34*a41 + a12*a24*a33*a41;
+
+    //adjugate
+    double adj11 =   a22*a33*a44 + a23*a34*a42 + a24*a32*a43
+                  - a24*a33*a42 - a23*a32*a44 - a22*a34*a43;
+    double adj12 = - a12*a33*a44 - a13*a34*a42 - a14*a32*a43
+                  + a14*a33*a42 + a13*a32*a44 + a12*a34*a43;
+    double adj13 =   a12*a23*a44 + a13*a24*a42 + a14*a22*a43
+                  - a14*a23*a42 - a13*a22*a44 - a12*a24*a43;
+    double adj14 = - a12*a23*a34 - a13*a24*a32 - a14*a22*a33
+                  + a14*a23*a32 + a13*a22*a34 + a12*a24*a33;
+
+    double adj21 = - a21*a33*a44 - a23*a34*a41 - a24*a31*a43
+                  + a24*a33*a41 + a23*a31*a44 + a21*a34*a43;
+    double adj22 =   a11*a33*a44 + a13*a34*a41 + a14*a31*a43
+                  - a14*a33*a41 - a13*a31*a44 - a11*a34*a43;
+    double adj23 = - a11*a23*a44 - a13*a24*a41 - a14*a21*a43
+                  + a14*a23*a41 + a13*a21*a44 + a11*a24*a43;
+    double adj24 =   a11*a23*a34 + a13*a24*a31 + a14*a21*a33
+                  - a14*a23*a31 - a13*a21*a34 - a11*a24*a33;
+
+    double adj31 =   a21*a32*a44 + a22*a34*a41 + a24*a31*a42
+                  - a24*a32*a41 - a22*a31*a44 - a21*a34*a42;
+    double adj32 = - a11*a32*a44 - a12*a34*a41 - a14*a31*a42
+                  + a14*a32*a41 + a12*a31*a44 + a11*a34*a42;
+    double adj33 =   a11*a22*a44 + a12*a21*a41 + a14*a21*a42
+                  - a14*a22*a41 - a12*a24*a44 - a11*a24*a42;
+    double adj34 = - a11*a22*a34 - a12*a24*a31 - a14*a21*a32
+                  + a14*a22*a31 + a12*a21*a34 + a11*a24*a32;
+
+    double adj41 = - a21*a32*a43 - a22*a33*a41 - a23*a31*a42
+                  + a24*a32*a41 + a22*a31*a43 + a21*a33*a42;
+    double adj42 =   a11*a32*a43 + a12*a33*a41 + a13*a31*a42
+                  - a13*a32*a41 - a12*a31*a43 - a11*a33*a42;
+    double adj43 = - a11*a22*a43 - a12*a23*a41 - a13*a21*a42
+                  + a13*a22*a41 + a12*a21*a43 + a11*a23*a42;
+    double adj44 =   a11*a22*a33 + a12*a23*a31 + a13*a21*a32
+                  - a13*a22*a31 - a12*a21*a33 - a11*a23*a32;
+
+    double d = determinant;
+    (*this)[0][0] = adj11 / d; (*this)[0][1] = adj12 / d; (*this)[0][2] = adj13 / d; (*this)[0][3] = adj14 / d;
+    (*this)[1][0] = adj21 / d; (*this)[1][1] = adj22 / d; (*this)[1][2] = adj23 / d; (*this)[1][3] = adj24 / d;
+    (*this)[2][0] = adj31 / d; (*this)[2][1] = adj32 / d; (*this)[2][2] = adj33 / d; (*this)[2][3] = adj34 / d;
+    (*this)[3][0] = adj41 / d; (*this)[3][1] = adj42 / d; (*this)[3][2] = adj43 / d; (*this)[3][3] = adj44 / d;
+
+    return *this;
+
+}
+
+fVec4 Mat4::operator*(fVec4 &other) {
+    fVec4 vec(0);
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            vec[i] += (&other)->operator[](j) * (*this)[i][j];
+        }
+    }
+
+    return vec;
 }

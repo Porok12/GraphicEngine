@@ -1,10 +1,12 @@
 #include "BresenhamStage.h"
 
 std::shared_ptr<BresenhamStage> BresenhamStage::instance = nullptr;
+//GLuint BresenhamStage::CANVAS_WIDTH = 1024;
+//GLuint BresenhamStage::CANVAS_HEIGHT = 1024;
 
 BresenhamStage::BresenhamStage()
         : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
-          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f) {
+          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f), pixels({}) {
 
     auto rect2 = std::make_shared<Rectangle>(10, 10, 250, 500);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
@@ -14,6 +16,18 @@ BresenhamStage::BresenhamStage()
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint)->setY(new FixedConstraint(500 - 50 - 10)));
         composite2->add(component);
+
+        component = std::make_shared<UISelectBox>(10, 70, 150, 50);
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"Line", "Circle", "Elipse", "Fill area"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int i){
+            switch (i) {
+
+            }
+        });
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint)
+                                          ->setY(new FixedConstraint(10)));
+        composite2->add(component);
     }
 
     composite2->update(800, 600);
@@ -22,49 +36,166 @@ BresenhamStage::BresenhamStage()
     plane.enableBumpMapping(true);
     plane.loadModel(ResourceLoader::getPath("plane.obj", MODEL));
 
-    program = std::make_shared<ShaderProgram>("dithering");
+    program = std::make_shared<ShaderProgram>("bresenham");
 
+//    int width, height, nrComponents;
+//    unsigned char * data = SOIL_load_image(ResourceLoader::getPath("test.bmp", TEXTURE).c_str(),
+//            &width, &height, &nrComponents, 0);
+//
+//    if (data) {
+//        GLenum format = GL_RED;
+//        if (nrComponents == 1)
+//            format = GL_RED;
+//        else if (nrComponents == 3)
+//            format = GL_RGB;
+//        else if (nrComponents == 4)
+//            format = GL_RGBA;
+//
+//        glBindTexture(GL_TEXTURE_2D, textureID);
+//        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+//        glGenerateMipmap(GL_TEXTURE_2D);
+//
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//
+//        SOIL_free_image_data(data);
+//    }
+
+    pixels.fill(255);
     glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, CANVAS_WIDTH, CANVAS_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-    int width, height, nrComponents;
-    unsigned char * data = SOIL_load_image(ResourceLoader::getPath("test.bmp", TEXTURE).c_str(),
-            &width, &height, &nrComponents, 0);
+//    std::array<GLubyte, 1024 * 1024 * 3> pixels {};
+//    pixels.fill(0);
+//    glBindTexture(GL_TEXTURE_2D, textureID);
+//    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+//    glGenerateMipmap(GL_TEXTURE_2D);
+//    glBindTexture(GL_TEXTURE_2D, 0);
 
-    if (data) {
-        GLenum format = GL_RED;
-        if (nrComponents == 1)
-            format = GL_RED;
-        else if (nrComponents == 3)
-            format = GL_RGB;
-        else if (nrComponents == 4)
-            format = GL_RGBA;
+//    int width, height, nrComponents;
+//    unsigned char * data = SOIL_load_image(ResourceLoader::getPath("test.bmp", TEXTURE).c_str(),
+//            &width, &height, &nrComponents, 0);
+//    SOIL_free_image_data(data);
 
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    std::array<GLubyte, 300 * 300 * 3> pixels { };
+//    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 200, 200, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
 
-        SOIL_free_image_data(data);
-    }
+    std::cout << "Bresenham" << std::endl;
+    auto points = Bresenham().getLine(iVec2(0, 0), iVec2(10, 10));
+//    std::cout << points.size() << std::endl;
+//    for (const auto &p: points) {
+//        std::cout << p.x << " " << p.y << std::endl;
+//    }
+
+//    std::cout << "Bresenham" << std::endl;
+//    auto points = Bresenham().getCircle(iVec2(0, 0), 10);
+//    std::cout << points.size() << std::endl;
+//    for (const auto &p: points) {
+//        std::cout << p.x << " " << p.y << std::endl;
+//    }
+
+//    std::cout << "Bresenham" << std::endl;
+//    auto points = Bresenham().getElipse(iVec2(0, 0), 10, 10);
+//    std::cout << points.size() << std::endl;
+//    for (const auto &p: points) {
+//        std::cout << p.x << " " << p.y << std::endl;
+//    }
+
+    InputHandler::addCursorPositionListener([this](const double &mouse_x, const double &mouse_y) {
+        GLint data[4];
+        glGetIntegerv(GL_VIEWPORT, data);
+//        std::cout << data[0] << " " << data[1] << " " << data[2] << " " << data[3] << std::endl;
+
+//        std::cout << mouse_x << " " << mouse_y << std::endl;
+        double x = (2.0f * mouse_x) / data[2] - 1.0f;
+        double y = 1.0f - (2.0f * mouse_y) / data[3];
+        double z = 1.0f;
+        fVec3 ray_nds = fVec3(x, y, z);
+
+//        std::cout << x << " " << y << std::endl;
+
+        fVec4 ray_clip = fVec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
+
+        Mat4 projection_matrix = ModelRenderer::getInstance()->getProjection();
+        projection_matrix.inverse();
+        Mat4 view_matrix = ModelRenderer::getInstance()->getView();
+        view_matrix.inverse();
+
+        fVec4 ray_eye = projection_matrix * ray_clip;
+        ray_eye = fVec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
+//        ray_eye = fVec4(0.0, -1.0, ray_eye.y, ray_eye.x);
+
+        fVec4 tmp = view_matrix * ray_eye;
+        fVec3 ray_wor = fVec3(tmp.x, tmp.y, tmp.z);
+//        ray_wor = fVec3(tmp.w, tmp.z, tmp.y);
+        ray_wor.normalize();
+
+        std::cout << ray_wor.x << " " << ray_wor.y << " " << ray_wor.z << "\n";
+        fVec3 ray_origin(0);
+        if (cam) {
+            ray_origin = cam->getPos();
+//            std::cout << pos.x << " " << pos.y << " " << pos.z << "\n";
+        }
+        fVec3 normal(0, 0, 1);
+        fVec3 center(0, 0, -8);
+
+        float denom = normal.dot(ray_wor);
+        if (abs(denom) > 0.0001f) {
+            float t = (center - ray_origin).dot(normal) / denom;
+            if (t >= 0) {
+                fVec3 point = ray_origin + ray_wor * t;
+//                std::cout << point.x << " " << point.y << " " << point.z << "\n";
+//                std::cout << point.x / 4.45 << " " << point.y / 4.45 << "\n";
+                int x = (1.0 + point.x / 4.45) * CANVAS_WIDTH / 2;
+                int y = (1.0 + point.y / 4.45) * CANVAS_HEIGHT / 2;
+//                std::cout << x << " " << y << std::endl;
+
+                if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
+                    pixels[(x+y*CANVAS_WIDTH)*3+0] = 0;
+                    pixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
+                    pixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
+
+                    glBindTexture(GL_TEXTURE_2D, textureID);
+                    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+                    glGenerateMipmap(GL_TEXTURE_2D);
+                    glBindTexture(GL_TEXTURE_2D, 0);
+                }
+            }
+        }
+    });
 }
 
 void BresenhamStage::renderUI() {
     UIStage::renderUI();
 }
 
-void BresenhamStage::renderContent(FreeCamera camera, double dt) {
-    Mat4 view = camera.getViewMatrix();
-    ModelRenderer::getInstance()->setView(view);
-    
+void BresenhamStage::renderContent(FreeCamera &camera, double dt) {
     program->use();
     program->set3f("viewPos", camera.getPos());
+    if (!cam) {
+        cam = std::shared_ptr<FreeCamera>(&camera);
+    }
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
+//    std::array<GLubyte, 1 * 1 * 4> pixels { 0 };
+//    glReadPixels(0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
+//    for (const auto &p: pixels) {
+//        std::cout << (int) p << std::endl;
+//    }
 
+//    std::array<GLubyte, 800 * 600 * 4> pixels { };
+//    pixels.fill(255);
+//    glDrawPixels(800, 600, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
+
+    Mat4 view = camera.getViewMatrix();
+    ModelRenderer::getInstance()->setView(view);
     Mat4 mm = Mat4::identity();
     mm = Mat4::rotationX(-90) * Mat4::translate(0, 0, -8) * mm;
     ModelRenderer::getInstance()->setModel(mm);

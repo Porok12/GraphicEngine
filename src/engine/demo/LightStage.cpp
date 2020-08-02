@@ -96,7 +96,7 @@ void LightStage::renderUI() {
     UIStage::renderUI();
 }
 
-void LightStage::renderContent(FreeCamera camera, double dt) {
+void LightStage::renderContent(FreeCamera &camera, double dt) {
     Mat4 view = camera.getViewMatrix();
     Mat4 mm = Mat4::identity();
     mm = Mat4::scale(0.75f) * mm;

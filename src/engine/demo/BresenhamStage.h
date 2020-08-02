@@ -18,10 +18,16 @@
 #include <core/algorithm/palette/Octree.h>
 #include <core/algorithm/palette/FixedPalette.h>
 #include <GL/glew.h>
+#include <core/algorithm/Rasterisation/Bresenham.h>
 
 class BresenhamStage : public UIStage {
 private:
+    const GLuint CANVAS_WIDTH = 256;
+    const GLuint CANVAS_HEIGHT = 256;
+
     GLuint textureID;
+    std::shared_ptr<FreeCamera> cam;
+    std::array<GLubyte, 256 * 256 * 3> pixels;
 
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;
@@ -40,7 +46,7 @@ public:
     }
 
     void renderUI() override;
-    void renderContent(FreeCamera camera, double dt) override;
+    void renderContent(FreeCamera &camera, double dt) override;
 };
 
 #endif // BRESENHAMSTAGE_H
