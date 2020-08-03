@@ -29,6 +29,12 @@ private:
     GLuint textureID;
     std::shared_ptr<FreeCamera> cam;
     std::array<GLubyte, 256 * 256 * 3> pixels;
+    std::array<GLubyte, 256 * 256 * 3> tmpPixels;
+    iVec2 startPoint;
+    bool enable;
+    bool active;
+    bool abort;
+    int option;
 
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;

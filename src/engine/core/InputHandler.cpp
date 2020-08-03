@@ -1,5 +1,6 @@
 #include "InputHandler.h"
 
+std::vector<MouseAction> InputHandler::mouseActionListeners;
 std::vector<MouseButton> InputHandler::mouseButtonListeners;
 std::vector<MousePressed> InputHandler::mousePressedListeners;
 std::vector<MouseRelease> InputHandler::mouseReleaseListeners;
@@ -67,6 +68,10 @@ void InputHandler::mouseButtonCallback(GLFWwindow *window, int btn, int action, 
         for(const auto &listener: mouseReleaseListeners) {
             listener(InputHandler::x, InputHandler::y);
         }
+    }
+
+    for(const auto &listener: mouseActionListeners) {
+        listener(InputHandler::x, InputHandler::y, btn, action);
     }
 
     buttons[btn] = action != GLFW_RELEASE;

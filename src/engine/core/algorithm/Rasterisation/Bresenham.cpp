@@ -101,6 +101,10 @@ std::vector<Bresenham::point> Bresenham::getCircle(Bresenham::point p, double ra
 std::vector<Bresenham::point> Bresenham::getElipse(Bresenham::point p, double a, double b) {
     std::vector<Bresenham::point> points;
 
+    if (a < 1 || b < 1) {
+        return points;
+    }
+
     int wx, wy;
     int thresh;
     auto asq = static_cast<int>(a * a);

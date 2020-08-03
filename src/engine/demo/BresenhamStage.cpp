@@ -6,7 +6,8 @@ std::shared_ptr<BresenhamStage> BresenhamStage::instance = nullptr;
 
 BresenhamStage::BresenhamStage()
         : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
-          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f), pixels({}) {
+          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
+          pixels({}), tmpPixels({}), startPoint(0) {
 
     auto rect2 = std::make_shared<Rectangle>(10, 10, 250, 500);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
@@ -23,6 +24,8 @@ BresenhamStage::BresenhamStage()
             switch (i) {
 
             }
+
+            option = i;
         });
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint)
@@ -64,6 +67,7 @@ BresenhamStage::BresenhamStage()
 //    }
 
     pixels.fill(255);
+    tmpPixels.fill(255);
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, CANVAS_WIDTH, CANVAS_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
@@ -89,7 +93,7 @@ BresenhamStage::BresenhamStage()
 //    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 200, 200, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
 
     std::cout << "Bresenham" << std::endl;
-    auto points = Bresenham().getLine(iVec2(0, 0), iVec2(10, 10));
+//    auto points = Bresenham().getLine(iVec2(0, 0), iVec2(10, 10));
 //    std::cout << points.size() << std::endl;
 //    for (const auto &p: points) {
 //        std::cout << p.x << " " << p.y << std::endl;
@@ -110,6 +114,8 @@ BresenhamStage::BresenhamStage()
 //    }
 
     InputHandler::addCursorPositionListener([this](const double &mouse_x, const double &mouse_y) {
+        tmpPixels = pixels;
+
         GLint data[4];
         glGetIntegerv(GL_VIEWPORT, data);
 
@@ -160,24 +166,139 @@ BresenhamStage::BresenhamStage()
 
         fVec3 point(0);
         if (Raycaster::raycastPlane(ray_origin, ray_wor, normal, center, point)) {
-            std::cout << point.x << " " << point.y << " " << point.z << "\n";
+//            std::cout << point.x << " " << point.y << " " << point.z << "\n";
             int x = (2.0 - (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
             int y = (2.0 - (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
 //            int x = (0.0 + (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
 //            int y = (0.0 + (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
 
             if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
-                pixels[(x+y*CANVAS_WIDTH)*3+0] = 0;
-                pixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
-                pixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
+                std::vector<iVec2> points;
+                switch (option) {
+                    case 0:
+                        points = Bresenham().getLine(startPoint, iVec2(x, y));
+                        break;
+                    case 1: {
+                        double dist = sqrt((double)(startPoint.x-x)*(startPoint.x-x)+(startPoint.y-y)*(startPoint.y-y));
+                        points = Bresenham().getCircle(startPoint, dist);
+                        break;
+                    }
+                    case 2:
+                        std::cout << abs(startPoint.x-x) << " " << abs(startPoint.y-y) << std::endl;
+                        points = Bresenham().getElipse(startPoint, abs(startPoint.x-x), abs(startPoint.y-y));
+                        std::cout << points.size() << std::endl;
+                        break;
+                    case 3: {
+                        if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
+                            tmpPixels[(x+y*CANVAS_WIDTH)*3+0] = 255;
+                            tmpPixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
+                            tmpPixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
+                            
+                            glBindTexture(GL_TEXTURE_2D, textureID);
+                            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, tmpPixels.data());
+                            glGenerateMipmap(GL_TEXTURE_2D);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                            glBindTexture(GL_TEXTURE_2D, 0);
+                        }
+                    }
+                        break;
+                }
+//                auto points = Bresenham().getLine(startPoint, iVec2(x, y));
+//                double dist = sqrt((double)(startPoint.x-x)*(startPoint.x-x)+(startPoint.y-y)*(startPoint.y-y));
+//                auto points = Bresenham().getCircle(startPoint, dist);
+//                auto points = Bresenham().getElipse(startPoint, abs(startPoint.x-x), abs(startPoint.y-y));
+                for (const auto &p: points) {
+                    if (p.x > 0 && p.x < CANVAS_WIDTH && p.y > 0 && p.y < CANVAS_HEIGHT) {
+                        tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+0] = 0;
+                        tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+1] = 0;
+                        tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+2] = 0;
+                    }
+                }
 
-                glBindTexture(GL_TEXTURE_2D, textureID);
-                glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
-                glGenerateMipmap(GL_TEXTURE_2D);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                glBindTexture(GL_TEXTURE_2D, 0);
+                if (active) {
+                    glBindTexture(GL_TEXTURE_2D, textureID);
+                    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, tmpPixels.data());
+                    glGenerateMipmap(GL_TEXTURE_2D);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                    glBindTexture(GL_TEXTURE_2D, 0);
+                }
             }
+        }
+    });
+
+    option = 0;
+    active = false;
+    abort = false;
+    InputHandler::addMouseActionListner([this](const double &mouse_x, const double &mouse_y, int btn, int act) {
+//        std::cout << btn << " " << act << std::endl;
+
+        if (btn == 0 && act == 1) {
+
+            GLint data[4];
+            glGetIntegerv(GL_VIEWPORT, data);
+            double x = 1.0f - (2.0f * mouse_x) / data[2];
+            double y = 1.0f - (2.0f * mouse_y) / data[3];
+            double z = 1.0f;
+
+            fVec3 ray_nds = fVec3(x, y, z);
+            fVec4 ray_clip = fVec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
+
+            Mat4 projection_matrix = ModelRenderer::getInstance()->getProjection();
+            projection_matrix.inverse();
+            Mat4 view_matrix = ModelRenderer::getInstance()->getView();
+            view_matrix.inverse();
+
+            fVec4 ray_eye = projection_matrix * ray_clip;
+            ray_eye = fVec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
+
+            fVec4 tmp = view_matrix * ray_eye;
+            fVec3 ray_wor = fVec3(tmp.x, tmp.y, tmp.z);
+            ray_wor.normalize();
+
+            fVec3 ray_origin(0);
+            if (cam) {
+                ray_origin = cam->getPos();
+                ray_origin.x = -ray_origin.x;
+                ray_origin.y = -ray_origin.y;
+            }
+
+            fVec3 normal(0, 0, 1);
+            fVec3 center(0, 0, -8);
+
+            fVec3 point(0);
+            if (Raycaster::raycastPlane(ray_origin, ray_wor, normal, center, point)) {
+                int x = (2.0 - (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
+                int y = (2.0 - (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
+
+                if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
+                    startPoint.x = x;
+                    startPoint.y = y;
+                }
+            }
+            active = true;
+            abort = false;
+        }
+
+        if (btn == 0 && act == 0) {
+            if (!abort) {
+                pixels = tmpPixels;
+            }
+            active = false;
+            abort = false;
+        }
+
+        if (btn == 1 && act == 1) {
+            glBindTexture(GL_TEXTURE_2D, textureID);
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+            glGenerateMipmap(GL_TEXTURE_2D);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glBindTexture(GL_TEXTURE_2D, 0);
+
+            abort = true;
+            active = false;
         }
     });
 }
