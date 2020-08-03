@@ -249,7 +249,7 @@ Mat4 &Mat4::inverse() {
                   + a14*a22*a31 + a12*a21*a34 + a11*a24*a32;
 
     double adj41 = - a21*a32*a43 - a22*a33*a41 - a23*a31*a42
-                  + a24*a32*a41 + a22*a31*a43 + a21*a33*a42;
+                  + a23*a32*a41 + a22*a31*a43 + a21*a33*a42;
     double adj42 =   a11*a32*a43 + a12*a33*a41 + a13*a31*a42
                   - a13*a32*a41 - a12*a31*a43 - a11*a33*a42;
     double adj43 = - a11*a22*a43 - a12*a23*a41 - a13*a21*a42

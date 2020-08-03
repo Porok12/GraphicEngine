@@ -34,7 +34,7 @@ BresenhamStage::BresenhamStage()
     rootComponent = composite2;
 
     plane.enableBumpMapping(true);
-    plane.loadModel(ResourceLoader::getPath("plane.obj", MODEL));
+    plane.loadModel(ResourceLoader::getPath("plane4.obj", MODEL));
 
     program = std::make_shared<ShaderProgram>("bresenham");
 
@@ -68,6 +68,8 @@ BresenhamStage::BresenhamStage()
     glBindTexture(GL_TEXTURE_2D, textureID);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, CANVAS_WIDTH, CANVAS_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
     glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
 
 //    std::array<GLubyte, 1024 * 1024 * 3> pixels {};
@@ -110,62 +112,71 @@ BresenhamStage::BresenhamStage()
     InputHandler::addCursorPositionListener([this](const double &mouse_x, const double &mouse_y) {
         GLint data[4];
         glGetIntegerv(GL_VIEWPORT, data);
-//        std::cout << data[0] << " " << data[1] << " " << data[2] << " " << data[3] << std::endl;
 
-//        std::cout << mouse_x << " " << mouse_y << std::endl;
-        double x = (2.0f * mouse_x) / data[2] - 1.0f;
+//        double x = (2.0f * mouse_x) / data[2] - 1.0f;
+//        double y = (2.0f * mouse_y) / data[3] - 1.0f;
+        double x = 1.0f - (2.0f * mouse_x) / data[2];
         double y = 1.0f - (2.0f * mouse_y) / data[3];
         double z = 1.0f;
         fVec3 ray_nds = fVec3(x, y, z);
-
-//        std::cout << x << " " << y << std::endl;
+//        std::cout << ray_nds.x << " " << ray_nds.y << " " << ray_nds.z << "\n";
 
         fVec4 ray_clip = fVec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
+//        std::cout << ray_clip.x << " " << ray_clip.y << " " << ray_clip.z << "\n";
 
         Mat4 projection_matrix = ModelRenderer::getInstance()->getProjection();
         projection_matrix.inverse();
         Mat4 view_matrix = ModelRenderer::getInstance()->getView();
         view_matrix.inverse();
 
+//        Mat4 test = view_matrix * ModelRenderer::getInstance()->getView();
+//        for (int i = 0; i < 4; i++) {
+//            for (int j = 0; j < 4; j++) {
+//                std::cout << test[i][j] << " ";
+//            }
+//            std::cout << "\n";
+//        }
+
         fVec4 ray_eye = projection_matrix * ray_clip;
         ray_eye = fVec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
-//        ray_eye = fVec4(0.0, -1.0, ray_eye.y, ray_eye.x);
+//        std::cout << ray_eye.x << " " << ray_eye.y << " " << ray_eye.z << "\n";
 
         fVec4 tmp = view_matrix * ray_eye;
         fVec3 ray_wor = fVec3(tmp.x, tmp.y, tmp.z);
-//        ray_wor = fVec3(tmp.w, tmp.z, tmp.y);
         ray_wor.normalize();
 
-        std::cout << ray_wor.x << " " << ray_wor.y << " " << ray_wor.z << "\n";
+//        std::cout << ray_wor.x << " " << ray_wor.y << " " << ray_wor.z << "\n";
         fVec3 ray_origin(0);
         if (cam) {
             ray_origin = cam->getPos();
-//            std::cout << pos.x << " " << pos.y << " " << pos.z << "\n";
+            ray_origin.x = -ray_origin.x;
+            ray_origin.y = -ray_origin.y;
+//            std::cout << ray_origin.x << " " << ray_origin.y << " " << ray_origin.z << "\n";
+//            std::cout << cam->getFront().x << " " << cam->getFront().y << " " << cam->getFront().z << "\n";
         }
+
         fVec3 normal(0, 0, 1);
         fVec3 center(0, 0, -8);
 
-        float denom = normal.dot(ray_wor);
-        if (abs(denom) > 0.0001f) {
-            float t = (center - ray_origin).dot(normal) / denom;
-            if (t >= 0) {
-                fVec3 point = ray_origin + ray_wor * t;
-//                std::cout << point.x << " " << point.y << " " << point.z << "\n";
-//                std::cout << point.x / 4.45 << " " << point.y / 4.45 << "\n";
-                int x = (1.0 + point.x / 4.45) * CANVAS_WIDTH / 2;
-                int y = (1.0 + point.y / 4.45) * CANVAS_HEIGHT / 2;
-//                std::cout << x << " " << y << std::endl;
+        fVec3 point(0);
+        if (Raycaster::raycastPlane(ray_origin, ray_wor, normal, center, point)) {
+            std::cout << point.x << " " << point.y << " " << point.z << "\n";
+            int x = (2.0 - (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
+            int y = (2.0 - (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
+//            int x = (0.0 + (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
+//            int y = (0.0 + (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
 
-                if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
-                    pixels[(x+y*CANVAS_WIDTH)*3+0] = 0;
-                    pixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
-                    pixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
+            if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
+                pixels[(x+y*CANVAS_WIDTH)*3+0] = 0;
+                pixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
+                pixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
 
-                    glBindTexture(GL_TEXTURE_2D, textureID);
-                    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
-                    glGenerateMipmap(GL_TEXTURE_2D);
-                    glBindTexture(GL_TEXTURE_2D, 0);
-                }
+                glBindTexture(GL_TEXTURE_2D, textureID);
+                glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+                glGenerateMipmap(GL_TEXTURE_2D);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+                glBindTexture(GL_TEXTURE_2D, 0);
             }
         }
     });
@@ -197,7 +208,7 @@ void BresenhamStage::renderContent(FreeCamera &camera, double dt) {
     Mat4 view = camera.getViewMatrix();
     ModelRenderer::getInstance()->setView(view);
     Mat4 mm = Mat4::identity();
-    mm = Mat4::rotationX(-90) * Mat4::translate(0, 0, -8) * mm;
+    mm = Mat4::translate(0, 0, -8) * mm;
     ModelRenderer::getInstance()->setModel(mm);
     ModelRenderer::getInstance()->render(plane, *program);
 }

@@ -17,8 +17,9 @@
 #include <gui/UISelectBox.h>
 #include <core/algorithm/palette/Octree.h>
 #include <core/algorithm/palette/FixedPalette.h>
-#include <GL/glew.h>
 #include <core/algorithm/Rasterisation/Bresenham.h>
+#include <core/algorithm/Raycaster.h>
+#include <GL/glew.h>
 
 class BresenhamStage : public UIStage {
 private:
