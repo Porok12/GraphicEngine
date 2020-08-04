@@ -10,6 +10,7 @@
 #include <core/light/PointLight.h>
 #include <core/light/DirectionalLight.h>
 #include <core/algorithm/palette/MedianCut.h>
+#include <core/algorithm/AreaFill.h>
 #include <core/light/SpotLight.h>
 #include <gui/UIStage.h>
 #include <gui/UIFrameDecorator.h>
@@ -20,6 +21,7 @@
 #include <core/algorithm/Rasterisation/Bresenham.h>
 #include <core/algorithm/Raycaster.h>
 #include <GL/glew.h>
+#include <random>
 
 class BresenhamStage : public UIStage {
 private:
@@ -35,6 +37,9 @@ private:
     bool active;
     bool abort;
     int option;
+    bool fill;
+    iVec2 fillPoint;
+    iVec3 fillColor;
 
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;
@@ -44,6 +49,7 @@ private:
 
     static std::shared_ptr<BresenhamStage> instance;
     BresenhamStage();
+    void fillArea(iVec2 start);
 
 public:
     static const std::shared_ptr<BresenhamStage> &getInstance();

@@ -21,10 +21,7 @@ BresenhamStage::BresenhamStage()
         component = std::make_shared<UISelectBox>(10, 70, 150, 50);
         std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"Line", "Circle", "Elipse", "Fill area"});
         std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int i){
-            switch (i) {
-
-            }
-
+//            std::cout << i << " " << option << std::endl;
             option = i;
         });
         component->setConstraints((new RectangleConstraints())
@@ -184,39 +181,31 @@ BresenhamStage::BresenhamStage()
                         break;
                     }
                     case 2:
-                        std::cout << abs(startPoint.x-x) << " " << abs(startPoint.y-y) << std::endl;
                         points = Bresenham().getElipse(startPoint, abs(startPoint.x-x), abs(startPoint.y-y));
-                        std::cout << points.size() << std::endl;
                         break;
                     case 3: {
-                        if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
-                            tmpPixels[(x+y*CANVAS_WIDTH)*3+0] = 255;
-                            tmpPixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
-                            tmpPixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
-                            
-                            glBindTexture(GL_TEXTURE_2D, textureID);
-                            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, tmpPixels.data());
-                            glGenerateMipmap(GL_TEXTURE_2D);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-                            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-                            glBindTexture(GL_TEXTURE_2D, 0);
-                        }
+                        fillPoint.x = x;
+                        fillPoint.y = y;
+                        break;
                     }
+                    default:
                         break;
                 }
+
 //                auto points = Bresenham().getLine(startPoint, iVec2(x, y));
 //                double dist = sqrt((double)(startPoint.x-x)*(startPoint.x-x)+(startPoint.y-y)*(startPoint.y-y));
 //                auto points = Bresenham().getCircle(startPoint, dist);
 //                auto points = Bresenham().getElipse(startPoint, abs(startPoint.x-x), abs(startPoint.y-y));
-                for (const auto &p: points) {
-                    if (p.x > 0 && p.x < CANVAS_WIDTH && p.y > 0 && p.y < CANVAS_HEIGHT) {
-                        tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+0] = 0;
-                        tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+1] = 0;
-                        tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+2] = 0;
-                    }
-                }
 
                 if (active) {
+                    for (const auto &p: points) {
+                        if (p.x > 0 && p.x < CANVAS_WIDTH && p.y > 0 && p.y < CANVAS_HEIGHT) {
+                            tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+0] = 0;
+                            tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+1] = 0;
+                            tmpPixels[(p.x+p.y*CANVAS_WIDTH)*3+2] = 0;
+                        }
+                    }
+
                     glBindTexture(GL_TEXTURE_2D, textureID);
                     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, tmpPixels.data());
                     glGenerateMipmap(GL_TEXTURE_2D);
@@ -231,6 +220,7 @@ BresenhamStage::BresenhamStage()
     option = 0;
     active = false;
     abort = false;
+    fill = false;
     InputHandler::addMouseActionListner([this](const double &mouse_x, const double &mouse_y, int btn, int act) {
 //        std::cout << btn << " " << act << std::endl;
 
@@ -300,6 +290,29 @@ BresenhamStage::BresenhamStage()
             abort = true;
             active = false;
         }
+
+        if (option == 3) {
+            if (btn == 0 && act == 1) {
+                fill = true;
+                active = false;
+                abort = false;
+            }
+        }
+
+        if (fill) {
+            fillArea(fillPoint);
+            fill = false;
+        }
+    });
+
+    fillColor = iVec3(255, 0, 0);
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    static std::uniform_int_distribution<int> dist(0, 255);
+    InputHandler::addScrollOffsetListener([this, &gen, &dist](const double &x, const double &y){
+        fillColor.x = dist(gen);
+        fillColor.y = dist(gen);
+        fillColor.z = dist(gen);
     });
 }
 
@@ -326,6 +339,30 @@ void BresenhamStage::renderContent(FreeCamera &camera, double dt) {
 //    pixels.fill(255);
 //    glDrawPixels(800, 600, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
 
+//    if (fill) {
+//        int y = startPoint.y;
+//        for (int x = startPoint.x; x < CANVAS_WIDTH; x++) {
+//            if (tmpPixels[(x+y*CANVAS_WIDTH)*3+0] == 0 &&
+//                tmpPixels[(x+y*CANVAS_WIDTH)*3+1] == 0 &&
+//                tmpPixels[(x+y*CANVAS_WIDTH)*3+2] == 0) {
+//                break;
+//            }
+//
+//            tmpPixels[(x+y*CANVAS_WIDTH)*3+0] = 255;
+//            tmpPixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
+//            tmpPixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
+//        }
+//        pixels = tmpPixels;
+//
+//        glBindTexture(GL_TEXTURE_2D, textureID);
+//        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, tmpPixels.data());
+//        glGenerateMipmap(GL_TEXTURE_2D);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//        glBindTexture(GL_TEXTURE_2D, 0);
+//        fill = false;
+//    }
+
     Mat4 view = camera.getViewMatrix();
     ModelRenderer::getInstance()->setView(view);
     Mat4 mm = Mat4::identity();
@@ -340,4 +377,23 @@ const std::shared_ptr<BresenhamStage> &BresenhamStage::getInstance() {
     }
 
     return instance;
+}
+
+void BresenhamStage::fillArea(iVec2 start) {
+    iVec3 bg(0);
+    bg.x = tmpPixels[(start.x+start.y*CANVAS_WIDTH)*3+0];
+    bg.y = tmpPixels[(start.x+start.y*CANVAS_WIDTH)*3+1];
+    bg.z = tmpPixels[(start.x+start.y*CANVAS_WIDTH)*3+2];
+//    std::cout << "x: " << start.x << ", y: " << start.y << std::endl;
+
+    AreaFill::floodFill(pixels, CANVAS_WIDTH, CANVAS_HEIGHT, iVec2(start.x, start.y), fillColor, bg);
+
+    tmpPixels = pixels;
+
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
