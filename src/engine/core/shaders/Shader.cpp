@@ -19,9 +19,9 @@ Shader::Shader(const char *name, GLuint shader) {
     glShaderSource(this->shader, 1, &data, NULL);
     glCompileShader(this->shader);
 
-    BOOST_LOG_TRIVIAL(debug)
+    std::cout
         << (root_path.find("vert") != std::string::npos ? "Vertex" : "Fragment")
-        << " shader has been compiled: " << name;
+        << " shader has been compiled: " << name << std::endl;
 
     checkForError();
 }
@@ -34,7 +34,7 @@ void Shader::checkForError() {
 
     if (!success) {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        BOOST_LOG_TRIVIAL(error) << "Shader compilation failed: " << infoLog;
+        std::cerr << "Shader compilation failed: " << infoLog << std::endl;
     }
 }
 
@@ -48,7 +48,7 @@ std::string Shader::loadFromFile(const char *filePath) {
         const std::string tmp = buffer.str();
         return tmp;
     } else {
-        BOOST_LOG_TRIVIAL(error) << "There is not such file: " << filePath;
+        std::cerr << "There is not such file: " << filePath << std::endl;
         return "";
     }
 }

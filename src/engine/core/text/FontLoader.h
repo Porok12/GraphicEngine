@@ -4,7 +4,6 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <GL/glew.h>
-#include <boost/log/trivial.hpp>
 #include <math/Vec2.h>
 #include <math/Vec3.h>
 #include <core/shaders/ShaderProgram.h>

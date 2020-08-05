@@ -1,6 +1,5 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <boost/log/trivial.hpp>
 #include <boost/filesystem.hpp>
 
 #include <core/window.h>
@@ -15,7 +14,7 @@
 #include <memory>
 #include <core/text/Font.h>
 #include <core/text/FontRenderer.h>
-#include <gui/UIStageManager.h>
+#include <demo/UIStageManager.h>
 #include <core/particles/ParticleRenderer.h>
 #include <core/models/ModelRenderer.h>
 

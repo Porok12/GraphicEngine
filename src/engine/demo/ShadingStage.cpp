@@ -42,7 +42,7 @@ void ShadingStage::renderUI() {
     UIStage::renderUI();
 }
 
-void ShadingStage::renderContent(FreeCamera camera, double dt) {
+void ShadingStage::renderContent(FreeCamera &camera, double dt) {
     Mat4 view = camera.getViewMatrix();
     Mat4 mm = Mat4::identity();
     mm = Mat4::scale(0.75f) * mm;

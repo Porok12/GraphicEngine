@@ -8,7 +8,7 @@ ShaderProgram::ShaderProgram(const char *name) {
     glAttachShader(program, fragment.getId());
 
     glLinkProgram(program);
-    BOOST_LOG_TRIVIAL(debug) << "Shader program has been linked: " << name;
+    std::cout << "Shader program has been linked: " << name << std::endl;
 
     checkForErrors(name);
 }
@@ -21,14 +21,14 @@ void ShaderProgram::checkForErrors(const char* name) {
 
     if(!success) {
         glGetProgramInfoLog(program, 512, NULL, infoLog);
-        BOOST_LOG_TRIVIAL(error) << "Program linking error: " << infoLog;
+        std::cerr << "Program linking error: " << infoLog << std::endl;
     } else {
-        BOOST_LOG_TRIVIAL(debug) << "Program " << name << " linked successfully";
+        std::cout << "Program " << name << " linked successfully" << std::endl;
     }
 }
 
 ShaderProgram::~ShaderProgram() {
-    BOOST_LOG_TRIVIAL(debug) << "Program destructor";
+    std::cout << "Program destructor" << std::endl;
     glDeleteProgram(program);
 }
 

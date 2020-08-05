@@ -45,7 +45,7 @@ GLuint ResourceLoader::loadTexture(std::string name) {
         else if(nrComponents == 4)
             format = GL_RGBA;
         else
-            BOOST_LOG_TRIVIAL(warning) << "Number of components not supported";
+            std::cerr << "Number of components not supported" << std::endl;
 
         glBindTexture(GL_TEXTURE_2D, textureID);
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -55,12 +55,12 @@ GLuint ResourceLoader::loadTexture(std::string name) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        BOOST_LOG_TRIVIAL(debug) << "Texture " << name.c_str() << " was loaded";
+        std::cout << "Texture " << name.c_str() << " was loaded" << std::endl;
 
         SOIL_free_image_data(data);
     } else {
         const char* result = SOIL_last_result();
-        BOOST_LOG_TRIVIAL(error) << "Texture failed to load at path: " << full_path.c_str() << ". Reason " << result;
+        std::cerr << "Texture failed to load at path: " << full_path.c_str() << ". Reason " << result << std::endl;
         SOIL_free_image_data(data);
     }
 

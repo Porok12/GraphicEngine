@@ -37,7 +37,7 @@ void ParticleStage::renderUI() {
     UIStage::renderUI();
 }
 
-void ParticleStage::renderContent(FreeCamera camera, double dt) {
+void ParticleStage::renderContent(FreeCamera &camera, double dt) {
     particleGenerator->update(dt);
 
     glDisable(GL_DEPTH_TEST);

@@ -15,7 +15,7 @@ public:
 
     type& operator[](int i);
     Vector& normalize();
-    type dot(const Vector &other);
+    type dot(const Vector &other) const;
     Vector& operator=(const Vector& other);
     Vector& operator+=(const Vector& other);
     Vector& operator+=(type t);

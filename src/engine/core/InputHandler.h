@@ -4,18 +4,25 @@
 #include <vector>
 #include <iostream>
 #include <functional>
-#include <boost/log/trivial.hpp>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 enum MouseButtons {
-    LEFT_BUTTON,
-    MIDDLE_BUTTON,
-    RIGHT_BUTTON
+    LEFT_BUTTON = GLFW_MOUSE_BUTTON_LEFT,
+    MIDDLE_BUTTON = GLFW_MOUSE_BUTTON_MIDDLE,
+    RIGHT_BUTTON = GLFW_MOUSE_BUTTON_RIGHT
+};
+
+enum MouseActions {
+    PRESSED = GLFW_PRESS,
+    RELEASED = GLFW_RELEASE,
+    REPEAT = GLFW_REPEAT
 };
 
 //TODO: Refactor
+//typedef std::function<void (const double &x, const double &y, const MouseButtons &btn, const MouseActions &act)> MouseAction;
+typedef std::function<void (const double &x, const double &y, int btn, int act)> MouseAction;
 typedef std::function<void (const double &x, const double &y)> MouseButton;
 typedef std::function<void (const double &x, const double &y)> MousePressed;
 typedef std::function<void (const double &x, const double &y)> MouseRelease;
@@ -32,6 +39,7 @@ private:
     static double x, y;
     static bool buttons[];
     static bool keys[];
+    static std::vector<MouseAction> mouseActionListeners;
     static std::vector<MouseButton> mouseButtonListeners;
     static std::vector<MousePressed> mousePressedListeners;
     static std::vector<MouseRelease> mouseReleaseListeners;
@@ -42,6 +50,10 @@ private:
     static std::vector<CharacterCode> charactersListeners;
     static std::vector<PathDrop> dropListeners;
 public:
+    static void addMouseActionListner(const MouseAction &listner) {
+        mouseActionListeners.push_back(listner);
+    }
+
     static void addMousePressedListner(const MousePressed &listner) {
         mousePressedListeners.push_back(listner);
     }

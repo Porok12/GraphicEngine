@@ -2,7 +2,6 @@
 #define BLOOM_H
 
 #include <GL/glew.h>
-#include <boost/log/trivial.hpp>
 #include <core/shaders/ShaderProgram.h>
 #include <boost/math/distributions/normal.hpp>
 

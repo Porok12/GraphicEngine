@@ -39,7 +39,7 @@ public:
     }
 
     void renderUI() override;
-    void renderContent(FreeCamera camera, double dt) override;
+    void renderContent(FreeCamera &camera, double dt) override;
 };
 
 #endif // LIGHTSTAGE_H
