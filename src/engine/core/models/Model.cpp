@@ -13,11 +13,11 @@ const aiScene* Model::loadModel(std::string const& path) {
     const aiScene* scene = importer.ReadFile(path, (aiPostProcessSteps)settings);
 
     if(!scene || (scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE) || !scene->mRootNode) {
-        BOOST_LOG_TRIVIAL(error) << "Assimp error: " << importer.GetErrorString();
+        std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
         return nullptr;
     }
 
-    BOOST_LOG_TRIVIAL(debug) << "Loaded path at " << path.c_str();
+    std::cout << "Loaded path at " << path.c_str() << std::endl;
 
     processNode(scene->mRootNode, scene);
 

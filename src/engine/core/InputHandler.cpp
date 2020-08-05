@@ -85,7 +85,7 @@ void InputHandler::scrollCallback(GLFWwindow* window, double xoffset, double yof
 
 void InputHandler::dropCallback(GLFWwindow* window, int count, const char **paths) {
     for (int i = 0; i < count; ++i) {
-        BOOST_LOG_TRIVIAL(info) << "Dropped path: " <<paths[i];
+        std::cout << "Dropped path: " << paths[i] << std::endl;
         for (const auto &listener: dropListeners) {
             listener(paths[i]);
         }

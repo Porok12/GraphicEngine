@@ -1,7 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <boost/log/trivial.hpp>
 #include <iostream>
 #include <memory>
 #include "exception/InitException.h"

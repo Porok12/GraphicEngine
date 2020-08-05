@@ -4,7 +4,6 @@
 #include <vector>
 #include <iostream>
 #include <functional>
-#include <boost/log/trivial.hpp>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

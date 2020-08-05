@@ -14,7 +14,7 @@ option(BUILD_TESTS "Build test programs" ON)
 
 set(GLEW_LIB_NAME libglew_static)
 set(Boost_USE_STATIC_LIBS   ON)
-find_package(Boost 1.55.0 REQUIRED COMPONENTS log_setup log thread date_time filesystem system REQUIRED)
+find_package(Boost 1.55.0 REQUIRED COMPONENTS thread date_time filesystem system REQUIRED)
 find_package(OpenGL REQUIRED)
 
 add_subdirectory(lib/glew)

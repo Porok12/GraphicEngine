@@ -2,10 +2,8 @@
 #define SHADER_H
 
 #include <GL/glew.h>
-#include <boost/log/trivial.hpp>
 #include <fstream>
 #include <sstream>
-
 #include "../utils/ResourceLoader.h"
 
 class Shader {

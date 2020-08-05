@@ -15,7 +15,7 @@ Bloom::Bloom() {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textures[i], 0);
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-            BOOST_LOG_TRIVIAL(error) << "Framebuffer not complete!";
+            std::cerr << "Framebuffer not complete!" << std::endl;
         }
     }
 
