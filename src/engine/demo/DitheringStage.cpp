@@ -2,9 +2,7 @@
 
 std::shared_ptr<DitheringStage> DitheringStage::instance = nullptr;
 
-DitheringStage::DitheringStage()
-        : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
-          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f) {
+DitheringStage::DitheringStage() {
 
     auto rect2 = std::make_shared<Rectangle>(10, 10, 250, 500);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));

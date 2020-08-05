@@ -32,8 +32,6 @@ private:
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;
     std::shared_ptr<UIComponent> temp;
-    PointLight pointLight;
-    DirectionalLight dirLight;
 
     static std::shared_ptr<DitheringStage> instance;
     DitheringStage();

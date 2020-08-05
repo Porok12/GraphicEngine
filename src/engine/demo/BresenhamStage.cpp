@@ -3,9 +3,7 @@
 std::shared_ptr<BresenhamStage> BresenhamStage::instance = nullptr;
 
 BresenhamStage::BresenhamStage()
-        : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
-          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
-          pixels({}), tmpPixels({}), startPoint(0) {
+        : pixels({}), tmpPixels({}), startPoint(0) {
 
     auto rect2 = std::make_shared<Rectangle>(10, 10, 250, 500);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
@@ -48,27 +46,7 @@ BresenhamStage::BresenhamStage()
     InputHandler::addCursorPositionListener([this](const double &mouse_x, const double &mouse_y) {
         tmpPixels = pixels;
 
-        GLint data[4];
-        glGetIntegerv(GL_VIEWPORT, data);
-
-        double x = 1.0f - (2.0f * mouse_x) / data[2];
-        double y = 1.0f - (2.0f * mouse_y) / data[3];
-        double z = 1.0f;
-        fVec3 ray_nds = fVec3(x, y, z);
-
-        fVec4 ray_clip = fVec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
-
-        Mat4 projection_matrix = ModelRenderer::getInstance()->getProjection();
-        projection_matrix.inverse();
-        Mat4 view_matrix = ModelRenderer::getInstance()->getView();
-        view_matrix.inverse();
-
-        fVec4 ray_eye = projection_matrix * ray_clip;
-        ray_eye = fVec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
-
-        fVec4 tmp = view_matrix * ray_eye;
-        fVec3 ray_wor = fVec3(tmp.x, tmp.y, tmp.z);
-        ray_wor.normalize();
+        fVec3 ray_wor = Raycaster::cursorToWorld(mouse_x, mouse_y);
 
         fVec3 ray_origin(0);
         if (cam) {
@@ -132,32 +110,14 @@ BresenhamStage::BresenhamStage()
     active = false;
     abort = false;
     fill = false;
+
     InputHandler::addMouseActionListner([this](const double &mouse_x, const double &mouse_y, int btn, int act) {
         if (btn == 0 && act == 1) {
             if (std::dynamic_pointer_cast<UIFrame>(rootComponent)->isCursorOver()) {
                 return;
             }
 
-            GLint data[4];
-            glGetIntegerv(GL_VIEWPORT, data);
-            double x = 1.0f - (2.0f * mouse_x) / data[2];
-            double y = 1.0f - (2.0f * mouse_y) / data[3];
-            double z = 1.0f;
-
-            fVec3 ray_nds = fVec3(x, y, z);
-            fVec4 ray_clip = fVec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
-
-            Mat4 projection_matrix = ModelRenderer::getInstance()->getProjection();
-            projection_matrix.inverse();
-            Mat4 view_matrix = ModelRenderer::getInstance()->getView();
-            view_matrix.inverse();
-
-            fVec4 ray_eye = projection_matrix * ray_clip;
-            ray_eye = fVec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
-
-            fVec4 tmp = view_matrix * ray_eye;
-            fVec3 ray_wor = fVec3(tmp.x, tmp.y, tmp.z);
-            ray_wor.normalize();
+            fVec3 ray_wor = Raycaster::cursorToWorld(mouse_x, mouse_y);
 
             fVec3 ray_origin(0);
             if (cam) {
