@@ -32,8 +32,6 @@ private:
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;
     std::shared_ptr<UIComponent> temp;
-    PointLight pointLight;
-    DirectionalLight dirLight;
 
     static std::shared_ptr<DitheringStage> instance;
     DitheringStage();
@@ -46,7 +44,7 @@ public:
     }
 
     void renderUI() override;
-    void renderContent(FreeCamera camera, double dt) override;
+    void renderContent(FreeCamera &camera, double dt) override;
 };
 
 #endif // DITHERINGSTAGE_H

@@ -43,7 +43,7 @@ Vector<type, size>& Vector<type, size>::normalize() {
 }
 
 template<class type, int size>
-type Vector<type, size>::dot(const Vector &other) {
+type Vector<type, size>::dot(const Vector &other) const {
     type result = 0;
 
     for (int i = 0; i < size; ++i) {

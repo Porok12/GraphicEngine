@@ -1,5 +1,6 @@
 #include "InputHandler.h"
 
+std::vector<MouseAction> InputHandler::mouseActionListeners;
 std::vector<MouseButton> InputHandler::mouseButtonListeners;
 std::vector<MousePressed> InputHandler::mousePressedListeners;
 std::vector<MouseRelease> InputHandler::mouseReleaseListeners;
@@ -69,6 +70,10 @@ void InputHandler::mouseButtonCallback(GLFWwindow *window, int btn, int action, 
         }
     }
 
+    for(const auto &listener: mouseActionListeners) {
+        listener(InputHandler::x, InputHandler::y, btn, action);
+    }
+
     buttons[btn] = action != GLFW_RELEASE;
 }
 
@@ -80,7 +85,7 @@ void InputHandler::scrollCallback(GLFWwindow* window, double xoffset, double yof
 
 void InputHandler::dropCallback(GLFWwindow* window, int count, const char **paths) {
     for (int i = 0; i < count; ++i) {
-        BOOST_LOG_TRIVIAL(info) << "Dropped path: " <<paths[i];
+        std::cout << "Dropped path: " << paths[i] << std::endl;
         for (const auto &listener: dropListeners) {
             listener(paths[i]);
         }

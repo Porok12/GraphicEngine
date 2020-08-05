@@ -258,4 +258,27 @@ BOOST_AUTO_TEST_SUITE(math_mat4_suitex)
         }
     }
 
+    BOOST_AUTO_TEST_CASE(inverse) {
+        Mat4 mat1, mat2;
+        Mat4 identity = Mat4::identity();
+
+        for (int m = 0; m < 4; ++m) {
+            for (int n = 0; n < 4; ++n) {
+                int i = (n!=m) ? 1 : n + 1;
+                mat1[m][n] = i;
+                mat2[m][n] = i;
+            }
+        }
+
+        mat2.inverse();
+        Mat4 mat = mat1 * mat2;
+
+        double precision = 5; //%
+        for (int m = 0; m < 4; ++m) {
+            for (int n = 0; n < 4; ++n) {
+                BOOST_CHECK_CLOSE(mat[loc(m, n)], identity[loc(m, n)], precision);
+            }
+        }
+    }
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -58,7 +58,7 @@ void PrimitiveRenderer::render(const std::shared_ptr<Shape> &shape) {
             render(circle.get(), circle->resolution);
 
         } else {
-            BOOST_LOG_TRIVIAL(error) << "Not supported type";
+            std::cerr << "Not supported type" << std::endl;
         }
     }
 }

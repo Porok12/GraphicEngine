@@ -5,8 +5,11 @@
 #include <cmath>
 #include "Vec3.h"
 #include "Matrix.h"
+#include "NotImplementedException.h"
+#include "Vec4.h"
 
 class Mat4 : public Matrix<float, 4, 4> {
+private:
 public:
     Mat4(Matrix<float, 4, 4> m);
     Mat4();
@@ -26,7 +29,9 @@ public:
     static Mat4 rotation(const float &angle, fVec3 u = fVec3(1.0f));
 
     Mat4 operator*(const Mat4 &other);
+    fVec4 operator*(fVec4 &other);
     Mat4& operator*=(const Mat4 &other);
+    Mat4& inverse();
 
     const float* ptr();
 

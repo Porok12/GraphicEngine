@@ -12,16 +12,16 @@ FontLoader::~FontLoader() {
 
 void FontLoader::init() {
     if (FT_Init_FreeType(&lib)) {
-        BOOST_LOG_TRIVIAL(error) << "Failed to initialize FreeType";
+        std::cerr << "Failed to initialize FreeType" << std::endl;
         return;
     }
-    BOOST_LOG_TRIVIAL(debug) << "Font loader initialized";
+    std::cout << "Font loader initialized" << std::endl;
 }
 
 void FontLoader::load(std::string name) {
     std::string path = ResourceLoader::getPath(name, FONT);
     if (FT_New_Face(lib, path.c_str(), 0, &face)) {
-        BOOST_LOG_TRIVIAL(error) << "Failed to load font at path: " << path.c_str();
+        std::cerr << "Failed to load font at path: " << path.c_str() << std::endl;
         return;
     }
 
@@ -29,7 +29,7 @@ void FontLoader::load(std::string name) {
 
     loadCharacters();
 
-    BOOST_LOG_TRIVIAL(debug) << "Font loaded: " << name.c_str();
+    std::cout << "Font loaded: " << name.c_str() << std::endl;
 }
 
 Font * FontLoader::loadFont(std::string name) {
@@ -41,7 +41,7 @@ Font * FontLoader::loadFont(std::string name) {
 }
 
 void FontLoader::loadCharacters() {
-    BOOST_LOG_TRIVIAL(debug) << "Loading characters...";
+    std::cout << "Loading characters..." << std::endl;
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 

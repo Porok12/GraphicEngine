@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <core/FreeCamera.h>
-#include "UIRenderer.h"
+#include "gui/UIRenderer.h"
 #include "demo/MeshStage.h"
 #include "demo/MenuStage.h"
 #include "demo/ParticlesStage.h"
@@ -12,6 +12,7 @@
 #include "demo/TextureStage.h"
 #include "demo/BlurStage.h"
 #include "demo/DitheringStage.h"
+#include "demo/BresenhamStage.h"
 
 enum Stages {
     MENU,
@@ -21,7 +22,8 @@ enum Stages {
     SHADING,
     TEXTURE_MAPS,
     BLUR,
-    DITHERING
+    DITHERING,
+    BRESENHAM
 };
 
 class UIStageManager {

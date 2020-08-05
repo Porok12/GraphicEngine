@@ -23,6 +23,10 @@ public:
     static ModelRenderer* getInstance();
 
     ShaderProgram *getProgram();
+
+    const Mat4 &getProjection() const;
+
+    const Mat4 &getView() const;
 };
 
 #endif // MODELRENDERER_H

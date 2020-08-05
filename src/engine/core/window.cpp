@@ -6,7 +6,7 @@ MainWindow::MainWindow(int width, int height, const char* title)
         : MIN_WIDTH(800), MIN_HEIGHT(600) {
 
     if (!glfwInit()) {
-        BOOST_LOG_TRIVIAL(error) << "Failed to initialize GLFW";
+        std::cerr << "Failed to initialize GLFW" << std::endl;
         throw InitException();
     }
 
@@ -18,7 +18,7 @@ MainWindow::MainWindow(int width, int height, const char* title)
     glfwSetWindowSizeLimits(window.get(), MIN_WIDTH, MIN_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
     if (!window) {
-        BOOST_LOG_TRIVIAL(error) << "Failed to create GLFW window";
+        std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         throw InitException();
     }
@@ -28,13 +28,13 @@ MainWindow::MainWindow(int width, int height, const char* title)
     glewExperimental = GL_TRUE;
     GLenum status = glewInit();
     if (status != GLEW_OK) {
-        BOOST_LOG_TRIVIAL(error) << "Failed to initialize GLEW";
+        std::cerr << "Failed to initialize GLEW" << std::endl;
         throw InitException();
     }
 
     glViewport(0, 0, width, height);
 
-    BOOST_LOG_TRIVIAL(debug) << "GLFW Windows was created";
+    std::cout << "GLFW Windows was created" << std::endl;
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

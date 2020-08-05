@@ -3,8 +3,8 @@
 
 #include <SOIL.h>
 #include <GL/glew.h>
-#include <boost/log/trivial.hpp>
 #include <boost/filesystem.hpp>
+#include <iostream>
 #include <map>
 
 using namespace boost::filesystem;
