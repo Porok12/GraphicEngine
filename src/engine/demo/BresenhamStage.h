@@ -40,6 +40,7 @@ private:
     bool fill;
     iVec2 fillPoint;
     iVec3 fillColor;
+    bool focus = false;
 
     Model model, plane;
     std::shared_ptr<ShaderProgram> program;
@@ -54,6 +55,7 @@ private:
 public:
     static const std::shared_ptr<BresenhamStage> &getInstance();
 
+    void setFocus(bool focus);
     void setXxx(std::function<void ()> fun) {
         std::dynamic_pointer_cast<UIButton>(temp)->addClickCallback(fun);
     }

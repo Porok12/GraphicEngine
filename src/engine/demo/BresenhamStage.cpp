@@ -222,9 +222,10 @@ BresenhamStage::BresenhamStage()
     abort = false;
     fill = false;
     InputHandler::addMouseActionListner([this](const double &mouse_x, const double &mouse_y, int btn, int act) {
-//        std::cout << btn << " " << act << std::endl;
-
         if (btn == 0 && act == 1) {
+            if (std::dynamic_pointer_cast<UIFrame>(rootComponent)->isCursorOver()) {
+                return;
+            }
 
             GLint data[4];
             glGetIntegerv(GL_VIEWPORT, data);
@@ -396,4 +397,8 @@ void BresenhamStage::fillArea(iVec2 start) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void BresenhamStage::setFocus(bool focus) {
+    BresenhamStage::focus = focus;
 }

@@ -24,6 +24,8 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
 }
 
 void UIStageManager::setStage(Stages stage) {
+    BresenhamStage::getInstance()->setFocus(Stages::BRESENHAM == stage);
+
     switch (stage) {
         case MENU:
             rootUI = MenuStage::getInstance();
@@ -53,6 +55,7 @@ void UIStageManager::setStage(Stages stage) {
             rootUI = BresenhamStage::getInstance();
             break;
     }
+
     GUIRenderer::getInstance()->requestUpdate();
     camera->reset();
 }
