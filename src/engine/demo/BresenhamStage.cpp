@@ -1,8 +1,6 @@
 #include "BresenhamStage.h"
 
 std::shared_ptr<BresenhamStage> BresenhamStage::instance = nullptr;
-//GLuint BresenhamStage::CANVAS_WIDTH = 1024;
-//GLuint BresenhamStage::CANVAS_HEIGHT = 1024;
 
 BresenhamStage::BresenhamStage()
         : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)), //dirLight(fVec3(0.05), fVec3(0.5), fVec3(0.8f), fVec3(-0.2f, -1.0f, -0.5f)),
@@ -21,7 +19,6 @@ BresenhamStage::BresenhamStage()
         component = std::make_shared<UISelectBox>(10, 70, 150, 50);
         std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"Line", "Circle", "Elipse", "Fill area"});
         std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int i){
-//            std::cout << i << " " << option << std::endl;
             option = i;
         });
         component->setConstraints((new RectangleConstraints())
@@ -38,31 +35,6 @@ BresenhamStage::BresenhamStage()
 
     program = std::make_shared<ShaderProgram>("bresenham");
 
-//    int width, height, nrComponents;
-//    unsigned char * data = SOIL_load_image(ResourceLoader::getPath("test.bmp", TEXTURE).c_str(),
-//            &width, &height, &nrComponents, 0);
-//
-//    if (data) {
-//        GLenum format = GL_RED;
-//        if (nrComponents == 1)
-//            format = GL_RED;
-//        else if (nrComponents == 3)
-//            format = GL_RGB;
-//        else if (nrComponents == 4)
-//            format = GL_RGBA;
-//
-//        glBindTexture(GL_TEXTURE_2D, textureID);
-//        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-//        glGenerateMipmap(GL_TEXTURE_2D);
-//
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//
-//        SOIL_free_image_data(data);
-//    }
-
     pixels.fill(255);
     tmpPixels.fill(255);
     glGenTextures(1, &textureID);
@@ -73,89 +45,36 @@ BresenhamStage::BresenhamStage()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-//    std::array<GLubyte, 1024 * 1024 * 3> pixels {};
-//    pixels.fill(0);
-//    glBindTexture(GL_TEXTURE_2D, textureID);
-//    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
-//    glGenerateMipmap(GL_TEXTURE_2D);
-//    glBindTexture(GL_TEXTURE_2D, 0);
-
-//    int width, height, nrComponents;
-//    unsigned char * data = SOIL_load_image(ResourceLoader::getPath("test.bmp", TEXTURE).c_str(),
-//            &width, &height, &nrComponents, 0);
-//    SOIL_free_image_data(data);
-
-
-//    std::array<GLubyte, 300 * 300 * 3> pixels { };
-//    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 200, 200, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
-
-    std::cout << "Bresenham" << std::endl;
-//    auto points = Bresenham().getLine(iVec2(0, 0), iVec2(10, 10));
-//    std::cout << points.size() << std::endl;
-//    for (const auto &p: points) {
-//        std::cout << p.x << " " << p.y << std::endl;
-//    }
-
-//    std::cout << "Bresenham" << std::endl;
-//    auto points = Bresenham().getCircle(iVec2(0, 0), 10);
-//    std::cout << points.size() << std::endl;
-//    for (const auto &p: points) {
-//        std::cout << p.x << " " << p.y << std::endl;
-//    }
-
-//    std::cout << "Bresenham" << std::endl;
-//    auto points = Bresenham().getElipse(iVec2(0, 0), 10, 10);
-//    std::cout << points.size() << std::endl;
-//    for (const auto &p: points) {
-//        std::cout << p.x << " " << p.y << std::endl;
-//    }
-
     InputHandler::addCursorPositionListener([this](const double &mouse_x, const double &mouse_y) {
         tmpPixels = pixels;
 
         GLint data[4];
         glGetIntegerv(GL_VIEWPORT, data);
 
-//        double x = (2.0f * mouse_x) / data[2] - 1.0f;
-//        double y = (2.0f * mouse_y) / data[3] - 1.0f;
         double x = 1.0f - (2.0f * mouse_x) / data[2];
         double y = 1.0f - (2.0f * mouse_y) / data[3];
         double z = 1.0f;
         fVec3 ray_nds = fVec3(x, y, z);
-//        std::cout << ray_nds.x << " " << ray_nds.y << " " << ray_nds.z << "\n";
 
         fVec4 ray_clip = fVec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
-//        std::cout << ray_clip.x << " " << ray_clip.y << " " << ray_clip.z << "\n";
 
         Mat4 projection_matrix = ModelRenderer::getInstance()->getProjection();
         projection_matrix.inverse();
         Mat4 view_matrix = ModelRenderer::getInstance()->getView();
         view_matrix.inverse();
 
-//        Mat4 test = view_matrix * ModelRenderer::getInstance()->getView();
-//        for (int i = 0; i < 4; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                std::cout << test[i][j] << " ";
-//            }
-//            std::cout << "\n";
-//        }
-
         fVec4 ray_eye = projection_matrix * ray_clip;
         ray_eye = fVec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
-//        std::cout << ray_eye.x << " " << ray_eye.y << " " << ray_eye.z << "\n";
 
         fVec4 tmp = view_matrix * ray_eye;
         fVec3 ray_wor = fVec3(tmp.x, tmp.y, tmp.z);
         ray_wor.normalize();
 
-//        std::cout << ray_wor.x << " " << ray_wor.y << " " << ray_wor.z << "\n";
         fVec3 ray_origin(0);
         if (cam) {
             ray_origin = cam->getPos();
             ray_origin.x = -ray_origin.x;
             ray_origin.y = -ray_origin.y;
-//            std::cout << ray_origin.x << " " << ray_origin.y << " " << ray_origin.z << "\n";
-//            std::cout << cam->getFront().x << " " << cam->getFront().y << " " << cam->getFront().z << "\n";
         }
 
         fVec3 normal(0, 0, 1);
@@ -163,11 +82,8 @@ BresenhamStage::BresenhamStage()
 
         fVec3 point(0);
         if (Raycaster::raycastPlane(ray_origin, ray_wor, normal, center, point)) {
-//            std::cout << point.x << " " << point.y << " " << point.z << "\n";
             int x = (2.0 - (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
             int y = (2.0 - (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
-//            int x = (0.0 + (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
-//            int y = (0.0 + (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
 
             if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
                 std::vector<iVec2> points;
@@ -191,11 +107,6 @@ BresenhamStage::BresenhamStage()
                     default:
                         break;
                 }
-
-//                auto points = Bresenham().getLine(startPoint, iVec2(x, y));
-//                double dist = sqrt((double)(startPoint.x-x)*(startPoint.x-x)+(startPoint.y-y)*(startPoint.y-y));
-//                auto points = Bresenham().getCircle(startPoint, dist);
-//                auto points = Bresenham().getElipse(startPoint, abs(startPoint.x-x), abs(startPoint.y-y));
 
                 if (active) {
                     for (const auto &p: points) {
@@ -330,40 +241,6 @@ void BresenhamStage::renderContent(FreeCamera &camera, double dt) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-//    std::array<GLubyte, 1 * 1 * 4> pixels { 0 };
-//    glReadPixels(0, 0, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
-//    for (const auto &p: pixels) {
-//        std::cout << (int) p << std::endl;
-//    }
-
-//    std::array<GLubyte, 800 * 600 * 4> pixels { };
-//    pixels.fill(255);
-//    glDrawPixels(800, 600, GL_RGBA, GL_UNSIGNED_BYTE, pixels.data());
-
-//    if (fill) {
-//        int y = startPoint.y;
-//        for (int x = startPoint.x; x < CANVAS_WIDTH; x++) {
-//            if (tmpPixels[(x+y*CANVAS_WIDTH)*3+0] == 0 &&
-//                tmpPixels[(x+y*CANVAS_WIDTH)*3+1] == 0 &&
-//                tmpPixels[(x+y*CANVAS_WIDTH)*3+2] == 0) {
-//                break;
-//            }
-//
-//            tmpPixels[(x+y*CANVAS_WIDTH)*3+0] = 255;
-//            tmpPixels[(x+y*CANVAS_WIDTH)*3+1] = 0;
-//            tmpPixels[(x+y*CANVAS_WIDTH)*3+2] = 0;
-//        }
-//        pixels = tmpPixels;
-//
-//        glBindTexture(GL_TEXTURE_2D, textureID);
-//        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, tmpPixels.data());
-//        glGenerateMipmap(GL_TEXTURE_2D);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-//        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//        glBindTexture(GL_TEXTURE_2D, 0);
-//        fill = false;
-//    }
-
     Mat4 view = camera.getViewMatrix();
     ModelRenderer::getInstance()->setView(view);
     Mat4 mm = Mat4::identity();
@@ -385,7 +262,6 @@ void BresenhamStage::fillArea(iVec2 start) {
     bg.x = tmpPixels[(start.x+start.y*CANVAS_WIDTH)*3+0];
     bg.y = tmpPixels[(start.x+start.y*CANVAS_WIDTH)*3+1];
     bg.z = tmpPixels[(start.x+start.y*CANVAS_WIDTH)*3+2];
-//    std::cout << "x: " << start.x << ", y: " << start.y << std::endl;
 
     AreaFill::floodFill(pixels, CANVAS_WIDTH, CANVAS_HEIGHT, iVec2(start.x, start.y), fillColor, bg);
 
@@ -400,5 +276,5 @@ void BresenhamStage::fillArea(iVec2 start) {
 }
 
 void BresenhamStage::setFocus(bool focus) {
-    BresenhamStage::focus = focus;
+    this->focus = focus;
 }
