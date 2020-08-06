@@ -13,6 +13,7 @@ MainWindow::MainWindow(int width, int height, const char* title)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_SAMPLES, 4);
 
     window = SmartWindow(glfwCreateWindow(width, height, title, nullptr, nullptr));
     glfwSetWindowSizeLimits(window.get(), MIN_WIDTH, MIN_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
@@ -36,6 +37,7 @@ MainWindow::MainWindow(int width, int height, const char* title)
 
     std::cout << "GLFW Windows was created" << std::endl;
 
+    glDisable(GL_MULTISAMPLE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_CULL_FACE);

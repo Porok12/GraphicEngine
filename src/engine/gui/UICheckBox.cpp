@@ -27,6 +27,10 @@ void UICheckBox::addCursorCallback(std::function<void(UICheckBox *)> &onCoursor)
     this->onCursor = std::move(onCoursor);
 }
 
+void UICheckBox::addOnChangeCallback(std::function<void(bool)> onChange) {
+    this->onChange = std::move(onChange);
+}
+
 bool UICheckBox::click(const double &x, const double &y) {
     if (shape->contains(x, y)) {
         if(onClick) {
@@ -34,6 +38,10 @@ bool UICheckBox::click(const double &x, const double &y) {
         }
 
         checked = !checked;
+        if (onChange) {
+            onChange(checked);
+        }
+
         return true;
     }
 
