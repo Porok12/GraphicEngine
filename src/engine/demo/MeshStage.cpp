@@ -9,7 +9,7 @@ MeshStage::MeshStage() {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(500 - 50 - 10)));
+                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(500 - 50 - 10 + 5)));
         composite2->add(component);
 
 
@@ -95,8 +95,27 @@ MeshStage::MeshStage() {
             colorTarget = i;
         });
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new CenterConstraint())->setY(new FixedConstraint(200)));
+                                          ->setX(new CenterConstraint())->setY(new FixedConstraint(240)));
         composite2->add(component);
+
+        component = std::make_shared<UICheckBox>(10, 150, 40, 40);
+        std::dynamic_pointer_cast<UICheckBox>(component)->addOnChangeCallback([this](bool value){
+            if (value) {
+                glEnable(GL_MULTISAMPLE);
+            } else {
+                glDisable(GL_MULTISAMPLE);
+            }
+        });
+
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(10))->setY(new FixedConstraint(190)));
+        composite2->add(component);
+
+        label = std::make_shared<UILabel>("Antialiasing", 50, 500);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(120))
+                                      ->setY(new FixedConstraint(210)));
+        composite2->add(label);
     }
 
     composite2->update(800, 600);

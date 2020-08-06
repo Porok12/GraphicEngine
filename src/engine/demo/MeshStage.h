@@ -12,6 +12,7 @@
 #include "gui/UIFrameDecorator.h"
 #include "gui/UIButton.h"
 #include <gui/UISelectBox.h>
+#include <gui/UICheckBox.h>
 
 class MeshStage : public UIStage {
 private:

@@ -7,6 +7,7 @@ class UICheckBox : public UIComponent {
 private:
     std::function<void ()> onClick;
     std::function<void(UICheckBox*)> onCursor;
+    std::function<void (bool)> onChange;
     fVec3 backgroundColor = fVec3(0.5);
     bool checked = false;
 public:
@@ -14,6 +15,7 @@ public:
 
     void addClickCallback(std::function<void()> onClick);
     void addCursorCallback(std::function<void(UICheckBox*)> &onCoursor);
+    void addOnChangeCallback(std::function<void(bool)> onChange);
 
     void draw() override;
     bool click(const double &x, const double &y) override;
