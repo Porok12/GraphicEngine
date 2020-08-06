@@ -55,3 +55,9 @@ Można zmieniać jądro, sigme oraz ilość iteracji.
 
 ![alt text](https://github.com/Porok12/GraphicEngine/blob/master/docs/demo7.gif?raw=true)
 
+#### Bresenham
+Zadaniem tego dema jest zaprezentowanie rasteryzacji odcinka, okręgu i elipsy.
+Za pomocą myszki można rysować kształty oraz wypełniać je kolorem (SCROLL zmienia kolor).
+
+![alt text](https://github.com/Porok12/GraphicEngine/blob/master/docs/demo8.gif?raw=true)
+
