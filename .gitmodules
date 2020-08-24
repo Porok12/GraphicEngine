@@ -7,3 +7,6 @@
 [submodule "contrib/glew-cmake"]
 	path = contrib/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "contrib/glfw"]
+	path = contrib/glfw
+	url = https://github.com/glfw/glfw.git
