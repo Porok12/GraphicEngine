@@ -1,12 +1,11 @@
 #define BOOST_TEST_MAIN
 #define BOOST_TEST_MODULE main
-#define BOOST_TEST_DYN_LINK
 
 #include <boost/test/unit_test.hpp>
 
-#include <math/Vec2.h>
-#include <math/Vec3.h>
-#include <math/Mat4.h>
+#include <engine/math/Vec2.h>
+#include <engine/math/Vec3.h>
+#include <engine/math/Mat4.h>
 
 BOOST_AUTO_TEST_SUITE(math_ivec2_suite)
 
