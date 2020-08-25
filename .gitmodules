@@ -10,3 +10,6 @@
 [submodule "contrib/glfw"]
 	path = contrib/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "contrib/soil"]
+	path = contrib/soil
+	url = https://github.com/Porok12/soil
