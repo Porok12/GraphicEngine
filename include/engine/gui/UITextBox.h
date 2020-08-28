@@ -5,7 +5,7 @@
 #include <engine/gui/Primitives/Rectangle.h>
 #include <engine/gui/Primitives/PrimitiveRenderer.h>
 #include <engine/core/text/FontRenderer.h>
-#include <engine/core/InputHandler.h>
+#include "engine/core/InputHandler.h"
 
 class UITextBox : public UIComponent {
 private:

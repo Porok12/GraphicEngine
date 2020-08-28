@@ -1,14 +1,15 @@
 #ifndef FONTLOADER_H
 #define FONTLOADER_H
 
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <engine/math/Vec2.h>
 #include <engine/math/Vec3.h>
 #include <engine/core/shaders/ShaderProgram.h>
 #include <utility>
 #include <map>
-#include "../../../../src/core/text/Character.h"
+#include "Character.h"
 #include "Font.h"
+#include <memory>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H

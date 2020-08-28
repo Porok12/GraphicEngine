@@ -1,9 +1,8 @@
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 
-//#include <GL/glew.h>
+#include <GL/glew.h>
 #include <engine/math/Mat4.h>
-#include "../../../../src/core/shaders/Shader.h"
 
 class ShaderProgram {
 private:

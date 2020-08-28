@@ -1,4 +1,6 @@
-#include "engine/core/window.h"
+#include <engine/core/window.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 std::vector<std::function<void (int, int)>> MainWindow::onResizeListeners;
 

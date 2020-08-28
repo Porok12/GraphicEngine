@@ -1,4 +1,6 @@
-#include "engine/core/shaders/ShaderProgram.h"
+#include <engine/core/shaders/ShaderProgram.h>
+#include <GL/glew.h>
+#include "Shader.h"
 
 ShaderProgram::ShaderProgram(const char *name) {
     program = glCreateProgram();

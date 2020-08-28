@@ -15,3 +15,5 @@ add_executable(engine_demo ${ENGINE_DEMO_SRC})
 
 set_target_properties(engine_demo PROPERTIES VERSION ${PROJECT_VERSION})
 target_link_libraries(engine_demo GraphicEngine)
+
+install(TARGETS engine_demo DESTINATION demo)

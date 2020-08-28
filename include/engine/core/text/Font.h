@@ -2,7 +2,7 @@
 #define FONT_H
 
 #include <map>
-#include "../../../../src/core/text/Character.h"
+#include <engine/core/text/Character.h>
 #include <utility>
 
 class Font {

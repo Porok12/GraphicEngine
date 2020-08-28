@@ -5,12 +5,11 @@
 #include <GLFW/glfw3.h>
 
 #include <string>
+#include <memory>
 #include <engine/math/Vec4.h>
 #include <engine/math/Vec3.h>
 #include <engine/math/Vec2.h>
-#include <memory>
-#include "engine/core/shaders/ShaderProgram.h"
-#include "../../../../src/core/text/Character.h"
+#include <engine/core/shaders/ShaderProgram.h>
 #include "Font.h"
 
 class FontRenderer {

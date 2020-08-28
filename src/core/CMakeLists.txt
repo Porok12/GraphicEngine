@@ -6,7 +6,7 @@ set(CORE_SRCS
 
         ${CMAKE_SOURCE_DIR}/src/core/utils/ResourceLoader.cpp
 
-        ${CMAKE_SOURCE_DIR}/src/core/text/Character.h
+#        ${CMAKE_SOURCE_DIR}/src/core/text/Character.h
         ${CMAKE_SOURCE_DIR}/src/core/text/Font.cpp
         ${CMAKE_SOURCE_DIR}/src/core/text/FontLoader.cpp
         ${CMAKE_SOURCE_DIR}/src/core/text/FontRenderer.cpp
@@ -39,4 +39,9 @@ set(CORE_SRCS
         ${CMAKE_SOURCE_DIR}/src/core/algorithm/palette/Octree.cpp
 
         ${CMAKE_SOURCE_DIR}/src/core/algorithm/Rasterisation/Bresenham.cpp
+
+#        ${CMAKE_SOURCE_DIR}/src/core/definitions.h
+#        ${CMAKE_SOURCE_DIR}/src/core/definitions.cpp
+#        ${CMAKE_SOURCE_DIR}/src/core/InputHandler.h
+#        ${CMAKE_SOURCE_DIR}/src/core/window.h
         )

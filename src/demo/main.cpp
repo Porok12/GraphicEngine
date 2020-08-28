@@ -1,17 +1,13 @@
-//#include <GL/glew.h>
-//#include <GLFW/glfw3.h>
 #include <boost/filesystem.hpp>
 
-#include <engine/core/window.h>
+#include <memory>
+#include <iostream>
 #include <engine/core/shaders/ShaderLoader.h>
 #include <engine/core/shaders/ShaderProgram.h>
 #include <engine/core/utils/ResourceLoader.h>
 #include <engine/core/models/Model.h>
-
 #include <engine/math/Mat4.h>
 #include <engine/core/text/FontLoader.h>
-#include <iostream>
-#include <memory>
 #include <engine/core/text/Font.h>
 #include <engine/core/text/FontRenderer.h>
 #include <engine/core/particles/ParticleRenderer.h>

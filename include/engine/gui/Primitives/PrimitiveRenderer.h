@@ -1,8 +1,9 @@
 #ifndef PRIMITIVERENDERER_H
 #define PRIMITIVERENDERER_H
 
-#include "../../../../contrib/glew-cmake/include/GL/glew.h"
+#include <GL/glew.h>
 #include <array>
+#include <memory>
 
 #include <engine/math/Mat4.h>
 #include <engine/core/shaders/ShaderProgram.h>

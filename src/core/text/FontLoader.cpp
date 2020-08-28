@@ -1,4 +1,6 @@
+#include <engine/core/utils/ResourceLoader.h>
 #include "engine/core/text/FontLoader.h"
+
 
 std::unique_ptr<FontLoader> FontLoader::loader;
 

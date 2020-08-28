@@ -9,15 +9,15 @@
 #include <GLFW/glfw3.h>
 
 enum MouseButtons {
-    LEFT_BUTTON = GLFW_MOUSE_BUTTON_LEFT,
-    MIDDLE_BUTTON = GLFW_MOUSE_BUTTON_MIDDLE,
-    RIGHT_BUTTON = GLFW_MOUSE_BUTTON_RIGHT
+    LEFT_BUTTON = 0,
+    MIDDLE_BUTTON = 2,
+    RIGHT_BUTTON = 1
 };
 
 enum MouseActions {
-    PRESSED = GLFW_PRESS,
-    RELEASED = GLFW_RELEASE,
-    REPEAT = GLFW_REPEAT
+    PRESSED = 1,
+    RELEASED = 0,
+    REPEAT = 2
 };
 
 //TODO: Refactor

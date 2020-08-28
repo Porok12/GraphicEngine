@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include <engine/core/shaders/ShaderProgram.h>
 #include <boost/math/distributions/normal.hpp>
+#include <memory>
 
 #define IMAGE_WIDTH 1024
 #define IMAGE_HEIGHT 1024

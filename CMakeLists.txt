@@ -41,7 +41,7 @@ add_subdirectory(src)
 
 if(ENGINE_BUILD_TESTS)
     add_subdirectory(test)
-endif(ENGINE_BUILD_TESTS)
+endif()
 
 if(ENGINE_BUILD_DEMO)
     add_subdirectory(src/demo)

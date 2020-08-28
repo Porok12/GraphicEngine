@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <engine/core/shaders/ShaderProgram.h>
-#include <engine/core/window.h>
+#include "engine/core/window.h"
 #include "engine/gui/UIComponent.h"
 
 class GUIRenderer {

@@ -1,4 +1,6 @@
 #include "engine/core/InputHandler.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 std::vector<MouseAction> InputHandler::mouseActionListeners;
 std::vector<MouseButton> InputHandler::mouseButtonListeners;

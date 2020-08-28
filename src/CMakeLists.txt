@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-#file(GLOB PUBLIC_HEADERS "include/ft2build.h" "include/freetype/*.h")
-#file(GLOB PUBLIC_CONFIG_HEADERS "include/freetype/config/*.h")
-#file(GLOB PRIVATE_HEADERS "include/freetype/internal/*.h")
-
 include(core/CMakeLists.txt)
 include(gui/CMakeLists.txt)
 include(math/CMakeLists.txt)
@@ -43,6 +39,7 @@ set( PUBLIC_HEADERS
         ${HEADER_PATH}/core/InputHandler.h
         ${HEADER_PATH}/core/window.h
         ${HEADER_PATH}/core/utils/ResourceLoader.h
+        ${HEADER_PATH}/core/text/Character.h
         ${HEADER_PATH}/core/text/Font.h
         ${HEADER_PATH}/core/text/FontLoader.h
         ${HEADER_PATH}/core/text/FontRenderer.h
@@ -69,60 +66,67 @@ set( PUBLIC_HEADERS
         ${HEADER_PATH}/core/algorithm/Rasterisation/Bresenham.h
         )
 
-#source_group(Common FILES ${Common_SRCS})
-#source_group( include\\assimp    FILES ${PUBLIC_HEADERS} )
+#source_group(Common FILES ${Common_SRCS}) //TODO:
 
-set( engine_src
+set(ENGINE_SRC
         ${CORE_SRCS}
         ${GUI_SRCS}
         ${MATH_SRCS}
         ${PUBLIC_HEADERS})
 
-#if(${BUILD_SHARED_LIBS})
-#    set(BUILD_LIB_TYPE SHARED)
-#else()
-#    set(BUILD_LIB_TYPE STATIC)
-#endif()
+add_library(GraphicEngine ${ENGINE_SRC})
+#add_library(Foo::Foo ALIAS "${PROJECT_NAME}")
 
-add_library(GraphicEngine ${engine_src})
+#target_include_directories(GraphicEngine PUBLIC
+#        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
+#        "$<INSTALL_INTERFACE:include>")
 
-target_include_directories(
-        GraphicEngine PUBLIC
-        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-        "$<INSTALL_INTERFACE:include>")
+#target_include_directories(GraphicEngine
+#        PUBLIC
+#        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+#        $<INSTALL_INTERFACE:include>
+#        PRIVATE
+#        ${PROJECT_SOURCE_DIR}/src
+#        )
 
 #target_include_directories(mylib PUBLIC
 #        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/mylib>
 #        $<INSTALL_INTERFACE:include/mylib>  # <prefix>/include/mylib
 #        )
 
-install(
-        DIRECTORY ${PROJECT_SOURCE_DIR}/include/
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/engine
-        COMPONENT headers)
+#TARGET_INCLUDE_DIRECTORIES(GraphicEngine PUBLIC
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../include>
+#        $<INSTALL_INTERFACE:include>
+#        )
 
-#set(HEADER_FILES ${YOUR_DIRECTORY}/file1.h ${YOUR_DIRECTORY}/file2.h)
-
-#add_library(mylib libsrc.cpp ${HEADER_FILES})
-#target_include_directories(mylib PRIVATE ${YOUR_DIRECTORY})
-#add_executable(myexec execfile.cpp ${HEADER_FILES})
-#target_include_directories(myexec PRIVATE ${YOUR_DIRECTORY})
-
-target_link_libraries(GraphicEngine PUBLIC
-        ${OPENGL_LIBRARIES}
-        ${Boost_LIBRARIES}
-        libglew_static
-        glfw
-        assimp
-        freetype
-        SOIL)
+#target_include_directories(GraphicEngine PUBLIC
+#        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
+#        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+#        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+#        )
 
 target_include_directories(GraphicEngine PUBLIC
-        "${PROJECT_SOURCE_DIR}/include")
+        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
+        "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>"
+        "$<INSTALL_INTERFACE:include>" #${CMAKE_INSTALL_PREFIX}/include
+        )
 
-#set_target_properties( GraphicEngine PROPERTIES
-#        VERSION ${PROJECT_VERSION}
-#        )
+target_link_libraries(GraphicEngine
+        PRIVATE
+            freetype
+        PUBLIC
+            ${OPENGL_LIBRARIES}
+            ${Boost_LIBRARIES}
+            SOIL
+            assimp
+            libglew_static
+            glfw
+        )
+
+set_target_properties( GraphicEngine PROPERTIES
+        VERSION ${PROJECT_VERSION}
+        )
 
 #set_target_properties( GraphicEngine PROPERTIES
 #        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
@@ -130,32 +134,22 @@ target_include_directories(GraphicEngine PUBLIC
 #        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
 #        )
 
+install(TARGETS GraphicEngine
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-#target_include_directories(GraphicEngine PUBLIC
-#        $<INSTALL_INTERFACE:include>)
+#install(FILES ${PUBLIC_HEADERS} DESTINATION include)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/
+        COMPONENT headers)
 
 #add_custom_command(TARGET GraphicEngine PRE_BUILD
 #        COMMAND ${CMAKE_COMMAND} -E copy_directory
 #        ${CMAKE_SOURCE_DIR}/res
 #        $<TARGET_FILE_DIR:GraphicEngine>/../res)
 
-#install( FILES ${PUBLIC_HEADERS} DESTINATION xxx COMPONENT headers)
-
-#target_include_directories(${tgt}
-#        PUBLIC
-#        $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>
-#        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-#        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-#        PRIVATE
-#        ${PostgreSQL_INCLUDE_DIRS}
-#        )
 #target_link_libraries(${tgt} PRIVATE ${PostgreSQL_LIBRARIES})
 #if(WIN32)
 #    target_link_libraries(${tgt} PUBLIC wsock32 ws2_32)
 #endif()
-
-#install(TARGETS ${tgt} EXPORT libpqxx-targets
-#        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#        )

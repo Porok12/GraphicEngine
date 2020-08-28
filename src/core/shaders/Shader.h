@@ -1,9 +1,9 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include <GL/glew.h>
 #include <fstream>
 #include <sstream>
+#include <GL/glew.h>
 #include <engine/core/utils/ResourceLoader.h>
 
 class Shader {

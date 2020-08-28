@@ -8,7 +8,7 @@
 #include <functional>
 #include <memory>
 #include <utility>
-#include <engine/core/InputHandler.h>
+#include "engine/core/InputHandler.h"
 #include "engine/gui/UIComponent.h"
 
 class UISlider : public UIComponent {
