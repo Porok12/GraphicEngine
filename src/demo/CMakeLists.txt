@@ -9,7 +9,8 @@ set(ENGINE_DEMO_SRC
         DitheringStage.cpp DitheringStage.h
         BlurStage.cpp BlurStage.h
         BresenhamStage.cpp BresenhamStage.h
-        UIStageManager.cpp UIStageManager.h)
+        UIStageManager.cpp UIStageManager.h
+        SierpinskiStage.cpp SierpinskiStage.h)
 
 add_executable(engine_demo ${ENGINE_DEMO_SRC})
 

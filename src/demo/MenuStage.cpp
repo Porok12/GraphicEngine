@@ -64,6 +64,13 @@ MenuStage::MenuStage() {
                                           ->setY(new FixedConstraint(470)));
         menuStage->add(component);
 
+        component.reset(new UIButton("Sierpinski demo", 375, 470, 250, 50));
+        temp9 = component;
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint())
+                                          ->setY(new FixedConstraint(530)));
+        menuStage->add(component);
+
         component.reset(new UITextBox(50, 400, 130, 50));
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new FixedConstraint(10))

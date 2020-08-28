@@ -13,6 +13,7 @@
 #include "BlurStage.h"
 #include "DitheringStage.h"
 #include "BresenhamStage.h"
+#include "SierpinskiStage.h"
 
 enum Stages {
     MENU,
@@ -23,7 +24,8 @@ enum Stages {
     TEXTURE_MAPS,
     BLUR,
     DITHERING,
-    BRESENHAM
+    BRESENHAM,
+    SIERPINSKI
 };
 
 class UIStageManager {

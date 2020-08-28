@@ -10,6 +10,7 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
     MenuStage::getInstance()->setDdd([this](){this->setStage(Stages::BLUR);});
     MenuStage::getInstance()->setCcc([this](){this->setStage(Stages::DITHERING);});
     MenuStage::getInstance()->setEee([this](){this->setStage(Stages::BRESENHAM);});
+    MenuStage::getInstance()->setFff([this](){this->setStage(Stages::SIERPINSKI);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
@@ -19,6 +20,7 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
     BlurStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     DitheringStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     BresenhamStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    SierpinskiStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 
     this->camera = camera;
 }
@@ -53,6 +55,9 @@ void UIStageManager::setStage(Stages stage) {
             break;
         case BRESENHAM:
             rootUI = BresenhamStage::getInstance();
+            break;
+        case SIERPINSKI:
+            rootUI = SierpinskiStage::getInstance();
             break;
     }
 
