@@ -39,6 +39,7 @@ class Mesh {
 private:
     GLuint VBO, EBO;
     GLuint buffer[3];
+    bool eboAvailable = true;
 
     void setupMesh(bool bumpMapping);
     void calculateFlatNormals();
@@ -53,6 +54,8 @@ public:
 
     Mesh() = default;
     ~Mesh() = default;
+    Mesh(vector <Vertex> vertices);
+    Mesh(vector <Vertex> vertices, vector<unsigned int> indices);
     Mesh(vector <Vertex> vertices, vector<unsigned int> indices, vector <Texture> textures);
     Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector <Texture> textures, vector <VertexTangent> tangents);
 

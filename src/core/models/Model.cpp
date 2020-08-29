@@ -160,3 +160,14 @@ void Model::useFlatNormals(bool enable) {
         meshes[i].useFlatNormals(enable);
     }
 }
+
+Model::Model(Mesh mesh) {
+    meshes.push_back(std::move(mesh));
+}
+
+Model::Model(vector<Mesh> &meshes) {
+    for (auto &m: meshes) {
+        this->meshes.push_back(m);
+    }
+}
+
