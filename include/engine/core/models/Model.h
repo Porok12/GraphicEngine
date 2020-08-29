@@ -35,6 +35,9 @@ public:
     void enableBumpMapping(bool enable);
     void setFakeNormals();
     void useFlatNormals(bool enable);
+
+    Model(Mesh mesh);
+    Model(vector<Mesh> &meshes);
 };
 
 #endif // MODEL_H

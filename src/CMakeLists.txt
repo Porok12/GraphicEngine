@@ -64,7 +64,7 @@ set( PUBLIC_HEADERS
         ${HEADER_PATH}/core/algorithm/palette/Octree.h
         ${HEADER_PATH}/core/algorithm/palette/PaletteAlghorithm.h
         ${HEADER_PATH}/core/algorithm/Rasterisation/Bresenham.h
-        )
+        ${HEADER_PATH}/core/algorithm/carpet/CreateEngine.h)
 
 #source_group(Common FILES ${Common_SRCS}) //TODO:
 

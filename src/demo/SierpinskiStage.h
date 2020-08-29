@@ -6,6 +6,7 @@
 #include <engine/core/FreeCamera.h>
 #include <engine/gui/UIButton.h>
 #include <engine/gui/UIStage.h>
+#include <engine/core/light/DirectionalLight.h>
 
 class SierpinskiStage : public UIStage {
 private:
@@ -14,6 +15,8 @@ private:
 
     std::shared_ptr<UIComponent> temp;
     std::shared_ptr<ShaderProgram> program;
+    Model cube;
+    DirectionalLight dirLight;
 
 public:
     static const std::shared_ptr<SierpinskiStage> &getInstance();

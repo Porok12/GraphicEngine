@@ -44,4 +44,6 @@ set(CORE_SRCS
 #        ${CMAKE_SOURCE_DIR}/src/core/definitions.cpp
 #        ${CMAKE_SOURCE_DIR}/src/core/InputHandler.h
 #        ${CMAKE_SOURCE_DIR}/src/core/window.h
+
+        ${CMAKE_SOURCE_DIR}/src/core/algorithm/carpet/CreateEngine.cpp
         )
