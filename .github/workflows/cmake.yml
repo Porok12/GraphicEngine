@@ -46,7 +46,7 @@ jobs:
     - name: Configure CMake
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBOOST_ROOT=C:\boost -DBOOST_INCLUDEDIR=C:\boost\lib -DBOOST_LIBRARYDIR=C:\boost\include -DBoost_ARCHITECTURE="-x64" -DBoost_DEBUG=ON -G "MinGW Makefiles"
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
