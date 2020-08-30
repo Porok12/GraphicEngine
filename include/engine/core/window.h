@@ -25,6 +25,7 @@ private:
 
     static std::vector<std::function<void (int, int)>> onResizeListeners;
     static void onResize(GLFWwindow* window, int width, int height);
+    static void errorCallback(int error, const char *description);
 public:
     MainWindow(int width, int height, const char* title);
     ~MainWindow();

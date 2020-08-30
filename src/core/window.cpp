@@ -46,6 +46,7 @@ MainWindow::MainWindow(int width, int height, const char* title)
     glCullFace(GL_FRONT);
     glFrontFace(GL_CW);
 
+    glfwSetErrorCallback(MainWindow::errorCallback);
     glfwSetFramebufferSizeCallback(window.get(), MainWindow::onResize);
     glfwSetWindowSizeCallback(window.get(), [](GLFWwindow* window, int w, int h){glViewport(0, 0, w, h);});
     glfwSetMouseButtonCallback(window.get(), InputHandler::mouseButtonCallback);
@@ -104,5 +105,9 @@ void MainWindow::onResize(GLFWwindow *window, int width, int height) {
     for(const auto &listener: onResizeListeners) {
         listener(width, height);
     }
+}
+
+void MainWindow::errorCallback(int error, const char *description) {
+    std::cerr << "Error code: " << error << ". Description: " << description << std::endl;
 }
 
