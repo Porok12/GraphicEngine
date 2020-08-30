@@ -57,21 +57,30 @@ std::vector<Vertex> ModelGenerator::generatePyramid() {
 
     std::vector<fVec3> positions;
 
-    positions.emplace_back( 0.0f, 1.f, 0.0f );
-    positions.emplace_back( -1.0f, -1.0f, 1.0f );
-    positions.emplace_back( 1.0f, -1.0f, 1.0f);
+    float a = 2.0f;
+    float s3 = std::sqrt(3) / 2;
+    float hp = a * s3;
+    float h = std::sqrt(a*a - (2/3*hp));
+    fVec3 left(-a/2, -1.0f, 1.0f),
+          right(a/2, -1.0f, 1.0f),
+          back(0.0f, -1.0f, 1.0f - a*s3),
+          top(0.0f, -1.0f+h, 1.0f - a*s3/3);
 
-    positions.emplace_back( 0.0f, 1.0f, 0.0f);
-    positions.emplace_back( 0.0f, -1.0f, -1.0f);
-    positions.emplace_back( -1.0f, -1.0f, 1.0f);
+    positions.emplace_back( top.x, top.y, top.z );
+    positions.emplace_back( left.x, left.y, left.z );
+    positions.emplace_back( right.x, right.y, right.z);
 
-    positions.emplace_back( 0.0f, 1.0f, 0.0f);
-    positions.emplace_back( 1.0f, -1.0f, 1.0f);
-    positions.emplace_back( 0.0f, -1.0f, -1.0f);
+    positions.emplace_back( top.x, top.y, top.z);
+    positions.emplace_back( back.x, back.y, back.z);
+    positions.emplace_back( left.x, left.y, left.z);
 
-    positions.emplace_back( -1.0f, -1.0f, 1.0f);
-    positions.emplace_back( 0.0f, -1.0f, -1.0f);
-    positions.emplace_back( 1.0f, -1.0f, 1.0f);
+    positions.emplace_back( top.x, top.y, top.z);
+    positions.emplace_back( right.x, right.y, right.z);
+    positions.emplace_back( back.x, back.y, back.z);
+
+    positions.emplace_back( left.x, left.y, left.z);
+    positions.emplace_back( back.x, back.y, back.z);
+    positions.emplace_back( right.x, right.y, right.z);
 
     Vertex v;
     for (const auto &p: positions) {

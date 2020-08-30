@@ -10,8 +10,8 @@
 #include <sstream>
 #include <vector>
 
-#include "engine/core/utils/ResourceLoader.h"
-#include "engine/core/shaders/ShaderProgram.h"
+#include <engine/core/utils/ResourceLoader.h>
+#include <engine/core/shaders/ShaderProgram.h>
 #include <engine/math/Vec2.h>
 #include <engine/math/Vec3.h>
 

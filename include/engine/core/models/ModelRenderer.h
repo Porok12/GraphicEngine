@@ -4,6 +4,7 @@
 #include <memory>
 #include <engine/core/shaders/ShaderProgram.h>
 #include "Model.h"
+#include "InstancedModel.h"
 
 class ModelRenderer {
 private:
@@ -19,6 +20,7 @@ public:
 
     void render(const Model &model);
     void render(const Model &model, ShaderProgram &program);
+    void render(const InstancedModel &model, ShaderProgram &program);
 
     static ModelRenderer* getInstance();
 

@@ -53,3 +53,11 @@ const Mat4 &ModelRenderer::getProjection() const {
 const Mat4 &ModelRenderer::getView() const {
     return view;
 }
+
+void ModelRenderer::render(const InstancedModel &model, ShaderProgram &program) {
+    program.use();
+    program.setMatrix4("projection", projection);
+    program.setMatrix4("view", view);
+    program.setMatrix4("model", this->model);
+    model.draw(program);
+}

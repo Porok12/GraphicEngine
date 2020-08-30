@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "engine/core/models/Mesh.h"
 #include <utility>
 
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures) {
@@ -57,7 +57,6 @@ void Mesh::draw(const ShaderProgram &shaderProgram) const {
     unsigned int normalNr = 1;
     unsigned int heightNr = 1;
 
-
     for(unsigned int i = 0; i < textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
 
@@ -87,7 +86,6 @@ void Mesh::draw(const ShaderProgram &shaderProgram) const {
     } else {
         glDrawArrays(GL_TRIANGLES, 0, vertices.size());
     }
-
 
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);

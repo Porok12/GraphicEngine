@@ -9,8 +9,7 @@
 
 #include <engine/math/Vec2.h>
 #include <engine/math/Vec3.h>
-//#include <engine/core/models/Mesh.h>
-#include "../../../../src/core/models/Mesh.h"
+#include <engine/core/models/Mesh.h>
 
 using std::vector;
 

@@ -7,6 +7,8 @@
 #include <engine/gui/UIButton.h>
 #include <engine/gui/UIStage.h>
 #include <engine/core/light/DirectionalLight.h>
+#include <engine/core/models/InstancedModel.h>
+#include <engine/core/light/PointLight.h>
 
 class SierpinskiStage : public UIStage {
 private:
@@ -16,7 +18,16 @@ private:
     std::shared_ptr<UIComponent> temp;
     std::shared_ptr<ShaderProgram> program;
     Model cube;
+    InstancedModel iCube;
     DirectionalLight dirLight;
+    PointLight pointLight;
+    fVec3 tmp;
+    float tmpLoad = 0;
+    float fps;
+    float fpsMax = 0;
+    float fpsMin = 100;
+    int iter = 0;
+    float buffer[128]{};
 
 public:
     static const std::shared_ptr<SierpinskiStage> &getInstance();

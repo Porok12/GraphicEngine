@@ -19,7 +19,7 @@ set(CORE_SRCS
         ${CMAKE_SOURCE_DIR}/src/core/particles/ParticleRenderer.cpp
         ${CMAKE_SOURCE_DIR}/src/core/particles/ParticleGenerator.cpp
 
-        ${CMAKE_SOURCE_DIR}/src/core/models/Mesh.h
+#        ${CMAKE_SOURCE_DIR}/src/core/models/Mesh.h
         ${CMAKE_SOURCE_DIR}/src/core/models/Mesh.cpp
         ${CMAKE_SOURCE_DIR}/src/core/models/Model.cpp
         ${CMAKE_SOURCE_DIR}/src/core/models/ModelRenderer.cpp
@@ -46,4 +46,7 @@ set(CORE_SRCS
 #        ${CMAKE_SOURCE_DIR}/src/core/window.h
 
         ${CMAKE_SOURCE_DIR}/src/core/algorithm/carpet/CreateEngine.cpp
+        ${CMAKE_SOURCE_DIR}/src/core/models/InstancedMesh.cpp
+        ${CMAKE_SOURCE_DIR}/src/core/models/InstancedModel.cpp
+#        ${CMAKE_SOURCE_DIR}/src/core/models/InstancedRenderer.cpp
         )
