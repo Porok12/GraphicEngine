@@ -35,10 +35,10 @@ jobs:
       shell: powershell
       run: |
         cd C:\install\boost_1_68_0\tools\build\
-        .\b2 --with-system --with-program_options --with-serialization --with-test --build-type=complete -j2 --prefix="C:\boost-build" toolset=gcc install
+        .\b2 --with-system --with-filesystem --with-thread --with-date_time --with-test --build-type=complete -j2 --prefix="C:\boost-build" toolset=gcc install
         $env:Path += ";C:\boost-build\bin"
         cd C:\install\boost_1_68_0
-        C:\boost-build\bin\b2.exe --with-system --with-program_options --with-serialization --with-test --build-type=complete -j2 --build-dir="C:\install\boost_1_68_0\build" --build-type=complete --prefix="C:\boost" toolset=gcc install
+        C:\boost-build\bin\b2.exe --with-system --with-filesystem --with-thread --with-date_time --with-test --build-type=complete -j2 --build-dir="C:\install\boost_1_68_0\build" --build-type=complete --prefix="C:\boost" toolset=gcc install
 
     - name: Create Build Environment
       run: cmake -E make_directory ${{runner.workspace}}/build
@@ -55,7 +55,7 @@ jobs:
         $env:BOOST_INCLUDEDIR = 'C:\boost\include'
         $env:BOOST_LIBRARYDIR = 'C:\boost\lib'
         $env:BOOST_ROOT = 'C:\boost'
-        cmake -DBOOST_ROOT=c:/boost -DBoost_DEBUG=ON -G "MinGW Makefiles" --build . --config $BUILD_TYPE
+        cmake -DBOOST_ROOT=C:\boost BOOST_INCLUDEDIR=C:\boost\lib BOOST_LIBRARYDIR=C:\boost\include -DBoost_DEBUG=ON -G "MinGW Makefiles" --build .. --config $BUILD_TYPE
 
     - name: Running make (MinGW)
       working-directory: ${{runner.workspace}}/build
