@@ -1,4 +1,4 @@
-#include "engine/core/models/Model.h"
+#include <engine/core/models/Model.h>
 
 Model::Model() : bumpMapping(false) {
 

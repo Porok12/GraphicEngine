@@ -119,13 +119,14 @@ target_include_directories(GraphicEngine PUBLIC
         )
 
 target_link_libraries(GraphicEngine
-        PRIVATE
-            freetype
+#        PRIVATE
+#            freetype
         PUBLIC
             ${OPENGL_LIBRARIES}
             ${Boost_LIBRARIES}
-            SOIL
+            freetype
             assimp
+            SOIL
             libglew_static
             glfw
         )

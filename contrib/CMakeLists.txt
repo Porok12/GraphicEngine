@@ -21,6 +21,13 @@ message("glfw subdirectory added")
 execute_process(COMMAND git submodule update --init -- contrib/assimp
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+set(ASSIMP_BUILD_TESTS OFF)
+#set(BUILD_SHARED_LIBS ON)
+set(ASSIMP_BUILD_STATIC_LIB ON)
+set(ASSIMP_LIBRARY_DIRS "${CMAKE_SOURCE_DIR}/contrib/assimp/code" "${CMAKE_BINARY_DIR}/contrib/assimp/code")
+set(ASSIMP_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/contrib/assimp/include" "${CMAKE_BINARY_DIR}/contrib/assimp/include")
+include_directories(${ASSIMP_INCLUDE_DIRS})
 add_subdirectory(${CONTRIB_PATH}/assimp)
 message("assimp subdirectory added")
 

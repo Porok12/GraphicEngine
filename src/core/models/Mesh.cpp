@@ -1,4 +1,4 @@
-#include "engine/core/models/Mesh.h"
+#include <engine/core/models/Mesh.h>
 #include <utility>
 
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures) {

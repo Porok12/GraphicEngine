@@ -46,7 +46,7 @@ SierpinskiStage::SierpinskiStage() :
     std::vector<fVec3> positions;
 //    modelGenerator.iMenger(4, 0, 0, 0, 1, iVertices, positions);
 //    modelGenerator.iPyramid(8, 0, 0, 0, 1, iVertices, positions);
-    modelGenerator.iMenger2(6, 0, 0, 0, 1, iVertices, positions);
+    modelGenerator.iMenger2(5, 0, 0, 0, 1, iVertices, positions);
     InstancedMesh iMesh;
     iMesh.loadMesh(iVertices);
     iMesh.setPositions(positions);
