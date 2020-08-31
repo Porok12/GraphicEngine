@@ -54,7 +54,7 @@ jobs:
         $env:BOOST_INCLUDEDIR = 'C:\boost\include'
         $env:BOOST_LIBRARYDIR = 'C:\boost\lib'
         $env:BOOST_ROOT = 'C:\boost'
-        cmake -DBOOST_ROOT=C:\boost -DBOOST_INCLUDEDIR=C:\boost\lib -DBOOST_LIBRARYDIR=C:\boost\include -DBoost_ARCHITECTURE="-x64" -DBoost_DEBUG=ON -G "MinGW Makefiles" --build .. --config $BUILD_TYPE
+        cmake -DBOOST_ROOT=C:\boost -DBOOST_INCLUDEDIR=C:\boost\lib -DBOOST_LIBRARYDIR=C:\boost\include -DBoost_ARCHITECTURE="-x64" -DBoost_DEBUG=ON -G "MinGW Makefiles" --build . --config $BUILD_TYPE
     
     - name: Running make (MinGW)
       working-directory: ${{runner.workspace}}/build
