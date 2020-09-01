@@ -5,6 +5,7 @@
 #include <engine/core/algorithm/carpet/CreateEngine.h>
 #include <engine/core/models/ModelRenderer.h>
 #include <engine/core/light/Materials.h>
+#include <engine/gui/UILabel.h>
 #include "SierpinskiStage.h"
 
 std::shared_ptr<SierpinskiStage> SierpinskiStage::instance = nullptr;
@@ -21,6 +22,76 @@ SierpinskiStage::SierpinskiStage() :
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint)->setY(new FixedConstraint(300 - 50 - 10)));
         composite2->add(component);
+
+        component = std::make_shared<UISelectBox>(10, 10, 150, 50);
+        std::dynamic_pointer_cast<UISelectBox>(component)->setOptions({"Pyramid", "Cube", "Swowflake"});
+        std::dynamic_pointer_cast<UISelectBox>(component)->addChangedCallback([this](int option){
+            algorithmIterations = 0;
+            std::dynamic_pointer_cast<UILabel>(iterLabel)->setText(std::to_string(algorithmIterations));
+
+            algorithmSelect = option;
+            updateMesh();
+        });
+
+        std::dynamic_pointer_cast<UISelectBox>(component)->setConstraints(
+                (new RectangleConstraints())->setX(new CenterConstraint())->setY(new FixedConstraint(80)));
+        composite2->add(component);
+
+        std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(50))
+                                      ->setY(new FixedConstraint(-25)));
+        composite2->add(label);
+        minLabel = label;
+
+        label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(50))
+                                      ->setY(new FixedConstraint(-50)));
+        composite2->add(label);
+        maxLabel = label;
+
+        label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(50))
+                                      ->setY(new FixedConstraint(-75)));
+        composite2->add(label);
+        fpsLabel = label;
+
+        label = std::make_shared<UILabel>("0", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new CenterConstraint())
+                                      ->setY(new FixedConstraint(30)));
+        composite2->add(label);
+        iterLabel = label;
+
+        component.reset(new UIButton("<", 40, 40, 40, 40));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(10))
+                                          ->setY(new FixedConstraint(10)));
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){
+            if (algorithmIterations > 0) {
+                algorithmIterations--;
+                std::dynamic_pointer_cast<UILabel>(iterLabel)
+                        ->setText(std::to_string(algorithmIterations));
+                updateMesh();
+            }
+        });
+        composite2->add(component);
+
+        component.reset(new UIButton(">", 40, 40, 40, 40));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(150))
+                                          ->setY(new FixedConstraint(10)));
+        std::dynamic_pointer_cast<UIButton>(component)->addClickCallback([this](){
+            if (algorithmIterations <= maxIterations) {
+                algorithmIterations++;
+                std::dynamic_pointer_cast<UILabel>(iterLabel)
+                        ->setText(std::to_string(algorithmIterations));
+                updateMesh();
+            }
+        });
+        composite2->add(component);
     }
 
     composite2->update(800, 600);
@@ -29,28 +100,7 @@ SierpinskiStage::SierpinskiStage() :
 //    program = std::make_shared<ShaderProgram>("light");
     program = std::make_shared<ShaderProgram>("sierpinski");
 
-    ModelGenerator modelGenerator;
-////    auto vertices = modelGenerator.generateCube();
-////    cube = modelGenerator.fromVertices(vertices);
-//    std::vector<std::vector<Vertex>> cubes;
-//    modelGenerator.menger(0, 0, 0, 0, 1, cubes);
-//    std::vector<Mesh> meshes;
-//    for (auto &c: cubes) {
-//        meshes.emplace_back(c);
-//    }
-////    std::cerr << meshes[10].vertices[0].Position.x << std::endl;
-//    cube = Model(meshes);
-//    cube.useFlatNormals(true);
-
-    std::vector<Vertex> iVertices;
-    std::vector<fVec3> positions;
-//    modelGenerator.iMenger(4, 0, 0, 0, 1, iVertices, positions);
-//    modelGenerator.iPyramid(8, 0, 0, 0, 1, iVertices, positions);
-    modelGenerator.iMenger2(5, 0, 0, 0, 1, iVertices, positions);
-    InstancedMesh iMesh;
-    iMesh.loadMesh(iVertices);
-    iMesh.setPositions(positions);
-    iCube.loadMesh(iMesh);
+    updateMesh();
 }
 
 const std::shared_ptr<SierpinskiStage> &SierpinskiStage::getInstance() {
@@ -124,11 +174,53 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
         fps += buffer[i];
     }
     fps /= 128;
+    if (iter < 128) {
+        fps = 1 / dt;
+    }
+
     fpsMax = (fpsMax < fps) ? fps : fpsMax;
     fpsMin = (fpsMin > fps) ? fps : fpsMin;
 
+    static std::stringstream ss;
+    ss.str(std::string());
+    if (fps < 10.0) {
+        ss << "0";
+    }
+    ss << (int)fps << " FPS";
+    std::dynamic_pointer_cast<UILabel>(fpsLabel)->setText(ss.str());
+    ss.str(std::string());
+    ss << (int)fpsMin << " FPS";
+    std::dynamic_pointer_cast<UILabel>(minLabel)->setText(ss.str());
+    ss.str(std::string());
+    ss << (int)fpsMax << " FPS";
+    std::dynamic_pointer_cast<UILabel>(maxLabel)->setText(ss.str());
+}
 
-    FontRenderer::getInstance()->setPosition(700, 0).render(std::to_string(fps).substr(0, 4));
-    FontRenderer::getInstance()->setPosition(700, 20).render(std::to_string(fpsMax));
-    FontRenderer::getInstance()->setPosition(700, 40).render(std::to_string(fpsMin));
+void SierpinskiStage::updateMesh() {
+    ModelGenerator modelGenerator;
+    std::vector<Vertex> iVertices;
+    std::vector<fVec3> positions;
+
+    switch (algorithmSelect) {
+        case 0: {
+            maxIterations = 12;
+            modelGenerator.iPyramid(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            break;
+        }
+        case 1: {
+            maxIterations = 6;
+            modelGenerator.iMenger(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            break;
+        }
+        case 2: {
+            maxIterations = 8;
+            modelGenerator.iMenger2(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            break;
+        }
+    }
+
+    InstancedMesh iMesh;
+    iMesh.loadMesh(iVertices);
+    iMesh.setPositions(positions);
+    iCube.loadMesh(iMesh);
 }

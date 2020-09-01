@@ -26,8 +26,11 @@ private:
     float fps;
     float fpsMax = 0;
     float fpsMin = 100;
-    int iter = 0;
+    int iter = 0, algorithmIterations = 0, algorithmSelect = 0, maxIterations;
     float buffer[128]{};
+
+    std::shared_ptr<UIComponent> minLabel, maxLabel, fpsLabel, iterLabel;
+    void updateMesh();
 
 public:
     static const std::shared_ptr<SierpinskiStage> &getInstance();

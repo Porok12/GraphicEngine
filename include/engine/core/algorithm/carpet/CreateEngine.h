@@ -35,7 +35,7 @@ public:
         }
     }
 
-    void menger(int n, float x, float y, float z, float d, vector<vector<Vertex>> &vCubes) {
+    void menger(int n, float x, float y, float z, float d, std::vector<std::vector<Vertex>> &vCubes) {
         if (n == 0) {
             auto cube = generateCube();
             for (auto &v: cube) {
@@ -63,7 +63,7 @@ public:
         }
     }
 
-    void pyramid(int n, float x, float y, float z, float d, vector<vector<Vertex>> &vCubes) {
+    void pyramid(int n, float x, float y, float z, float d, std::vector<std::vector<Vertex>> &vCubes) {
         if (n == 0) {
             auto cube = generatePyramid();
             for (auto &v: cube) {
@@ -86,7 +86,7 @@ public:
         }
     }
 
-    void iMenger(int n, float x, float y, float z, float d, vector<Vertex> &vCubes, vector<fVec3> &positions) {
+    void iMenger(int n, float x, float y, float z, float d, std::vector<Vertex> &vCubes, std::vector<fVec3> &positions) {
         if (n == 0) {
             auto cube = generateCube();
             for (auto &v: cube) {
