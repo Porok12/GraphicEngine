@@ -16,9 +16,9 @@ MainWindow::MainWindow(int width, int height, const char* title)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_SAMPLES, 4);
+    glfwSetErrorCallback(MainWindow::errorCallback);
 
     window = SmartWindow(glfwCreateWindow(width, height, title, nullptr, nullptr));
-    glfwSetWindowSizeLimits(window.get(), MIN_WIDTH, MIN_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
@@ -26,6 +26,7 @@ MainWindow::MainWindow(int width, int height, const char* title)
         throw InitException();
     }
 
+    glfwSetWindowSizeLimits(window.get(), MIN_WIDTH, MIN_HEIGHT, GLFW_DONT_CARE, GLFW_DONT_CARE);
     glfwMakeContextCurrent(window.get());
 
     glewExperimental = GL_TRUE;
@@ -46,7 +47,6 @@ MainWindow::MainWindow(int width, int height, const char* title)
     glCullFace(GL_FRONT);
     glFrontFace(GL_CW);
 
-    glfwSetErrorCallback(MainWindow::errorCallback);
     glfwSetFramebufferSizeCallback(window.get(), MainWindow::onResize);
     glfwSetWindowSizeCallback(window.get(), [](GLFWwindow* window, int w, int h){glViewport(0, 0, w, h);});
     glfwSetMouseButtonCallback(window.get(), InputHandler::mouseButtonCallback);
