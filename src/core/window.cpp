@@ -8,9 +8,12 @@ MainWindow::MainWindow(int width, int height, const char* title)
         : MIN_WIDTH(800), MIN_HEIGHT(600) {
 
     if (!glfwInit()) {
-        std::cerr << "Failed to initialize GLFW" << std::endl;
+        std::cerr << "(" << glfwGetError(nullptr) << ") Failed to initialize GLFW" << std::endl;
         throw InitException();
     }
+
+    const char* version = glfwGetVersionString();
+    std::cout << "Version of the running library: " << version << std::endl;
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -60,6 +63,9 @@ MainWindow::MainWindow(int width, int height, const char* title)
 }
 
 MainWindow::~MainWindow() {
+    if (window) {
+        glfwDestroyWindow(window.get());
+    }
     glfwTerminate();
 }
 

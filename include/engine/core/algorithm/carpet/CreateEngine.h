@@ -6,15 +6,19 @@
 
 class ModelGenerator {
 private:
+    const float sqrt3_2 = std::sqrt(3) / 2;
+    const float sqrt6_3 = std::sqrt(6) / 3;
+
     std::vector<Vertex> vertices;
+    std::vector<fVec3> positions;
 public:
-    std::vector<Vertex> generateCube();
-    std::vector<Vertex> generatePyramid();
+    std::vector<Vertex> generateCube(float a);
+    std::vector<Vertex> generatePyramid(float a);
     Model fromVertices(const std::vector<Vertex> &vertices);
 
     void iMenger2(int n, float x, float y, float z, float d, vector<Vertex> &vCubes, vector<fVec3> &positions) {
         if (n == 0) {
-            auto cube = generateCube();
+            auto cube = generateCube(0);
             for (auto &v: cube) {
                 v.Position *= d;
             }
@@ -37,7 +41,7 @@ public:
 
     void menger(int n, float x, float y, float z, float d, std::vector<std::vector<Vertex>> &vCubes) {
         if (n == 0) {
-            auto cube = generateCube();
+            auto cube = generateCube(0);
             for (auto &v: cube) {
                 v.Position *= d;
             }
@@ -65,7 +69,7 @@ public:
 
     void pyramid(int n, float x, float y, float z, float d, std::vector<std::vector<Vertex>> &vCubes) {
         if (n == 0) {
-            auto cube = generatePyramid();
+            auto cube = generatePyramid(0);
             for (auto &v: cube) {
                 v.Position *= d;
             }
@@ -88,7 +92,7 @@ public:
 
     void iMenger(int n, float x, float y, float z, float d, std::vector<Vertex> &vCubes, std::vector<fVec3> &positions) {
         if (n == 0) {
-            auto cube = generateCube();
+            auto cube = generateCube(d);
             for (auto &v: cube) {
                 v.Position *= d;
             }
@@ -111,22 +115,18 @@ public:
 
     void iPyramid(int n, float x, float y, float z, float d, vector<Vertex> &vCubes, vector<fVec3> &positions) {
         if (n == 0) {
-            auto cube = generatePyramid();
-            for (auto &v: cube) {
-                v.Position *= d;
-            }
-
+            auto pyramid = generatePyramid(d);
             positions.emplace_back(x, y, z);
-            vCubes = std::move(cube);
+            vCubes = std::move(pyramid);
 
         } else {
-            float s3 = std::sqrt(3) / 2;
-            float half = d/2;
-            float h = 2*std::sqrt(half*half - (2/3 * half*s3));
-            iPyramid(n-1, x+half, y, z, half, vCubes, positions);
-            iPyramid(n-1, x, y, z-d*s3, half, vCubes, positions);
-            iPyramid(n-1, x-half, y, z, half, vCubes, positions);
-            iPyramid(n-1, x, y+h, z-half*s3*2/3, half, vCubes, positions);
+            float a = d/2;
+            float hp = a * sqrt3_2;
+            float h = a * sqrt6_3;
+            iPyramid(n-1, x+a/2, y, z, a, vCubes, positions);
+            iPyramid(n-1, x, y, z-hp, a, vCubes, positions);
+            iPyramid(n-1, x-a/2, y, z, a, vCubes, positions);
+            iPyramid(n-1, x, y+h, z-hp/3, a, vCubes, positions);
         }
     }
 };

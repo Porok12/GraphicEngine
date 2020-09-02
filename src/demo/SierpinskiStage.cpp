@@ -204,17 +204,17 @@ void SierpinskiStage::updateMesh() {
     switch (algorithmSelect) {
         case 0: {
             maxIterations = 12;
-            modelGenerator.iPyramid(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            modelGenerator.iPyramid(algorithmIterations, 0, 0, 0, 4, iVertices, positions);
             break;
         }
         case 1: {
             maxIterations = 6;
-            modelGenerator.iMenger(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            modelGenerator.iMenger(algorithmIterations, 0, 0, 0, 1, iVertices, positions);
             break;
         }
         case 2: {
             maxIterations = 8;
-            modelGenerator.iMenger2(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            modelGenerator.iMenger2(algorithmIterations, 0, 0, 0, 1, iVertices, positions);
             break;
         }
     }
