@@ -173,10 +173,8 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
     for(int i = 0; i < 128; i++) {
         fps += buffer[i];
     }
-    fps /= 128;
-    if (iter < 128) {
-        fps = 1 / dt;
-    }
+
+    fps /= (iter < 128) ? iter : 128;
 
     fpsMax = (fpsMax < fps) ? fps : fpsMax;
     fpsMin = (fpsMin > fps) ? fps : fpsMin;
