@@ -9,6 +9,7 @@
 #include <engine/core/light/DirectionalLight.h>
 #include <engine/core/models/InstancedModel.h>
 #include <engine/core/light/PointLight.h>
+#include <engine/core/light/SpotLight.h>
 
 class SierpinskiStage : public UIStage {
 private:
@@ -21,6 +22,7 @@ private:
     InstancedModel iCube;
     DirectionalLight dirLight;
     PointLight pointLight;
+    SpotLight spotLight;
     fVec3 tmp;
     float tmpLoad = 0;
     float fps;

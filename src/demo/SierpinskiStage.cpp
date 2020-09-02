@@ -12,7 +12,8 @@ std::shared_ptr<SierpinskiStage> SierpinskiStage::instance = nullptr;
 
 SierpinskiStage::SierpinskiStage() :
         dirLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(-0.2f, -1.0f, -0.5f)),
-        pointLight(fVec3(1.0f), fVec3(1.0f), fVec3(1.0f), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f)
+        pointLight(fVec3(1.0f), fVec3(1.0f), fVec3(1.0f), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
+        spotLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(0), fVec3(0), 0.91f, 0.82f, 1.0f, 0.07f, 0.017f)
 {
     auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 300);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
@@ -132,15 +133,35 @@ void light(ShaderProgram *program, std::string name, PointLight pointLight) {
     program->set3f(name+".specular", pointLight.getSpecular());
 }
 
+void light(ShaderProgram *program, std::string name, SpotLight spotLight) {
+    program->set3f(name+".position", spotLight.getPosition());
+    program->set3f(name+".direction", spotLight.getDirection());
+    program->set1f(name+".cutOff", spotLight.getCutOff());
+    program->set1f(name+".outerCutOff", spotLight.getOuterCutOff());
+    program->set1f(name+".constant", spotLight.getConstant());
+    program->set1f(name+".linear", spotLight.getLinear());
+    program->set1f(name+".quadratic", spotLight.getQuadratic());
+    program->set3f(name+".ambient", spotLight.getAmbient());
+    program->set3f(name+".diffuse", spotLight.getDiffuse());
+    program->set3f(name+".specular", spotLight.getSpecular());
+}
+
 void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
     Mat4 view = camera.getViewMatrix();
     Mat4 mm = Mat4::identity();
-    mm = Mat4::translate(0, 0, -4) * mm;
+    mm = Mat4::translate(0, 0, -8) * mm;
 
-    tmpLoad += dt * 0.4;
-    tmp.x = 1.2 * std::sin(tmpLoad);
-    tmp.z = -4.0;
-    pointLight.setPosition(tmp);
+//    tmpLoad += dt * 0.4;
+//    tmp.x = 1.2 * std::sin(tmpLoad);
+//    tmp.z = -4.0;
+//    pointLight.setPosition(tmp);
+
+    dirLight.setSpecular(fVec3(0.3));
+    dirLight.setAmbient(fVec3(0.3));
+    dirLight.setDiffuse(fVec3(0.3));
+
+    spotLight.setPosition(camera.getPos());
+    spotLight.setDirection(camera.getFront());
 
     program->use();
     Material material = YELLOW_PLASTIC;
@@ -151,11 +172,12 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
     program->set3f("viewPos", camera.getPos());
 
     program->set1b("dir", true);
-    program->set1b("point", true);
-    program->set1b("spot", false);
+    program->set1b("point", false);
+    program->set1b("spot", true);
 
     light(program.get(), "dirLight", dirLight);
-    light(program.get(), "pointLight", pointLight);
+//    light(program.get(), "pointLight", pointLight);
+    light(program.get(), "spotLight", spotLight);
 
 
     ModelRenderer::getInstance()->setModel(mm);
@@ -202,17 +224,17 @@ void SierpinskiStage::updateMesh() {
     switch (algorithmSelect) {
         case 0: {
             maxIterations = 12;
-            modelGenerator.iPyramid(algorithmIterations, 0, 0, 0, 4, iVertices, positions);
+            modelGenerator.iPyramid(algorithmIterations, 0, 0, 0, 8, iVertices, positions);
             break;
         }
         case 1: {
             maxIterations = 6;
-            modelGenerator.iMenger(algorithmIterations, 0, 0, 0, 1, iVertices, positions);
+            modelGenerator.iMenger(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
             break;
         }
         case 2: {
             maxIterations = 8;
-            modelGenerator.iMenger2(algorithmIterations, 0, 0, 0, 1, iVertices, positions);
+            modelGenerator.iMenger2(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
             break;
         }
     }
