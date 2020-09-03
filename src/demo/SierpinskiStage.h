@@ -29,7 +29,8 @@ private:
     float fpsMax = 0;
     float fpsMin = 100;
     int iter = 0, algorithmIterations = 0, algorithmSelect = 0, maxIterations;
-    float buffer[128]{};
+    float buffer = 0, minMaxBuffer = 0;
+    int frames = 0;
 
     std::shared_ptr<UIComponent> minLabel, maxLabel, fpsLabel, iterLabel;
     void updateMesh();

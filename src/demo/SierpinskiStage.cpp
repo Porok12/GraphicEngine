@@ -185,18 +185,21 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
 //    ModelRenderer::getInstance()->render(cube, *program);
     ModelRenderer::getInstance()->render(iCube, *program);
 
-    if (!(iter%1024)) {
+    buffer += dt;
+    minMaxBuffer += dt;
+    frames++;
+
+    if (buffer >= 1.0) {
+        fps = frames;
+        buffer = 0;
+        frames = 0;
+    }
+
+    if (minMaxBuffer >= 10.0) {
+        minMaxBuffer = 0;
         fpsMax = 0;
         fpsMin = 100;
     }
-
-    buffer[iter++%128] = 1 / dt;
-    fps = 0;
-    for(int i = 0; i < 128; i++) {
-        fps += buffer[i];
-    }
-
-    fps /= (iter < 128) ? iter : 128;
 
     fpsMax = (fpsMax < fps) ? fps : fpsMax;
     fpsMin = (fpsMin > fps) ? fps : fpsMin;
