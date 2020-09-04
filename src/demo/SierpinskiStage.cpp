@@ -39,6 +39,7 @@ SierpinskiStage::SierpinskiStage() :
         composite2->add(component);
 
         std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
+        std::dynamic_pointer_cast<UILabel>(label)->setColor(iVec3(255, 0, 0));
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(50))
                                       ->setY(new FixedConstraint(-25)));
@@ -46,6 +47,7 @@ SierpinskiStage::SierpinskiStage() :
         minLabel = label;
 
         label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
+        std::dynamic_pointer_cast<UILabel>(label)->setColor(iVec3(0, 255, 0));
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(50))
                                       ->setY(new FixedConstraint(-50)));
@@ -53,6 +55,7 @@ SierpinskiStage::SierpinskiStage() :
         maxLabel = label;
 
         label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
+        std::dynamic_pointer_cast<UILabel>(label)->setColor(iVec3(255, 255, 255));
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(50))
                                       ->setY(new FixedConstraint(-75)));
@@ -206,17 +209,15 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
 
     static std::stringstream ss;
     ss.str(std::string());
-    if (fps < 10.0) {
-        ss << "0";
-    }
-    ss << (int)fps << " FPS";
-    std::dynamic_pointer_cast<UILabel>(fpsLabel)->setText(ss.str());
-    ss.str(std::string());
     ss << (int)fpsMin << " FPS";
     std::dynamic_pointer_cast<UILabel>(minLabel)->setText(ss.str());
     ss.str(std::string());
     ss << (int)fpsMax << " FPS";
     std::dynamic_pointer_cast<UILabel>(maxLabel)->setText(ss.str());
+    ss.str(std::string());
+    if (fps < 10.0) ss << "0";
+    ss << (int)fps << " FPS";
+    std::dynamic_pointer_cast<UILabel>(fpsLabel)->setText(ss.str());
 }
 
 void SierpinskiStage::updateMesh() {

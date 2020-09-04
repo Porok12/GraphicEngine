@@ -9,6 +9,7 @@
 class UILabel : public UIComponent {
 private:
     std::string text;
+    std::unique_ptr<iVec3> color;
 public:
     UILabel(std::string text, int x, int y)
             : UIComponent(std::make_shared<Rectangle>(x, y, 0, 0)) {
@@ -22,6 +23,8 @@ public:
     void cursor(const double &x, const double &y) override;
 
     void setText(const std::string &text);
+
+    void setColor(const iVec3 color);
 };
 
 #endif // UILABEL_H
