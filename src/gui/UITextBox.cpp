@@ -6,6 +6,7 @@ UITextBox::UITextBox(const std::shared_ptr<Shape> &shape) : UIComponent(shape) {
             std::string s(1, character);
             char const *pchar = s.c_str();
             text.append(pchar);
+            if (onchangeFun) onchangeFun(text);
         }
     });
 
@@ -14,6 +15,7 @@ UITextBox::UITextBox(const std::shared_ptr<Shape> &shape) : UIComponent(shape) {
             if (key == GLFW_KEY_BACKSPACE) {
                 if (!text.empty()) {
                     text.pop_back();
+                    if (onchangeFun) onchangeFun(text);
                 }
             }
         }
@@ -48,4 +50,16 @@ void UITextBox::draw() {
             .setScale(0.5f)
             .setTextBox(shape->getTextBox())
             .render(text);
+}
+
+std::string UITextBox::getText() const {
+    return text;
+}
+
+void UITextBox::setText(std::string text) {
+    this->text = std::move(text);
+}
+
+void UITextBox::addListener(UITextBox::onchange fun) {
+    this->onchangeFun = std::move(fun);
 }

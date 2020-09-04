@@ -8,11 +8,13 @@
 #include "engine/core/InputHandler.h"
 
 class UITextBox : public UIComponent {
+    using onchange = std::function<void (std::string)>;
 private:
     bool active = false;
     int maxSize = 10;
     std::string text = "TextBox";
     fVec3 backgroundColor = fVec3(0.5f);
+    onchange onchangeFun;
 public:
     UITextBox(const std::shared_ptr<Shape> &shape);
     UITextBox(int x, int y, int w, int h);
@@ -22,6 +24,10 @@ public:
     void cursor(const double &x, const double &y) override;
 
     void draw() override;
+
+    std::string getText() const;
+    void setText(std::string text);
+    void addListener(onchange fun);
 };
 
 #endif // UITEXTBOX_H

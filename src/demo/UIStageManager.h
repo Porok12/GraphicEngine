@@ -14,6 +14,7 @@
 #include "DitheringStage.h"
 #include "BresenhamStage.h"
 #include "SierpinskiStage.h"
+#include "ComboStage.h"
 
 enum Stages {
     MENU,
@@ -25,7 +26,8 @@ enum Stages {
     BLUR,
     DITHERING,
     BRESENHAM,
-    SIERPINSKI
+    SIERPINSKI,
+    COMBO
 };
 
 class UIStageManager {

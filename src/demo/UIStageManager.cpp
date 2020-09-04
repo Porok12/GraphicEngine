@@ -11,6 +11,7 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
     MenuStage::getInstance()->setCcc([this](){this->setStage(Stages::DITHERING);});
     MenuStage::getInstance()->setEee([this](){this->setStage(Stages::BRESENHAM);});
     MenuStage::getInstance()->setFff([this](){this->setStage(Stages::SIERPINSKI);});
+    MenuStage::getInstance()->setGgg([this](std::string text){if(text=="Aga")this->setStage(Stages::COMBO);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
@@ -21,6 +22,7 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
     DitheringStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     BresenhamStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     SierpinskiStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
+    ComboStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
 
     this->camera = camera;
 }
@@ -58,6 +60,9 @@ void UIStageManager::setStage(Stages stage) {
             break;
         case SIERPINSKI:
             rootUI = SierpinskiStage::getInstance();
+            break;
+        case COMBO:
+            rootUI = ComboStage::getInstance();
             break;
     }
 

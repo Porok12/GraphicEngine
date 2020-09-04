@@ -3,15 +3,13 @@
 
 #include <memory>
 #include <engine/core/models/ModelRenderer.h>
-#include <engine/core/particles/ParticleGenerator.h>
-#include <engine/core/particles/ParticleRenderer.h>
 #include <engine/core/models/Model.h>
 #include <engine/core/light/PointLight.h>
 #include <engine/core/light/DirectionalLight.h>
 #include <engine/core/light/SpotLight.h>
-#include "engine/gui/UIStage.h"
-#include "engine/gui/UIFrameDecorator.h"
-#include "engine/gui/UIButton.h"
+#include <engine/gui/UIStage.h>
+#include <engine/gui/UIFrameDecorator.h>
+#include <engine/gui/UIButton.h>
 
 class LightStage : public UIStage {
 private:
