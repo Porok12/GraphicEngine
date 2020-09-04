@@ -11,9 +11,6 @@ set(GUI_SRCS
         ${CMAKE_SOURCE_DIR}/src/gui/UIStage.cpp
         ${CMAKE_SOURCE_DIR}/src/gui/UITextBox.cpp
 
-#        ${CMAKE_SOURCE_DIR}/src/gui/Utils/Utils.h
         ${CMAKE_SOURCE_DIR}/src/gui/Utils/Constraint.cpp
 
-#        ${CMAKE_SOURCE_DIR}/src/gui/Primitives/PrimitiveRenderer.h
-        ${CMAKE_SOURCE_DIR}/src/gui/Primitives/PrimitiveRenderer.cpp
-        )
+        ${CMAKE_SOURCE_DIR}/src/gui/Primitives/PrimitiveRenderer.cpp)

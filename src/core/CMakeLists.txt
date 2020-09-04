@@ -6,7 +6,6 @@ set(CORE_SRCS
 
         ${CMAKE_SOURCE_DIR}/src/core/utils/ResourceLoader.cpp
 
-#        ${CMAKE_SOURCE_DIR}/src/core/text/Character.h
         ${CMAKE_SOURCE_DIR}/src/core/text/Font.cpp
         ${CMAKE_SOURCE_DIR}/src/core/text/FontLoader.cpp
         ${CMAKE_SOURCE_DIR}/src/core/text/FontRenderer.cpp
@@ -19,7 +18,6 @@ set(CORE_SRCS
         ${CMAKE_SOURCE_DIR}/src/core/particles/ParticleRenderer.cpp
         ${CMAKE_SOURCE_DIR}/src/core/particles/ParticleGenerator.cpp
 
-#        ${CMAKE_SOURCE_DIR}/src/core/models/Mesh.h
         ${CMAKE_SOURCE_DIR}/src/core/models/Mesh.cpp
         ${CMAKE_SOURCE_DIR}/src/core/models/Model.cpp
         ${CMAKE_SOURCE_DIR}/src/core/models/ModelRenderer.cpp
@@ -40,13 +38,6 @@ set(CORE_SRCS
 
         ${CMAKE_SOURCE_DIR}/src/core/algorithm/Rasterisation/Bresenham.cpp
 
-#        ${CMAKE_SOURCE_DIR}/src/core/definitions.h
-#        ${CMAKE_SOURCE_DIR}/src/core/definitions.cpp
-#        ${CMAKE_SOURCE_DIR}/src/core/InputHandler.h
-#        ${CMAKE_SOURCE_DIR}/src/core/window.h
-
         ${CMAKE_SOURCE_DIR}/src/core/algorithm/VertexGenerator.cpp
         ${CMAKE_SOURCE_DIR}/src/core/models/InstancedMesh.cpp
-        ${CMAKE_SOURCE_DIR}/src/core/models/InstancedModel.cpp
-#        ${CMAKE_SOURCE_DIR}/src/core/models/InstancedRenderer.cpp
-        )
+        ${CMAKE_SOURCE_DIR}/src/core/models/InstancedModel.cpp)
