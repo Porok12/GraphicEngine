@@ -151,10 +151,10 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/
         COMPONENT headers)
 
-add_custom_command(TARGET GraphicEngine PRE_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/res
-        $<TARGET_FILE_DIR:GraphicEngine>/../res)
+#add_custom_command(TARGET GraphicEngine PRE_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory
+#        ${CMAKE_SOURCE_DIR}/res
+#        $<TARGET_FILE_DIR:GraphicEngine>/../res)
 
 #target_link_libraries(${tgt} PRIVATE ${PostgreSQL_LIBRARIES})
 #if(WIN32)
