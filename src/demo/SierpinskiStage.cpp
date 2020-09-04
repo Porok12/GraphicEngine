@@ -2,7 +2,7 @@
 #include <engine/gui/UISelectBox.h>
 #include <engine/gui/UIFrameDecorator.h>
 #include <engine/core/models/Model.h>
-#include <engine/core/algorithm/carpet/CreateEngine.h>
+#include <engine/core/algorithm/VertexGenerator.h>
 #include <engine/core/models/ModelRenderer.h>
 #include <engine/core/light/Materials.h>
 #include <engine/gui/UILabel.h>
@@ -220,24 +220,24 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
 }
 
 void SierpinskiStage::updateMesh() {
-    ModelGenerator modelGenerator;
+    VertexGenerator modelGenerator;
     std::vector<Vertex> iVertices;
     std::vector<fVec3> positions;
 
     switch (algorithmSelect) {
         case 0: {
             maxIterations = 12;
-            modelGenerator.iPyramid(algorithmIterations, 0, 0, 0, 8, iVertices, positions);
+            modelGenerator.instancedPyramid(algorithmIterations, 0, 0, 0, 8, iVertices, positions);
             break;
         }
         case 1: {
             maxIterations = 6;
-            modelGenerator.iMenger(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            modelGenerator.instancedMenger(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
             break;
         }
         case 2: {
             maxIterations = 8;
-            modelGenerator.iMenger2(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
+            modelGenerator.instancedSnowflake(algorithmIterations, 0, 0, 0, 2, iVertices, positions);
             break;
         }
     }

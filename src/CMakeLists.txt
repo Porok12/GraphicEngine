@@ -64,7 +64,7 @@ set( PUBLIC_HEADERS
         ${HEADER_PATH}/core/algorithm/palette/Octree.h
         ${HEADER_PATH}/core/algorithm/palette/PaletteAlghorithm.h
         ${HEADER_PATH}/core/algorithm/Rasterisation/Bresenham.h
-        ${HEADER_PATH}/core/algorithm/carpet/CreateEngine.h
+        ${HEADER_PATH}/core/algorithm/VertexGenerator.h
 
         ${HEADER_PATH}/core/models/Mesh.h
         ${HEADER_PATH}/core/models/InstancedMesh.h
