@@ -17,9 +17,9 @@ MainWindow::MainWindow(int width, int height, const char* title)
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE); //GLFW_OPENGL_ANY_PROFILE
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE); // GLFW_OPENGL_COMPAT_PROFILE
+//    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+//    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
     glfwWindowHint(GLFW_SAMPLES, 4);
     glfwSetErrorCallback(MainWindow::errorCallback);
 

@@ -126,13 +126,15 @@ BresenhamStage::BresenhamStage()
                 ray_origin.y = -ray_origin.y;
             }
 
-            fVec3 normal(0, 0, 1);
-            fVec3 center(0, 0, -8);
-
+            static fVec3 normal(0, 0, 1); //Temporary
+            static fVec3 center(0, 0, -8); //Temporary
             fVec3 point(0);
+
+            //std::cout << ray_origin.x << " " << ray_origin.y << " " << ray_origin.z
+            //          << std::endl;
             if (Raycaster::raycastPlane(ray_origin, ray_wor, normal, center, point)) {
-                int x = (2.0 - (1.0 + point.y / 5)) * CANVAS_WIDTH / 2;
-                int y = (2.0 - (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2;
+                auto x = static_cast<int>((2.0 - (1.0 + point.y / 5)) * CANVAS_WIDTH / 2);
+                auto y = static_cast<int>((2.0 - (1.0 + point.x / 5)) * CANVAS_HEIGHT / 2);
 
                 if (x > 0 && x < CANVAS_WIDTH && y > 0 && y < CANVAS_HEIGHT) {
                     startPoint.x = x;
@@ -198,6 +200,7 @@ void BresenhamStage::renderContent(FreeCamera &camera, double dt) {
     if (!cam) {
         cam = std::shared_ptr<FreeCamera>(&camera);
     }
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
 

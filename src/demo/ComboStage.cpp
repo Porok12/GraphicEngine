@@ -3,8 +3,8 @@
 std::shared_ptr<ComboStage> ComboStage::instance = nullptr;
 
 ComboStage::ComboStage()
-        : dirLight(fVec3(0.02), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)),
-          pointLight(fVec3(0.1), fVec3(1), fVec3(1), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f) {
+        : dirLight(fVec3(0.3), fVec3(1), fVec3(1), fVec3(-0.2f, -1.0f, -0.5f)),
+          pointLight(fVec3(0.1), fVec3(0.8), fVec3(0.8), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f) {
     texSnowFlakes = ResourceLoader::loadTexture("SnowFlakes.png");
 
     auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 120);

@@ -30,7 +30,6 @@ ParticleStage::ParticleStage() {
 
     composite2->update(800, 600);
     rootComponent = composite2;
-    changeGenerator(0);
 }
 
 void ParticleStage::renderUI() {
@@ -54,6 +53,8 @@ const std::shared_ptr<ParticleStage> &ParticleStage::getInstance() {
     if (!instance) {
         instance = std::shared_ptr<ParticleStage>(new ParticleStage);
     }
+
+    instance->changeGenerator(0);
 
     return instance;
 }

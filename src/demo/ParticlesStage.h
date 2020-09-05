@@ -4,10 +4,10 @@
 #include <memory>
 #include <engine/core/particles/ParticleGenerator.h>
 #include <engine/core/particles/ParticleRenderer.h>
-#include "engine/gui/UIStage.h"
-#include "engine/gui/UIFrameDecorator.h"
-#include "engine/gui/UIButton.h"
-#include "engine/gui/UISelectBox.h"
+#include <engine/gui/UIStage.h>
+#include <engine/gui/UIFrameDecorator.h>
+#include <engine/gui/UIButton.h>
+#include <engine/gui/UISelectBox.h>
 
 class ParticleStage : public UIStage {
 private:

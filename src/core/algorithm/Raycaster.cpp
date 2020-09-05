@@ -1,4 +1,4 @@
-#include "engine/core/algorithm/Raycaster.h"
+#include <engine/core/algorithm/Raycaster.h>
 
 GLint Raycaster::data[4];
 double Raycaster::x, Raycaster::y, Raycaster::z;
@@ -6,7 +6,7 @@ double Raycaster::x, Raycaster::y, Raycaster::z;
 bool Raycaster::raycastPlane(const fVec3 &rayOrigin, const fVec3 &rayDirection, const fVec3 &normal, const fVec3 &center, fVec3 &hit) {
     float denom = normal.dot(rayDirection);
 
-    if (abs(denom) > 0.0001f) {
+    if (std::fabs(denom) > 0.0001f) {
         float t = (center - rayOrigin).dot(normal) / denom;
         if (t > 0) { // 0 - behind
             fVec3 tmp = rayOrigin + rayDirection * t;
