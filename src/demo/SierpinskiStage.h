@@ -32,7 +32,7 @@ private:
     float buffer = 0, minMaxBuffer = 0;
     int frames = 0;
 
-    std::shared_ptr<UIComponent> minLabel, maxLabel, fpsLabel, iterLabel;
+    std::shared_ptr<UIComponent> minLabel, maxLabel, fpsLabel, iterLabel, meshesLabel;
     void updateMesh();
 
 public:

@@ -69,6 +69,13 @@ SierpinskiStage::SierpinskiStage() :
         composite2->add(label);
         iterLabel = label;
 
+        label = std::make_shared<UILabel>("1 instances", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new CenterConstraint())
+                                      ->setY(new FixedConstraint(-100)));
+        composite2->add(label);
+        meshesLabel = label;
+
         component.reset(new UIButton("<", 40, 40, 40, 40));
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new FixedConstraint(10))
@@ -215,7 +222,7 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
     ss << (int)fpsMax << " FPS";
     std::dynamic_pointer_cast<UILabel>(maxLabel)->setText(ss.str());
     ss.str(std::string());
-    if (fps < 10.0) ss << "0";
+//    if (fps < 10.0) ss << "0";
     ss << (int)fps << " FPS";
     std::dynamic_pointer_cast<UILabel>(fpsLabel)->setText(ss.str());
 }
@@ -247,4 +254,5 @@ void SierpinskiStage::updateMesh() {
     iMesh.loadMesh(iVertices);
     iMesh.setPositions(positions);
     iCube.loadMesh(iMesh);
+    std::dynamic_pointer_cast<UILabel>(meshesLabel)->setText(std::to_string(positions.size()) + " instances");
 }
