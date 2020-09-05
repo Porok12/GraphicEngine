@@ -75,6 +75,8 @@ MenuStage::MenuStage() {
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new FixedConstraint(10))
                                           ->setY(new FixedConstraint(10)));
+        temp10 = component;
+
         menuStage->add(component);
     }
 
