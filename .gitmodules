@@ -1,0 +1,15 @@
+[submodule "contrib/assimp"]
+	path = contrib/assimp
+	url = https://github.com/assimp/assimp
+[submodule "contrib/freetype"]
+	path = contrib/freetype
+	url = https://github.com/winlibs/freetype.git
+[submodule "contrib/glew-cmake"]
+	path = contrib/glew-cmake
+	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "contrib/glfw"]
+	path = contrib/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "contrib/soil"]
+	path = contrib/soil
+	url = https://github.com/Porok12/soil
