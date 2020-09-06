@@ -12,6 +12,7 @@ UIStageManager::UIStageManager(const std::shared_ptr<FreeCamera> &camera)
     MenuStage::getInstance()->setEee([this](){this->setStage(Stages::BRESENHAM);});
     MenuStage::getInstance()->setFff([this](){this->setStage(Stages::SIERPINSKI);});
     MenuStage::getInstance()->setGgg([this](std::string text){if(text=="Aga")this->setStage(Stages::COMBO);});
+    MenuStage::getInstance()->setHhh([this](){this->setStage(Stages::COMBO);});
 
     MeshStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});
     ParticleStage::getInstance()->setXxx([this](){this->setStage(Stages::MENU);});

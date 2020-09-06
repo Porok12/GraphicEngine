@@ -18,7 +18,7 @@ ComboStage::ComboStage()
     }
 
     model.enableBumpMapping(true);
-    model.loadModel(ResourceLoader::getPath("snowman/snowman.obj", MODEL));
+    model.loadModel(ResourceLoader::getPath("snowman.obj", MODEL));
 
     plane.enableBumpMapping(true);
     plane.loadModel(ResourceLoader::getPath("untitled.obj", MODEL));
@@ -78,28 +78,28 @@ void ComboStage::changeGenerator(int i) {
             particleGenerator = std::unique_ptr<ParticleGenerator>(
                     ParticleGenerator::getBuilder()
                             .setTexture(texSnowFlakes)
-                            .setLifeTime(3.5)
+                            .setLifeTime(3.0)
                             .setPosition(fVec3(-2.5, 2.9, -3.0-4), fVec3(2.5, 3.5, 1.0-4))
                             .setVelocity(fVec3(-1.0, -8.0, -1.0), fVec3(1.0, -3.0, 1.0))
                             .setSelect(4)
-                            .setSize(0.1, 0.4)
-                            .setSpawnRate(0.1)
-                            .setLimit(30)
+                            .setSize(0.02, 0.1)
+                            .setSpawnRate(0.05)
+                            .setLimit(100)
                             .setUpdate([](double dt, const std::vector<std::shared_ptr<Particle>> &particles){
                                 static std::time_t now = std::time(0);
                                 static boost::random::mt19937 gen{static_cast<std::uint32_t>(now)};
 
                                 boost::random::uniform_real_distribution<> dist{-1, 1};
                                 fVec3 wind = fVec3(0);
-                                if (dist(gen) < -0.8) {
-                                    wind.y = dist(gen) * 20;
-                                    wind.x = dist(gen) * 80;
-                                    wind.z = dist(gen) * 80;
+                                if (dist(gen) < -0.85) {
+                                    wind.y = dist(gen) * 10;
+                                    wind.x = dist(gen) * 40;
+                                    wind.z = dist(gen) * 40;
                                 }
 
                                 for (auto &p: particles) {
                                     p->LifeTime -= dt;
-                                    p->Velocity += fVec3(dist(gen), -9.81f, dist(gen)) * dt * 0.02f + wind * dt;
+                                    p->Velocity += fVec3(dist(gen), -9.81f, dist(gen)) * dt * 0.001f + wind * dt;
                                     p->Position += p->Velocity * dt * 0.4;
                                 }
                             }).buildPtr());

@@ -13,7 +13,7 @@
 
 class MenuStage : public UIStage {
 private:
-    std::shared_ptr<UIComponent> temp, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10;
+    std::shared_ptr<UIComponent> temp, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10, temp11;
     static std::shared_ptr<MenuStage> instance;
     MenuStage();
 
@@ -61,6 +61,10 @@ public:
 
     void setGgg(std::function<void (std::string)> fun) {
         std::dynamic_pointer_cast<UITextBox>(temp10)->addListener(fun);
+    }
+
+    void setHhh(std::function<void ()> fun) {
+        std::dynamic_pointer_cast<UIButton>(temp11)->addClickCallback(fun);
     }
 };
 

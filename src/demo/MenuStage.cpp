@@ -12,63 +12,70 @@ MenuStage::MenuStage() {
         temp = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(50)));
+                                          ->setY(new FixedConstraint(10)));
         menuStage->add(component);
 
         component.reset(new UIButton("Particles demo", 375, 110, 250, 50));
         temp2 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(110)));
+                                          ->setY(new FixedConstraint(70)));
         menuStage->add(component);
 
         component.reset(new UIButton("Shading demo", 375, 170, 250, 50));
         temp3 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(170)));
+                                          ->setY(new FixedConstraint(130)));
         menuStage->add(component);
 
         component.reset(new UIButton("Light demo", 375, 230, 250, 50));
         temp4 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(230)));
+                                          ->setY(new FixedConstraint(190)));
         menuStage->add(component);
 
         component.reset(new UIButton("Textures demo", 375, 290, 250, 50));
         temp5 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(290)));
+                                          ->setY(new FixedConstraint(250)));
         menuStage->add(component);
 
         component.reset(new UIButton("Blur demo", 375, 410, 250, 50));
         temp7 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(410)));
+                                          ->setY(new FixedConstraint(370)));
         menuStage->add(component);
       
         component.reset(new UIButton("Dithering demo", 375, 350, 250, 50));
         temp6 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(350)));
+                                          ->setY(new FixedConstraint(310)));
         menuStage->add(component);
 
         component.reset(new UIButton("Bresenham demo", 375, 470, 250, 50));
         temp8 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(470)));
+                                          ->setY(new FixedConstraint(430)));
         menuStage->add(component);
 
         component.reset(new UIButton("Sierpinski demo", 375, 470, 250, 50));
         temp9 = component;
         component->setConstraints((new RectangleConstraints())
                                           ->setX(new CenterConstraint())
-                                          ->setY(new FixedConstraint(530)));
+                                          ->setY(new FixedConstraint(490)));
+        menuStage->add(component);
+
+        component.reset(new UIButton("Simple winter scene", 375, 470, 250, 50));
+        temp11 = component;
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new CenterConstraint())
+                                          ->setY(new FixedConstraint(550)));
         menuStage->add(component);
 
         component.reset(new UITextBox(50, 400, 130, 50));
