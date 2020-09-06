@@ -4,9 +4,11 @@ Multiplatformowy silnik graficzny 3D wykonany w oparciu o OpenGL.
 ## Struktura katalogów
 
 	/src		Kod źródłowy
-	/libs		Biblioteki zewnętrzne
+	/contrib	Biblioteki zewnętrzne
 	/docs		Screenshoty
 	/test		Testy jednostkowe
+	/res		Zasoby
+	/include	Pliki nagłówkowe
 
 
 ## Demo
@@ -61,3 +63,16 @@ Za pomocą myszki można rysować kształty oraz wypełniać je kolorem (SCROLL 
 
 ![alt text](https://github.com/Porok12/GraphicEngine/blob/master/docs/demo8.gif?raw=true)
 
+#### Sierpinski
+To demo pozwala na renderowanie piramidy Sierpińskiego, kostki Mengera. 
+Ilość iteracji jest wybierana przez użytkownika. Wyłączenie menu (CTRL) pozwala na poruszanie się w przestrzeni (WSAD + myszka).
+
+![alt text](https://github.com/Porok12/GraphicEngine/blob/master/docs/demo9.gif?raw=true)
+
+## Budowanie projektu
+
+    cd <projekt>
+    mkdir build
+    cd build
+    cmake ..
+    make
