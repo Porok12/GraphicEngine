@@ -39,5 +39,5 @@ cmake-build-debug*/
 cmake-build-release*/
 
 build/
-!res/*/*.obj
+!res/**/*.obj
 !lib/**
