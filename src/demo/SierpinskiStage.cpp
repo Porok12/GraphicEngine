@@ -15,13 +15,14 @@ SierpinskiStage::SierpinskiStage() :
         pointLight(fVec3(1.0f), fVec3(1.0f), fVec3(1.0f), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
         spotLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(0), fVec3(0), 0.91f, 0.82f, 1.0f, 0.07f, 0.017f)
 {
-    auto rect2 = std::make_shared<Rectangle>(10, 10, 200, 300);
+    const int HEIGHT = 440;
+    auto rect2 = std::make_shared<Rectangle>(10, 10, 200, HEIGHT);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
         temp = component;
         component->setConstraints((new RectangleConstraints())
-                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(300 - 50 - 10)));
+                                          ->setX(new CenterConstraint)->setY(new FixedConstraint(HEIGHT - 50 - 10)));
         composite2->add(component);
 
         component = std::make_shared<UISelectBox>(10, 10, 150, 50);
@@ -103,6 +104,51 @@ SierpinskiStage::SierpinskiStage() :
             }
         });
         composite2->add(component);
+
+        component.reset(new UISlider(50, 500, 100, 20, 1, 90, 1));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(20))
+                                          ->setY(new FixedConstraint(250)));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+            x = f;
+        });
+        composite2->add(component);
+
+        component.reset(new UISlider(50, 500, 100, 20, 1, 90, 1));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(20))
+                                          ->setY(new FixedConstraint(280)));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+            y = f;
+        });
+        composite2->add(component);
+
+        component.reset(new UISlider(50, 500, 100, 20, 1, 90, 1));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(20))
+                                          ->setY(new FixedConstraint(310)));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+            z = f;
+        });
+        composite2->add(component);
+
+        label = std::make_shared<UILabel>("x", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(140))
+                                      ->setY(new FixedConstraint(258)));
+        composite2->add(label);
+
+        label = std::make_shared<UILabel>("y", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(140))
+                                      ->setY(new FixedConstraint(288)));
+        composite2->add(label);
+
+        label = std::make_shared<UILabel>("z", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(140))
+                                      ->setY(new FixedConstraint(318)));
+        composite2->add(label);
     }
 
     composite2->update(800, 600);
@@ -160,6 +206,10 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
     Mat4 view = camera.getViewMatrix();
     Mat4 mm = Mat4::identity();
     mm = Mat4::translate(0, 0, -8) * mm;
+    mm = Mat4::rotation(x, fVec3(1, 0, 0)) *
+         Mat4::rotation(y, fVec3(0, 1, 0)) *
+         Mat4::rotation(z, fVec3(0, 0, 1)) *
+         mm;
 
 //    tmpLoad += dt * 0.4;
 //    tmp.x = 1.2 * std::sin(tmpLoad);

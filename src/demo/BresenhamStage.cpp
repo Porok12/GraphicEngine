@@ -217,6 +217,8 @@ const std::shared_ptr<BresenhamStage> &BresenhamStage::getInstance() {
         instance = std::shared_ptr<BresenhamStage>(new BresenhamStage);
     }
 
+    instance->clear();
+
     return instance;
 }
 
@@ -240,4 +242,16 @@ void BresenhamStage::fillArea(iVec2 start) {
 
 void BresenhamStage::setFocus(bool focus) {
     this->focus = focus;
+}
+
+void BresenhamStage::clear() {
+    pixels.fill(255);
+    tmpPixels.fill(255);
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, CANVAS_WIDTH, CANVAS_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

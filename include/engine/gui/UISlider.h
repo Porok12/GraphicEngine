@@ -33,6 +33,7 @@ public:
         InputHandler::addMouseReleaseListner([this](const double &x, const double &y){
             action = false;
         });
+
         InputHandler::addMouseButtonListner([this](const double &x, const double &y){
             if (this->shape->contains(x, y)) {
                 action = true;
@@ -48,7 +49,7 @@ public:
             : UISlider(std::make_shared<Rectangle>(x, y, w, h)) {
         this->lBorder = l;
         this->rBorder = r;
-        this->step= s;
+        this->step = s;
     }
 
     void addClickCallback(std::function<void()> onClick);

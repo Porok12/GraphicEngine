@@ -6,6 +6,7 @@
 #include <engine/core/FreeCamera.h>
 #include <engine/gui/UIButton.h>
 #include <engine/gui/UIStage.h>
+#include <engine/gui/UISlider.h>
 #include <engine/core/light/DirectionalLight.h>
 #include <engine/core/models/InstancedModel.h>
 #include <engine/core/light/PointLight.h>
@@ -24,7 +25,7 @@ private:
     PointLight pointLight;
     SpotLight spotLight;
     fVec3 tmp;
-    float tmpLoad = 0;
+    float time = 0, x=1, y=1, z=1;
     float fps;
     float fpsMax = 0;
     float fpsMin = 100;

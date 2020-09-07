@@ -49,6 +49,7 @@ private:
     static std::shared_ptr<BresenhamStage> instance;
     BresenhamStage();
     void fillArea(iVec2 start);
+    void clear();
 
 public:
     static const std::shared_ptr<BresenhamStage> &getInstance();

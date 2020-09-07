@@ -80,7 +80,7 @@ void UISlider::updateSlider(double x) {
     float xPos = (float) x - shape->x;
 
     if (std::abs(slider->x - xPos) >= step * pixStep) {
-        float diff = (int) xPos % (int) (step * pixStep);
+        float diff = (int) xPos % (int) ((step * pixStep) < 1 ? 1 : (step * pixStep));
         slider->x = xPos - diff;
         if (onChange) {
             float f = slider->x / range->w;
