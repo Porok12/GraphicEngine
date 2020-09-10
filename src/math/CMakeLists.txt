@@ -1,8 +1,10 @@
+set(MATH_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+
 set(MATH_SRCS
-        ${CMAKE_SOURCE_DIR}/src/math/Matrix.cpp
-        ${CMAKE_SOURCE_DIR}/src/math/Mat4.cpp
-        ${CMAKE_SOURCE_DIR}/src/math/Vector.cpp
-        ${CMAKE_SOURCE_DIR}/src/math/Vec2.cpp
-        ${CMAKE_SOURCE_DIR}/src/math/Vec3.cpp
-        ${CMAKE_SOURCE_DIR}/src/math/Vec4.cpp
+        ${MATH_PATH}/math/Matrix.cpp
+        ${MATH_PATH}/math/Mat4.cpp
+        ${MATH_PATH}/math/Vector.cpp
+        ${MATH_PATH}/math/Vec2.cpp
+        ${MATH_PATH}/math/Vec3.cpp
+        ${MATH_PATH}/math/Vec4.cpp
         )

@@ -1,16 +1,18 @@
+set(GUI_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+
 set(GUI_SRCS
-        ${CMAKE_SOURCE_DIR}/src/gui/UIButton.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UICheckBox.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UIComposite.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UIFrame.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UIFrameDecorator.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UILabel.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UIRenderer.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UISelectBox.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UISlider.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UIStage.cpp
-        ${CMAKE_SOURCE_DIR}/src/gui/UITextBox.cpp
+        ${GUI_PATH}/gui/UIButton.cpp
+        ${GUI_PATH}/gui/UICheckBox.cpp
+        ${GUI_PATH}/gui/UIComposite.cpp
+        ${GUI_PATH}/gui/UIFrame.cpp
+        ${GUI_PATH}/gui/UIFrameDecorator.cpp
+        ${GUI_PATH}/gui/UILabel.cpp
+        ${GUI_PATH}/gui/UIRenderer.cpp
+        ${GUI_PATH}/gui/UISelectBox.cpp
+        ${GUI_PATH}/gui/UISlider.cpp
+        ${GUI_PATH}/gui/UIStage.cpp
+        ${GUI_PATH}/gui/UITextBox.cpp
 
-        ${CMAKE_SOURCE_DIR}/src/gui/Utils/Constraint.cpp
+        ${GUI_PATH}/gui/Utils/Constraint.cpp
 
-        ${CMAKE_SOURCE_DIR}/src/gui/Primitives/PrimitiveRenderer.cpp)
+        ${GUI_PATH}/gui/Primitives/PrimitiveRenderer.cpp)
