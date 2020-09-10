@@ -1,4 +1,4 @@
-set(CORE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(CORE_PATH ${GRAPHIC_ENGINE_SOURCE_DIR}/src)
 
 set(CORE_SRCS
         ${CORE_PATH}/core/window.cpp

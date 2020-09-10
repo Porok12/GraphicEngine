@@ -1,4 +1,4 @@
-set(GUI_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(GUI_PATH ${GRAPHIC_ENGINE_SOURCE_DIR}/src)
 
 set(GUI_SRCS
         ${GUI_PATH}/gui/UIButton.cpp

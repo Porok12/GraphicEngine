@@ -1,4 +1,4 @@
-set(MATH_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+set(MATH_PATH ${GRAPHIC_ENGINE_SOURCE_DIR}/src)
 
 set(MATH_SRCS
         ${MATH_PATH}/math/Matrix.cpp

@@ -35,6 +35,9 @@ if(OpenGL_FOUND)
     include_directories(${OPENGL_INCLUDE_DIRS})
 endif()
 
+set(GRAPHIC_ENGINE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+set(GRAPHIC_ENGINE_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
 include(contrib/CMakeLists.txt)
 
 add_subdirectory(src)
