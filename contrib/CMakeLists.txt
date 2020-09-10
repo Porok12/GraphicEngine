@@ -1,6 +1,6 @@
 message("CMAKE_CURRENT_LIST_DIR: ${CMAKE_CURRENT_LIST_DIR}")
 
-set(CONTRIB_PATH ${CMAKE_SOURCE_DIR}/contrib)
+set(CONTRIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/contrib)
 
 # glew
 execute_process(COMMAND git submodule update --init -- contrib/glew-cmake
@@ -25,8 +25,11 @@ set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
 set(ASSIMP_BUILD_TESTS OFF)
 #set(BUILD_SHARED_LIBS ON)
 set(ASSIMP_BUILD_STATIC_LIB ON)
-set(ASSIMP_LIBRARY_DIRS "${CMAKE_SOURCE_DIR}/contrib/assimp/code" "${CMAKE_BINARY_DIR}/contrib/assimp/code")
-set(ASSIMP_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/contrib/assimp/include" "${CMAKE_BINARY_DIR}/contrib/assimp/include")
+set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT FALSE CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_ALL_EXPORTERS_BY_DEFAULT FALSE CACHE BOOL "" FORCE)
+set(ASSIMP_BUILD_OBJ_IMPORTER TRUE)
+set(ASSIMP_LIBRARY_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/contrib/assimp/code" "${CMAKE_CURRENT_BINARY_DIR}/contrib/assimp/code")
+set(ASSIMP_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/contrib/assimp/include" "${CMAKE_CURRENT_BINARY_DIR}/contrib/assimp/include")
 include_directories(${ASSIMP_INCLUDE_DIRS})
 add_subdirectory(${CONTRIB_PATH}/assimp)
 message("assimp subdirectory added")
