@@ -4,7 +4,7 @@ include(core/CMakeLists.txt)
 include(gui/CMakeLists.txt)
 include(math/CMakeLists.txt)
 
-set( HEADER_PATH ${CMAKE_SOURCE_DIR}/include/engine )
+set( HEADER_PATH ${GRAPHIC_ENGINE_SOURCE_DIR}/include/engine )
 set( PUBLIC_HEADERS
         ${HEADER_PATH}/math/Matrix.h
         ${HEADER_PATH}/math/Mat4.h
@@ -84,8 +84,8 @@ add_library(GraphicEngine ${ENGINE_SRC})
 #add_library(Foo::Foo ALIAS "${PROJECT_NAME}")
 
 target_include_directories(GraphicEngine PUBLIC
-        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
-        "$<BUILD_INTERFACE:${CMAKE_BINARY_DIR}/include>"
+        "$<BUILD_INTERFACE:${GRAPHIC_ENGINE_SOURCE_DIR}/include>"
+        "$<BUILD_INTERFACE:${GRAPHIC_ENGINE_BINARY_DIR}/include>"
         "$<INSTALL_INTERFACE:include>" #${CMAKE_INSTALL_PREFIX}/include
         )
 
