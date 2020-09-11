@@ -4,10 +4,10 @@
 #include <engine/math/Vec3.h>
 
 struct Material {
-    const fVec3 ambient;
-    const fVec3 diffuse;
-    const fVec3 specular;
-    const float shininess;
+    fVec3 ambient;
+    fVec3 diffuse;
+    fVec3 specular;
+    float shininess;
 
     Material(const fVec3 &ambient, const fVec3 &diffuse, const fVec3 &specular, const float shininess)
             : ambient(ambient), diffuse(diffuse), specular(specular), shininess(shininess) {}
@@ -37,6 +37,6 @@ const Material YELLOW_PLASTIC(fVec3(0.0, 0.0, 0.0), fVec3( 	0.5, 0.5, 0.0), fVec
 //Material green_rubber(fVec3(0.0215, 0.1745, 0.0215), fVec3( 	0.07568, 0.61424, 0.07568), fVec3(0.633, 0.727811, 0.633), 0.6);
 //Material red_rubber(fVec3(0.0215, 0.1745, 0.0215), fVec3( 	0.07568, 0.61424, 0.07568), fVec3(0.633, 0.727811, 0.633), 0.6);
 //Material white_rubber(fVec3(0.0215, 0.1745, 0.0215), fVec3( 	0.07568, 0.61424, 0.07568), fVec3(0.633, 0.727811, 0.633), 0.6);
-const Material yellow_rubber(fVec3(0.05, 0.05, 0.0), fVec3( 	0.5, 0.5, 0.4), fVec3(0.7, 0.7, 0.04), 10.0);
+//const Material yellow_rubber(fVec3(0.05, 0.05, 0.0), fVec3( 	0.5, 0.5, 0.4), fVec3(0.7, 0.7, 0.04), 10.0);
 
 #endif // MATERIALS_H

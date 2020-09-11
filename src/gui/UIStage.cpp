@@ -1,17 +1,26 @@
-#include "engine/gui/UIStage.h"
+#include <engine/gui/UIStage.h>
+#include <engine/gui/UIRenderer.h>
 
 UIStage::UIStage() = default;
 
 void UIStage::renderUI() {
-    if (rootComponent) {
-        GUIRenderer::getInstance()->render(rootComponent.get());
+    for (const auto &component: rootComponent) {
+        GUIRenderer::getInstance()->render(component.get());
     }
 }
 
 void UIStage::click(const double &x, const double &y) {
-    rootComponent->click(x, y);
+    for (const auto &component: rootComponent) {
+        component->click(x, y);
+    }
 }
 
 void UIStage::cursor(const double &x, const double &y) {
-    rootComponent->cursor(x, y);
+    for (const auto &component: rootComponent) {
+        component->cursor(x, y);
+    }
+}
+
+void UIStage::addRoot(const std::shared_ptr<UIComponent> &component) {
+    rootComponent.push_back(component);
 }

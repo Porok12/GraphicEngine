@@ -81,7 +81,7 @@ LightStage::LightStage()
 
 
     composite2->update(800, 600);
-    rootComponent = composite2;
+    addRoot(composite2);
 
     model.enableBumpMapping(true);
     model.loadModel(ResourceLoader::getPath("sphere2.obj", MODEL));

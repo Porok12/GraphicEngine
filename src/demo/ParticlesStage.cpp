@@ -29,7 +29,7 @@ ParticleStage::ParticleStage() {
 
 
     composite2->update(800, 600);
-    rootComponent = composite2;
+    addRoot(composite2);
 }
 
 void ParticleStage::renderUI() {

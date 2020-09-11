@@ -25,7 +25,7 @@ ComboStage::ComboStage()
     program = std::make_shared<ShaderProgram>("texture");
 
     composite2->update(800, 600);
-    rootComponent = composite2;
+    addRoot(composite2);
     changeGenerator(3);
 }
 

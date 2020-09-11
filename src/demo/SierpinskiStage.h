@@ -24,14 +24,16 @@ private:
     DirectionalLight dirLight;
     PointLight pointLight;
     SpotLight spotLight;
+    Material material = YELLOW_PLASTIC;
     fVec3 tmp;
-    float time = 0, x=1, y=1, z=1;
+    float time = 0, x=1, y=1, z=1, r=1, g=0, b=0;
     float fps;
     float fpsMax = 0;
     float fpsMin = 100;
-    int iter = 0, algorithmIterations = 0, algorithmSelect = 0, maxIterations;
+    int algorithmIterations = 0, algorithmSelect = 0, maxIterations;
     float buffer = 0, minMaxBuffer = 0;
     int frames = 0;
+    float speed = 0, now = 0;
 
     std::shared_ptr<UIComponent> minLabel, maxLabel, fpsLabel, iterLabel, meshesLabel;
     void updateMesh();

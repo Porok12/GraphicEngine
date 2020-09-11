@@ -15,8 +15,9 @@ SierpinskiStage::SierpinskiStage() :
         pointLight(fVec3(1.0f), fVec3(1.0f), fVec3(1.0f), fVec3(0.0f, 0.0f, 0.0f), 1.0f, 0.14f, 0.07f),
         spotLight(fVec3(1.0), fVec3(1.0), fVec3(1.0f), fVec3(0), fVec3(0), 0.91f, 0.82f, 1.0f, 0.07f, 0.017f)
 {
-    const int HEIGHT = 440;
-    auto rect2 = std::make_shared<Rectangle>(10, 10, 200, HEIGHT);
+    const int HEIGHT = 580;
+    const int WIDTH = 200;
+    auto rect2 = std::make_shared<Rectangle>(10, 10, WIDTH, HEIGHT);
     auto composite2 = std::make_shared<UIFrame>(new UIFrameDecorator(new UIFrame(rect2)));
     {
         std::shared_ptr<UIComponent> component = std::make_shared<UIButton>("Menu", 10, 10, 100, 50);
@@ -42,24 +43,24 @@ SierpinskiStage::SierpinskiStage() :
         std::shared_ptr<UIComponent> label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
         std::dynamic_pointer_cast<UILabel>(label)->setColor(iVec3(255, 0, 0));
         label->setConstraints((new RectangleConstraints())
-                                      ->setX(new FixedConstraint(50))
-                                      ->setY(new FixedConstraint(-25)));
+                                      ->setX(new FixedConstraint(WIDTH+50))
+                                      ->setY(new FixedConstraint(HEIGHT-25)));
         composite2->add(label);
         minLabel = label;
 
         label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
         std::dynamic_pointer_cast<UILabel>(label)->setColor(iVec3(0, 255, 0));
         label->setConstraints((new RectangleConstraints())
-                                      ->setX(new FixedConstraint(50))
-                                      ->setY(new FixedConstraint(-50)));
+                                      ->setX(new FixedConstraint(WIDTH+50))
+                                      ->setY(new FixedConstraint(HEIGHT-50)));
         composite2->add(label);
         maxLabel = label;
 
         label = std::make_shared<UILabel>("0.00 FPS", 10, 400);
         std::dynamic_pointer_cast<UILabel>(label)->setColor(iVec3(255, 255, 255));
         label->setConstraints((new RectangleConstraints())
-                                      ->setX(new FixedConstraint(50))
-                                      ->setY(new FixedConstraint(-75)));
+                                      ->setX(new FixedConstraint(WIDTH+50))
+                                      ->setY(new FixedConstraint(HEIGHT-75)));
         composite2->add(label);
         fpsLabel = label;
 
@@ -70,10 +71,10 @@ SierpinskiStage::SierpinskiStage() :
         composite2->add(label);
         iterLabel = label;
 
-        label = std::make_shared<UILabel>("1 instances", 10, 400);
+        label = std::make_shared<UILabel>("1 elements", 10, 400);
         label->setConstraints((new RectangleConstraints())
-                                      ->setX(new CenterConstraint())
-                                      ->setY(new FixedConstraint(-100)));
+                                      ->setX(new FixedConstraint(120))
+                                      ->setY(new FixedConstraint(-40)));
         composite2->add(label);
         meshesLabel = label;
 
@@ -132,6 +133,15 @@ SierpinskiStage::SierpinskiStage() :
         });
         composite2->add(component);
 
+        component.reset(new UISlider(50, 500, 100, 20, 0, 300, 1));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(20))
+                                          ->setY(new FixedConstraint(340)));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+            speed = f;
+        });
+        composite2->add(component);
+
         label = std::make_shared<UILabel>("x", 10, 400);
         label->setConstraints((new RectangleConstraints())
                                       ->setX(new FixedConstraint(140))
@@ -149,12 +159,67 @@ SierpinskiStage::SierpinskiStage() :
                                       ->setX(new FixedConstraint(140))
                                       ->setY(new FixedConstraint(318)));
         composite2->add(label);
+
+        label = std::make_shared<UILabel>("speed", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(160))
+                                      ->setY(new FixedConstraint(348)));
+        composite2->add(label);
+
+        // RGB
+
+        int tmp = 40;
+
+        component.reset(new UISlider(50, 500, 100, 20, 0, 1, 0.01));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(20))
+                                          ->setY(new FixedConstraint(370+tmp)));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+            r = f;
+        });
+        std::dynamic_pointer_cast<UISlider>(component)->setValue(1);
+        composite2->add(component);
+
+        component.reset(new UISlider(50, 500, 100, 20, 0, 1, 0.01));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(20))
+                                          ->setY(new FixedConstraint(400+tmp)));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+            g = f;
+        });
+        composite2->add(component);
+
+        component.reset(new UISlider(50, 500, 100, 20, 0, 1, 0.01));
+        component->setConstraints((new RectangleConstraints())
+                                          ->setX(new FixedConstraint(20))
+                                          ->setY(new FixedConstraint(430+tmp)));
+        std::dynamic_pointer_cast<UISlider>(component)->addChangedCallback([this](float f){
+            b = f;
+        });
+        composite2->add(component);
+
+        label = std::make_shared<UILabel>("R", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(140))
+                                      ->setY(new FixedConstraint(378+tmp)));
+        composite2->add(label);
+
+        label = std::make_shared<UILabel>("G", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(140))
+                                      ->setY(new FixedConstraint(408+tmp)));
+        composite2->add(label);
+
+        label = std::make_shared<UILabel>("B", 10, 400);
+        label->setConstraints((new RectangleConstraints())
+                                      ->setX(new FixedConstraint(140))
+                                      ->setY(new FixedConstraint(438+tmp)));
+        composite2->add(label);
     }
 
     composite2->update(800, 600);
-    rootComponent = composite2;
+    addRoot(composite2);
 
-//    program = std::make_shared<ShaderProgram>("light");
     program = std::make_shared<ShaderProgram>("sierpinski");
 
     updateMesh();
@@ -202,14 +267,28 @@ void light(ShaderProgram *program, std::string name, SpotLight spotLight) {
     program->set3f(name+".specular", spotLight.getSpecular());
 }
 
+void updateMaterial(ShaderProgram *program, Material &material, float r, float g, float b) {
+    material.ambient.x = r * 0.05; material.ambient.y = g * 0.05; material.ambient.z = b * 0.05;
+    material.diffuse.x = r * 0.85; material.diffuse.y = g * 0.85; material.diffuse.z = b * 0.85;
+    material.specular.x = r; material.specular.y = g; material.specular.z = b;
+
+    program->set3f("material.ambient", material.ambient);
+    program->set3f("material.diffuse", material.diffuse);
+    program->set3f("material.specular", material.specular);
+    program->set1f("material.shininess", material.shininess);
+}
+
 void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
+    now += dt * speed;
+
     Mat4 view = camera.getViewMatrix();
     Mat4 mm = Mat4::identity();
     mm = Mat4::translate(0, 0, -8) * mm;
-    mm = Mat4::rotation(x, fVec3(1, 0, 0)) *
-         Mat4::rotation(y, fVec3(0, 1, 0)) *
-         Mat4::rotation(z, fVec3(0, 0, 1)) *
-         mm;
+    mm = Mat4::rotation(now, fVec3(x, y, z)) * mm;
+//    mm = Mat4::rotation(x, fVec3(1, 0, 0)) *
+//         Mat4::rotation(y, fVec3(0, 1, 0)) *
+//         Mat4::rotation(z, fVec3(0, 0, 1)) *
+//         mm;
 
 //    tmpLoad += dt * 0.4;
 //    tmp.x = 1.2 * std::sin(tmpLoad);
@@ -224,11 +303,7 @@ void SierpinskiStage::renderContent(FreeCamera &camera, double dt) {
     spotLight.setDirection(camera.getFront());
 
     program->use();
-    Material material = YELLOW_PLASTIC;
-    program->set3f("material.ambient", material.ambient);
-    program->set3f("material.diffuse", material.diffuse);
-    program->set3f("material.specular", material.specular);
-    program->set1f("material.shininess", material.shininess);
+    updateMaterial(program.get(), material, r, g, b);
     program->set3f("viewPos", camera.getPos());
 
     program->set1b("dir", true);
@@ -304,5 +379,5 @@ void SierpinskiStage::updateMesh() {
     iMesh.loadMesh(iVertices);
     iMesh.setPositions(positions);
     iCube.loadMesh(iMesh);
-    std::dynamic_pointer_cast<UILabel>(meshesLabel)->setText(std::to_string(positions.size()) + " instances");
+    std::dynamic_pointer_cast<UILabel>(meshesLabel)->setText(std::to_string(positions.size()) + " elemets");
 }
