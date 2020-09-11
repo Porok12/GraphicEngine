@@ -119,7 +119,7 @@ MeshStage::MeshStage() {
     }
 
     composite2->update(800, 600);
-    rootComponent = composite2;
+    addRoot(composite2);
 
     model.loadModel(ResourceLoader::getPath("cube.obj", MODEL));
 }

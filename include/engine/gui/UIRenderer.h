@@ -28,6 +28,7 @@ public:
         this->h = h;
         _update = true;
     }
+
     void requestUpdate() {
         _update = true;
     }

@@ -26,7 +26,7 @@ BresenhamStage::BresenhamStage()
     }
 
     composite2->update(800, 600);
-    rootComponent = composite2;
+    addRoot(composite2);
 
     plane.enableBumpMapping(true);
     plane.loadModel(ResourceLoader::getPath("plane4.obj", MODEL));
@@ -113,8 +113,10 @@ BresenhamStage::BresenhamStage()
 
     InputHandler::addMouseActionListner([this](const double &mouse_x, const double &mouse_y, int btn, int act) {
         if (btn == 0 && act == 1) {
-            if (std::dynamic_pointer_cast<UIFrame>(rootComponent)->isCursorOver()) {
-                return;
+            for (const auto &component: rootComponent) {
+                if (std::dynamic_pointer_cast<UIFrame>(component)->isCursorOver()) {
+                    return;
+                }
             }
 
             fVec3 ray_wor = Raycaster::cursorToWorld(mouse_x, mouse_y);

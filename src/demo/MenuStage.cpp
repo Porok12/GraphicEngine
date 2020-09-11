@@ -93,7 +93,7 @@ MenuStage::MenuStage() {
                                       ->setW(new RelativeConstraint(1))
                                       ->setH(new RelativeConstraint(1)));
     menuStage->update(800, 600);
-    rootComponent = menuStage;
+    addRoot(menuStage);
 }
 
 void MenuStage::renderUI() {

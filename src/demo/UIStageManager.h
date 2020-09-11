@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <engine/core/FreeCamera.h>
-#include "engine/gui/UIRenderer.h"
+#include <engine/gui/UIRenderer.h>
 #include "MeshStage.h"
 #include "MenuStage.h"
 #include "ParticlesStage.h"

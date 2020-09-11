@@ -103,7 +103,7 @@ DitheringStage::DitheringStage() {
     }
 
     composite2->update(800, 600);
-    rootComponent = composite2;
+    addRoot(composite2);
 
     plane.enableBumpMapping(true);
     plane.loadModel(ResourceLoader::getPath("plane.obj", MODEL));
