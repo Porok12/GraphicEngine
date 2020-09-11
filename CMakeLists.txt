@@ -2,7 +2,7 @@ set(CMAKE_POLICY_DEFAULT_CMP0074 NEW)
 cmake_minimum_required(VERSION 3.10)
 
 project(GraphicEngine
-        VERSION 1.2.3
+        VERSION 1.2.4
         DESCRIPTION "Graphic engine library"
 #        LANGUAGES CXX
         )
