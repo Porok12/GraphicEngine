@@ -69,6 +69,14 @@ Ilość iteracji jest wybierana przez użytkownika. Wyłączenie menu (CTRL) poz
 
 ![alt text](https://github.com/Porok12/GraphicEngine/blob/master/docs/demo9.gif?raw=true)
 
+## Wymagnia (Ubuntu)
+
+    sudo apt-get install libboost-all-dev
+    sudo apt-get install libgl1-mesa-dev
+    sudo apt-get install libxrandr-dev
+    sudo apt-get install libx11-dev libxrandr-dev libxcursor-dev libxi-dev libxinerama-dev
+
+
 ## Budowanie projektu
 
     cd <projekt>
